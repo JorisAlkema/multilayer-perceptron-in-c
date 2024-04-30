@@ -8,8 +8,31 @@ GitHub: https://github.com/manoharmukku/multilayer-perceptron-in-c
 #include "mlp_trainer.h"
 #include "mlp_classifier.h"
 #include "read_csv.h"
+#include "simpleserial.h"
+
+
 
 int main(int argc, char** argv) {
+
+    // Initialize UART for serial communication
+    platform_init();
+    init_uart();
+    trigger_setup();
+    simpleserial_init();
+
+    /* Device reset detected */
+    putch('r');
+    putch('R');
+    putch('E');
+    putch('S');
+    putch('E');
+    putch('T');
+    putch(' ');
+    putch(' ');
+    putch(' ');
+    putch('\n');
+
+
     //HARDCODED VALS
     char *hardcoded_args[] = {
         "executable_name", // new_argv[0] is typically the program name
@@ -191,60 +214,37 @@ int main(int argc, char** argv) {
     // Read the train dataset from the csv into the 2D array
     //read_csv(train_filename, param->train_sample_size, param->feature_size, param->data_train);
 
-// Hardcoded test lines
-    double test_lines[][5] = {
-        {1.602, 6.1251, 0.5292399999999999, 0.4788600000000001, 0},
-        {-2.2918, -7.2570000000000014, 7.9597, 0.9211, 1},
-        {-0.6907800000000001, -0.5007699999999999, -0.35417, 0.47498, 1},
-        {1.6408, 4.2503, -4.9023, -2.6621, 1},
-        {3.577, 2.4004, 1.8908, 0.73231, 0},
-        {-2.9915, -6.6258, 8.6521, 1.8198, 1},
-        {-0.45062, -1.3678, 7.0858, -0.40303, 0},
-        {2.4486, -6.3175, 7.9632, 0.20602, 0},
-        {-3.0193, 1.7775, 0.73745, -0.45346, 1},
-        {-2.3361, 11.9604, 3.0835, -5.4435, 0},
-        {0.11805999999999997, 0.39108, -0.98223, 0.42843, 1},
-        {1.7425, 3.6833, -4.0129, -1.7207, 1},
-        {-1.3, 10.2678, -2.9530000000000003, -5.8638, 0},
-        {0.86736, 5.5643, 1.6765, -0.16769, 0},
-        {0.93584, 8.8855, -1.6831, -1.6599, 0},
-        {-1.8969, -6.7893, 5.2761, -0.32544, 1},
-        {2.6104, 8.0081, -0.23592, -1.7608, 0},
-        {-3.5681, -8.213, 10.083, 0.96765, 1},
-        {-0.98193, 2.7956, -1.2341, -1.5668, 1},
-        {3.5438, 1.2395, 1.997, 2.1547, 0},
-        {-1.1391, 1.8127, 6.9144, 0.70127, 0},
-        {-0.12196, 8.8068, 0.94566, -4.2267, 0},
-        {-4.244, -13.0634, 17.1116, -2.8017, 1},
-        {-0.82601, 2.9611, -1.2864, -1.4647, 1},
-        {-1.6514, -8.4985, 9.1122, 1.2379, 1},
-        {-1.2244, 1.7485, -1.4801, -1.4181, 1},
-        {0.045304, 6.7334, 1.0708, -0.9332, 0},
-        {2.6946, 6.7976, -0.40301, 0.44912, 0},
-        {-1.3946, 2.3134, -0.44499, -1.4905, 1},
-        {5.6084, 10.3009, -4.8003, -4.3534, 0},
-        {-2.4554, -9.0407, 8.862, -0.8698299999999999, 1},
-        {4.6562, 7.6398, -2.4243, -1.2384, 0},
-        {-2.1786, -6.4479, 6.0344, -0.20777, 1},
-        {2.6648, 10.754, -3.3994, -4.1685, 0},
-        {-3.6085, 3.3253, -0.51954, -3.5737, 1},
-        {1.4884, 3.6274, 3.3080000000000003, 0.48921, 0},
-        {2.1265, 6.8783, 0.44784, -2.2224, 0},
-        {5.8782, 5.9409, -2.8544, -0.60863, 0},
-        {1.296, 4.2855, -4.8457, -2.9013, 1},
-        {-6.2815, 6.6651, 0.52581, -7.0107, 1},
-        {2.7744, 6.8576, -1.0671, 0.075416, 0},
-        {0.87256, 9.2931, -0.7843, -2.1978, 0},
-        {-1.9551, -6.9756, 5.5383, -0.12889, 1},
-        {0.94732, -0.57113, 7.1903, -0.67587, 0},
-        {-0.47465, -4.3496, 1.9901, 0.7517, 1},
-        {-2.0962, -7.1059, 6.6188, -0.33708, 1},
-        {-2.564, -1.7051, 1.5026, 0.32757, 1},
-        {2.2526, 9.9636, -3.1749, -2.9944, 0},
-        {1.0987, 0.6394, 5.989, -0.58277, 0},
-        {0.94225, 5.8561, 1.8762, -0.32544, 0},
-        {0.50225, 0.65388, -1.1793, 0.39998, 1}
-    };
+    //RECIEVE SS DATA
+    putch('r');
+    putch('R');
+    putch('E');
+    putch('A');
+    putch('D');
+    char cmd;
+    int param1, param2, param3, param4, param5;
+    int row_count = 0;
+    int num_rows = 10;
+    double test_lines[num_rows][5]; 
+
+    while (1) {
+        int result = simpleserial_get_cmd(&cmd, &param1, &param2, &param3, &param4, &param5);
+        if (result > 0) {
+            // Command received with 5 parameters
+            test_lines[row_count][0] = param1;
+            test_lines[row_count][1] = param2;
+            test_lines[row_count][2] = param3;
+            test_lines[row_count][3] = param4;
+            test_lines[row_count][4] = param5;
+
+            row_count++;
+
+            if (row_count == num_rows) {
+                // All rows of the 2D array received
+                putch('X');
+                break;
+            }
+        }
+    }
 
     int test_sample_size = sizeof(test_lines) / sizeof(test_lines[0]);
     int feature_size = sizeof(test_lines[0]) / sizeof(double);
@@ -331,8 +331,8 @@ int main(int argc, char** argv) {
     // fclose(fp);
 
     // Classify the test data using the trained parameter weights
-    printf("Classifying:\n");
-    printf("------------\n");
+    //printf("Classifying:\n");
+    //printf("------------\n");
     mlp_classifier(param, layer_sizes);
     //printf("\nDone.\nOutput file generated\n");
 

@@ -99,6 +99,7 @@ void mlp_classifier(parameters* param, int* layer_sizes) {
 
         // Perform forward propagation for each hidden layer
         // Calculate input and output of each hidden layer
+        trigger_high();
         for (i = 1; i < n_layers-1; i++) {
             // Compute layer_inputs[i]
             mat_mul_classify(layer_outputs[i-1], param->weight[i-1], layer_inputs[i], layer_sizes[i-1]+1, layer_sizes[i]);
@@ -127,6 +128,7 @@ void mlp_classifier(parameters* param, int* layer_sizes) {
                     break;
             }
         }
+        trigger_low();
 
         // Fill the output layers's input and output
         mat_mul_classify(layer_outputs[n_layers-2], param->weight[n_layers-2], layer_inputs[n_layers-1], layer_sizes[n_layers-2]+1, layer_sizes[n_layers-1]);
@@ -205,16 +207,21 @@ void mlp_classifier(parameters* param, int* layer_sizes) {
         double accuracy = (double)(true_positive + true_negative) / param->test_sample_size;
 
         // Print confusion matrix
-        printf("\n\nConfusion matrix\n");
-        printf("-----------------\n\n");
+        //printf("\n\nConfusion matrix\n");
+        //printf("-----------------\n\n");
 
-        printf("\t    |predicted 0\t predicted 1\n");
-        printf("--------------------------------------------\n");
-        printf("Actual 0    |%d\t\t%d\n\n", true_negative, false_positive);
-        printf("Actual 1    |%d\t\t%d\n\n", false_negative, true_positive);
+        //printf("\t    |predicted 0\t predicted 1\n");
+        //printf("--------------------------------------------\n");
+        //printf("Actual 0    |%d\t\t%d\n\n", true_negative, false_positive);
+        //printf("Actual 1    |%d\t\t%d\n\n", false_negative, true_positive);
 
         // Print the accuracy
-        printf("\nAccuracy: %.2lf\n\n", accuracy * 100);
+        //printf("\nAccuracy: %.2lf\n\n", accuracy * 100);
+        // Scale the double and convert to integer
+        int scaled_accuracy = (int)(accuracy * 100); // Assuming you want two decimal places
+
+        // Send the integer value over SimpleSerial
+        simpleserial.put('a', 1, (uint8_t*)&scaled_accuracy);
     }
     else { // Multi-class classification
         int** confusion_matrix = (int**)calloc(param->output_layer_size, sizeof(int*));

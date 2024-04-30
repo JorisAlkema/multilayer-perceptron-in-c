@@ -1,22 +1,46 @@
-# Defines
-CC         = gcc
-OBJ_DIR    = ./obj
-SRC_DIR    = ./src
-INCL_DIR   = ./include
-OBJECTS    = $(addprefix $(OBJ_DIR)/, read_csv.o write_csv.o forward_propagation.o back_propagation.o mlp_trainer.o mlp_classifier.o simpleserial.o)
-INCLUDES   = $(addprefix $(INCL_DIR)/, read_csv.h write_csv.h forward_propagation.h back_propagation.h mlp_trainer.h mlp_classifier.h parameters.h simpleserial.h)
-CFLAGS     = -g -Wall
-EXECUTABLE = MLP
+# Hey Emacs, this is a -*- makefile -*-
+#----------------------------------------------------------------------------
+#
+# Makefile for ChipWhisperer SimpleSerial-AES Program
+#
+#----------------------------------------------------------------------------
+# On command line:
+#
+# make all = Make software.
+#
+# make clean = Clean out built project files.
+#
+# make coff = Convert ELF to AVR COFF.
+#
+# make extcoff = Convert ELF to AVR Extended COFF.
+#
+# make program = Download the hex file to the device, using avrdude.
+#                Please customize the avrdude settings below first!
+#
+# make debug = Start either simulavr or avarice as specified for debugging,
+#              with avr-gdb or avr-insight as the front end for debugging.
+#
+# make filename.s = Just compile filename.c into the assembler code only.
+#
+# make filename.i = Create a preprocessed source file for use in submitting
+#                   bug reports to the GCC project.
+#
+# To rebuild project do "make clean" then "make all".
+#----------------------------------------------------------------------------
 
-# Generate the executable file
-$(EXECUTABLE): $(SRC_DIR)/main.c $(OBJECTS)
-	$(CC) $(CFLAGS) $< $(OBJECTS) -o $(EXECUTABLE) -I $(INCL_DIR) -lm
+# Target file name (without extension).
+# This is the name of the compiled .hex file.
+TARGET = MLP
 
-# Compile and Assemble C source files into object files
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INCLUDES)
-	$(CC) $(CFLAGS) -I $(INCL_DIR) -c $< -o $@
+# List C source files here.
+# Header files (.h) are automatically pulled in.
+SRC += back_propagation.c forward_propagation.c main.c mlp_classifier.c mlp_trainer.c read_csv.c write_csv.c
 
-# Clean the generated executable file and object files
-clean:
-	rm -f $(OBJECTS)
-	rm -rf $(EXECUTABLE)*
+# -----------------------------------------------------------------------------
+
+ifeq ($(CRYPTO_OPTIONS),)
+CRYPTO_OPTIONS = AES128C
+endif
+
+FIRMWAREPATH = firmware
+include ./Makefile.inc

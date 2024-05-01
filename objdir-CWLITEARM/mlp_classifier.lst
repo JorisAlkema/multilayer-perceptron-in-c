@@ -1,0 +1,2546 @@
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 20, 1
+   3              		.eabi_attribute 21, 1
+   4              		.eabi_attribute 23, 3
+   5              		.eabi_attribute 24, 1
+   6              		.eabi_attribute 25, 1
+   7              		.eabi_attribute 26, 1
+   8              		.eabi_attribute 30, 4
+   9              		.eabi_attribute 34, 1
+  10              		.eabi_attribute 18, 4
+  11              		.file	"mlp_classifier.c"
+  12              		.text
+  13              	.Ltext0:
+  14              		.cfi_sections	.debug_frame
+  15              		.global	__aeabi_dmul
+  16              		.global	__aeabi_dadd
+  17              		.section	.text.mat_mul_classify,"ax",%progbits
+  18              		.align	1
+  19              		.global	mat_mul_classify
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu softvfp
+  26              	mat_mul_classify:
+  27              	.LVL0:
+  28              	.LFB3:
+  29              		.file 1 "mlp_classifier.c"
+   1:mlp_classifier.c **** /*
+   2:mlp_classifier.c **** Author: Manohar Mukku
+   3:mlp_classifier.c **** Date: 29.07.2018
+   4:mlp_classifier.c **** Desc: To classify the test dataset on the trained parameter weights
+   5:mlp_classifier.c **** GitHub: https://github.com/manoharmukku/multilayer-perceptron-in-c
+   6:mlp_classifier.c **** */
+   7:mlp_classifier.c **** 
+   8:mlp_classifier.c **** #include "mlp_classifier.h"
+   9:mlp_classifier.c **** #include "simpleserial.h"
+  10:mlp_classifier.c **** #include "hal.h"
+  11:mlp_classifier.c **** 
+  12:mlp_classifier.c **** #define max(x, y) (x > y ? x : y)
+  13:mlp_classifier.c **** 
+  14:mlp_classifier.c **** void mat_mul_classify(double* a, double** b, double* result, int n, int p) {
+  30              		.loc 1 14 76 view -0
+  31              		.cfi_startproc
+  32              		@ args = 4, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  15:mlp_classifier.c ****     // matrix a of size 1 x n (array)
+  16:mlp_classifier.c ****     // matrix b of size n x p
+  17:mlp_classifier.c ****     // matrix result of size 1 x p (array)
+  18:mlp_classifier.c ****     // result = a * b
+  19:mlp_classifier.c ****     int j, k;
+  34              		.loc 1 19 5 view .LVU1
+  20:mlp_classifier.c ****     for (j = 0; j < p; j++) {
+  35              		.loc 1 20 5 view .LVU2
+  14:mlp_classifier.c ****     // matrix a of size 1 x n (array)
+  36              		.loc 1 14 76 is_stmt 0 view .LVU3
+  37 0000 2DE9F84F 		push	{r3, r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  38              	.LCFI0:
+  39              		.cfi_def_cfa_offset 40
+  40              		.cfi_offset 3, -40
+  41              		.cfi_offset 4, -36
+  42              		.cfi_offset 5, -32
+  43              		.cfi_offset 6, -28
+  44              		.cfi_offset 7, -24
+  45              		.cfi_offset 8, -20
+  46              		.cfi_offset 9, -16
+  47              		.cfi_offset 10, -12
+  48              		.cfi_offset 11, -8
+  49              		.cfi_offset 14, -4
+  14:mlp_classifier.c ****     // matrix a of size 1 x n (array)
+  50              		.loc 1 14 76 view .LVU4
+  51 0004 0746     		mov	r7, r0
+  52 0006 8846     		mov	r8, r1
+  53 0008 9946     		mov	r9, r3
+  54 000a A2F10804 		sub	r4, r2, #8
+  55              		.loc 1 20 12 view .LVU5
+  56 000e 0025     		movs	r5, #0
+  57              	.LVL1:
+  58              	.L2:
+  59              		.loc 1 20 17 is_stmt 1 discriminator 1 view .LVU6
+  60              		.loc 1 20 5 is_stmt 0 discriminator 1 view .LVU7
+  61 0010 0A9B     		ldr	r3, [sp, #40]
+  62 0012 9D42     		cmp	r5, r3
+  63 0014 01DB     		blt	.L5
+  21:mlp_classifier.c ****         result[j] = 0.0;
+  22:mlp_classifier.c ****         for (k = 0; k < n; k++)
+  23:mlp_classifier.c ****             result[j] += (a[k] * b[k][j]);
+  24:mlp_classifier.c ****     }
+  25:mlp_classifier.c **** }
+  64              		.loc 1 25 1 view .LVU8
+  65 0016 BDE8F88F 		pop	{r3, r4, r5, r6, r7, r8, r9, r10, fp, pc}
+  66              	.LVL2:
+  67              	.L5:
+  21:mlp_classifier.c ****         result[j] = 0.0;
+  68              		.loc 1 21 9 is_stmt 1 view .LVU9
+  21:mlp_classifier.c ****         result[j] = 0.0;
+  69              		.loc 1 21 19 is_stmt 0 view .LVU10
+  70 001a 0022     		movs	r2, #0
+  71 001c 0023     		movs	r3, #0
+  72 001e E4E90223 		strd	r2, [r4, #8]!
+  22:mlp_classifier.c ****             result[j] += (a[k] * b[k][j]);
+  73              		.loc 1 22 9 is_stmt 1 view .LVU11
+  74              	.LVL3:
+  22:mlp_classifier.c ****             result[j] += (a[k] * b[k][j]);
+  75              		.loc 1 22 9 is_stmt 0 view .LVU12
+  76 0022 4FEAC50B 		lsl	fp, r5, #3
+  77 0026 A7F1080A 		sub	r10, r7, #8
+  22:mlp_classifier.c ****             result[j] += (a[k] * b[k][j]);
+  78              		.loc 1 22 16 view .LVU13
+  79 002a 0026     		movs	r6, #0
+  80              	.LVL4:
+  81              	.L3:
+  22:mlp_classifier.c ****             result[j] += (a[k] * b[k][j]);
+  82              		.loc 1 22 21 is_stmt 1 discriminator 1 view .LVU14
+  22:mlp_classifier.c ****             result[j] += (a[k] * b[k][j]);
+  83              		.loc 1 22 9 is_stmt 0 discriminator 1 view .LVU15
+  84 002c 4E45     		cmp	r6, r9
+  85 002e 01DB     		blt	.L4
+  20:mlp_classifier.c ****         result[j] = 0.0;
+  86              		.loc 1 20 24 is_stmt 1 discriminator 2 view .LVU16
+  20:mlp_classifier.c ****         result[j] = 0.0;
+  87              		.loc 1 20 25 is_stmt 0 discriminator 2 view .LVU17
+  88 0030 0135     		adds	r5, r5, #1
+  89              	.LVL5:
+  20:mlp_classifier.c ****         result[j] = 0.0;
+  90              		.loc 1 20 25 discriminator 2 view .LVU18
+  91 0032 EDE7     		b	.L2
+  92              	.L4:
+  23:mlp_classifier.c ****     }
+  93              		.loc 1 23 13 is_stmt 1 discriminator 3 view .LVU19
+  23:mlp_classifier.c ****     }
+  94              		.loc 1 23 38 is_stmt 0 discriminator 3 view .LVU20
+  95 0034 58F82630 		ldr	r3, [r8, r6, lsl #2]
+  96 0038 03EB0B01 		add	r1, r3, fp
+  23:mlp_classifier.c ****     }
+  97              		.loc 1 23 32 discriminator 3 view .LVU21
+  98 003c D1E90001 		ldrd	r0, [r1]
+  99 0040 FAE90223 		ldrd	r2, [r10, #8]!
+ 100 0044 FFF7FEFF 		bl	__aeabi_dmul
+ 101              	.LVL6:
+ 102 0048 0246     		mov	r2, r0
+ 103 004a 0B46     		mov	r3, r1
+  23:mlp_classifier.c ****     }
+ 104              		.loc 1 23 23 discriminator 3 view .LVU22
+ 105 004c D4E90001 		ldrd	r0, [r4]
+ 106 0050 FFF7FEFF 		bl	__aeabi_dadd
+ 107              	.LVL7:
+  22:mlp_classifier.c ****             result[j] += (a[k] * b[k][j]);
+ 108              		.loc 1 22 29 discriminator 3 view .LVU23
+ 109 0054 0136     		adds	r6, r6, #1
+ 110              	.LVL8:
+  23:mlp_classifier.c ****     }
+ 111              		.loc 1 23 23 discriminator 3 view .LVU24
+ 112 0056 C4E90001 		strd	r0, [r4]
+  22:mlp_classifier.c ****             result[j] += (a[k] * b[k][j]);
+ 113              		.loc 1 22 28 is_stmt 1 discriminator 3 view .LVU25
+ 114              	.LVL9:
+  22:mlp_classifier.c ****             result[j] += (a[k] * b[k][j]);
+ 115              		.loc 1 22 28 is_stmt 0 discriminator 3 view .LVU26
+ 116 005a E7E7     		b	.L3
+ 117              		.cfi_endproc
+ 118              	.LFE3:
+ 120              		.section	.text.identity_classify,"ax",%progbits
+ 121              		.align	1
+ 122              		.global	identity_classify
+ 123              		.syntax unified
+ 124              		.thumb
+ 125              		.thumb_func
+ 126              		.fpu softvfp
+ 128              	identity_classify:
+ 129              	.LVL10:
+ 130              	.LFB4:
+  26:mlp_classifier.c **** 
+  27:mlp_classifier.c **** void identity_classify(int n, double* input, double* output) {
+ 131              		.loc 1 27 62 is_stmt 1 view -0
+ 132              		.cfi_startproc
+ 133              		@ args = 0, pretend = 0, frame = 0
+ 134              		@ frame_needed = 0, uses_anonymous_args = 0
+  28:mlp_classifier.c ****     output[0] = 1; // Bias term
+ 135              		.loc 1 28 5 view .LVU28
+  27:mlp_classifier.c ****     output[0] = 1; // Bias term
+ 136              		.loc 1 27 62 is_stmt 0 view .LVU29
+ 137 0000 30B5     		push	{r4, r5, lr}
+ 138              	.LCFI1:
+ 139              		.cfi_def_cfa_offset 12
+ 140              		.cfi_offset 4, -12
+ 141              		.cfi_offset 5, -8
+ 142              		.cfi_offset 14, -4
+ 143              		.loc 1 28 15 view .LVU30
+ 144 0002 074D     		ldr	r5, .L9
+ 145 0004 0024     		movs	r4, #0
+ 146 0006 C2E90045 		strd	r4, [r2]
+  29:mlp_classifier.c **** 
+  30:mlp_classifier.c ****     int i;
+ 147              		.loc 1 30 5 is_stmt 1 view .LVU31
+  31:mlp_classifier.c ****     for (i = 0; i < n; i++) 
+ 148              		.loc 1 31 5 view .LVU32
+ 149              	.LVL11:
+ 150              		.loc 1 31 5 is_stmt 0 view .LVU33
+ 151 000a 0839     		subs	r1, r1, #8
+ 152              	.LVL12:
+ 153              		.loc 1 31 12 view .LVU34
+ 154 000c 0023     		movs	r3, #0
+ 155              	.LVL13:
+ 156              	.L7:
+ 157              		.loc 1 31 17 is_stmt 1 discriminator 1 view .LVU35
+ 158              		.loc 1 31 5 is_stmt 0 discriminator 1 view .LVU36
+ 159 000e 8342     		cmp	r3, r0
+ 160 0010 00DB     		blt	.L8
+  32:mlp_classifier.c ****         output[i+1] = input[i]; // Identity function
+  33:mlp_classifier.c **** }
+ 161              		.loc 1 33 1 view .LVU37
+ 162 0012 30BD     		pop	{r4, r5, pc}
+ 163              	.L8:
+  32:mlp_classifier.c ****         output[i+1] = input[i]; // Identity function
+ 164              		.loc 1 32 9 is_stmt 1 discriminator 3 view .LVU38
+  32:mlp_classifier.c ****         output[i+1] = input[i]; // Identity function
+ 165              		.loc 1 32 28 is_stmt 0 discriminator 3 view .LVU39
+ 166 0014 F1E90245 		ldrd	r4, [r1, #8]!
+  31:mlp_classifier.c ****     for (i = 0; i < n; i++) 
+ 167              		.loc 1 31 25 discriminator 3 view .LVU40
+ 168 0018 0133     		adds	r3, r3, #1
+ 169              	.LVL14:
+  32:mlp_classifier.c ****         output[i+1] = input[i]; // Identity function
+ 170              		.loc 1 32 21 discriminator 3 view .LVU41
+ 171 001a E2E90245 		strd	r4, [r2, #8]!
+  31:mlp_classifier.c ****     for (i = 0; i < n; i++) 
+ 172              		.loc 1 31 24 is_stmt 1 discriminator 3 view .LVU42
+ 173              	.LVL15:
+  31:mlp_classifier.c ****     for (i = 0; i < n; i++) 
+ 174              		.loc 1 31 24 is_stmt 0 discriminator 3 view .LVU43
+ 175 001e F6E7     		b	.L7
+ 176              	.L10:
+ 177              		.align	2
+ 178              	.L9:
+ 179 0020 0000F03F 		.word	1072693248
+ 180              		.cfi_endproc
+ 181              	.LFE4:
+ 183              		.global	__aeabi_ddiv
+ 184              		.section	.text.sigmoid_classify,"ax",%progbits
+ 185              		.align	1
+ 186              		.global	sigmoid_classify
+ 187              		.syntax unified
+ 188              		.thumb
+ 189              		.thumb_func
+ 190              		.fpu softvfp
+ 192              	sigmoid_classify:
+ 193              	.LVL16:
+ 194              	.LFB5:
+  34:mlp_classifier.c **** 
+  35:mlp_classifier.c **** void sigmoid_classify(int n, double* input, double* output) {
+ 195              		.loc 1 35 61 is_stmt 1 view -0
+ 196              		.cfi_startproc
+ 197              		@ args = 0, pretend = 0, frame = 0
+ 198              		@ frame_needed = 0, uses_anonymous_args = 0
+  36:mlp_classifier.c ****     output[0] = 1; // Bias term
+ 199              		.loc 1 36 5 view .LVU45
+  35:mlp_classifier.c ****     output[0] = 1; // Bias term
+ 200              		.loc 1 35 61 is_stmt 0 view .LVU46
+ 201 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+ 202              	.LCFI2:
+ 203              		.cfi_def_cfa_offset 32
+ 204              		.cfi_offset 3, -32
+ 205              		.cfi_offset 4, -28
+ 206              		.cfi_offset 5, -24
+ 207              		.cfi_offset 6, -20
+ 208              		.cfi_offset 7, -16
+ 209              		.cfi_offset 8, -12
+ 210              		.cfi_offset 9, -8
+ 211              		.cfi_offset 14, -4
+ 212              		.loc 1 36 15 view .LVU47
+ 213 0004 124F     		ldr	r7, .L14
+ 214 0006 0026     		movs	r6, #0
+ 215 0008 C2E90067 		strd	r6, [r2]
+  37:mlp_classifier.c **** 
+  38:mlp_classifier.c ****     int i;
+ 216              		.loc 1 38 5 is_stmt 1 view .LVU48
+  39:mlp_classifier.c ****     for (i = 0; i < n; i++) 
+ 217              		.loc 1 39 5 view .LVU49
+ 218              	.LVL17:
+  35:mlp_classifier.c ****     output[0] = 1; // Bias term
+ 219              		.loc 1 35 61 is_stmt 0 view .LVU50
+ 220 000c 8046     		mov	r8, r0
+ 221 000e 1446     		mov	r4, r2
+ 222 0010 A1F10805 		sub	r5, r1, #8
+ 223              		.loc 1 39 12 view .LVU51
+ 224 0014 4FF00009 		mov	r9, #0
+ 225              	.LVL18:
+ 226              	.L12:
+ 227              		.loc 1 39 17 is_stmt 1 discriminator 1 view .LVU52
+ 228              		.loc 1 39 5 is_stmt 0 discriminator 1 view .LVU53
+ 229 0018 C145     		cmp	r9, r8
+ 230 001a 01DB     		blt	.L13
+  40:mlp_classifier.c ****         output[i+1] = 1.0 / (1.0 + exp(-input[i])); // Sigmoid function
+  41:mlp_classifier.c **** }
+ 231              		.loc 1 41 1 view .LVU54
+ 232 001c BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 233              	.LVL19:
+ 234              	.L13:
+  40:mlp_classifier.c ****         output[i+1] = 1.0 / (1.0 + exp(-input[i])); // Sigmoid function
+ 235              		.loc 1 40 9 is_stmt 1 discriminator 3 view .LVU55
+  40:mlp_classifier.c ****         output[i+1] = 1.0 / (1.0 + exp(-input[i])); // Sigmoid function
+ 236              		.loc 1 40 36 is_stmt 0 discriminator 3 view .LVU56
+ 237 0020 55F8082F 		ldr	r2, [r5, #8]!
+ 238 0024 6B68     		ldr	r3, [r5, #4]
+ 239 0026 1046     		mov	r0, r2
+ 240 0028 03F10041 		add	r1, r3, #-2147483648
+ 241 002c FFF7FEFF 		bl	exp
+ 242              	.LVL20:
+  40:mlp_classifier.c ****         output[i+1] = 1.0 / (1.0 + exp(-input[i])); // Sigmoid function
+ 243              		.loc 1 40 34 discriminator 3 view .LVU57
+ 244 0030 3246     		mov	r2, r6
+ 245 0032 3B46     		mov	r3, r7
+ 246 0034 FFF7FEFF 		bl	__aeabi_dadd
+ 247              	.LVL21:
+ 248 0038 0246     		mov	r2, r0
+ 249 003a 0B46     		mov	r3, r1
+  40:mlp_classifier.c ****         output[i+1] = 1.0 / (1.0 + exp(-input[i])); // Sigmoid function
+ 250              		.loc 1 40 27 discriminator 3 view .LVU58
+ 251 003c 3046     		mov	r0, r6
+ 252 003e 3946     		mov	r1, r7
+ 253 0040 FFF7FEFF 		bl	__aeabi_ddiv
+ 254              	.LVL22:
+  39:mlp_classifier.c ****     for (i = 0; i < n; i++) 
+ 255              		.loc 1 39 25 discriminator 3 view .LVU59
+ 256 0044 09F10109 		add	r9, r9, #1
+ 257              	.LVL23:
+  40:mlp_classifier.c ****         output[i+1] = 1.0 / (1.0 + exp(-input[i])); // Sigmoid function
+ 258              		.loc 1 40 21 discriminator 3 view .LVU60
+ 259 0048 E4E90201 		strd	r0, [r4, #8]!
+  39:mlp_classifier.c ****     for (i = 0; i < n; i++) 
+ 260              		.loc 1 39 24 is_stmt 1 discriminator 3 view .LVU61
+ 261              	.LVL24:
+  39:mlp_classifier.c ****     for (i = 0; i < n; i++) 
+ 262              		.loc 1 39 24 is_stmt 0 discriminator 3 view .LVU62
+ 263 004c E4E7     		b	.L12
+ 264              	.L15:
+ 265 004e 00BF     		.align	2
+ 266              	.L14:
+ 267 0050 0000F03F 		.word	1072693248
+ 268              		.cfi_endproc
+ 269              	.LFE5:
+ 271              		.section	.text.tan_h_classify,"ax",%progbits
+ 272              		.align	1
+ 273              		.global	tan_h_classify
+ 274              		.syntax unified
+ 275              		.thumb
+ 276              		.thumb_func
+ 277              		.fpu softvfp
+ 279              	tan_h_classify:
+ 280              	.LVL25:
+ 281              	.LFB6:
+  42:mlp_classifier.c **** 
+  43:mlp_classifier.c **** void tan_h_classify(int n, double* input, double* output) {
+ 282              		.loc 1 43 59 is_stmt 1 view -0
+ 283              		.cfi_startproc
+ 284              		@ args = 0, pretend = 0, frame = 0
+ 285              		@ frame_needed = 0, uses_anonymous_args = 0
+  44:mlp_classifier.c ****     output[0] = 1; // Bias term
+ 286              		.loc 1 44 5 view .LVU64
+  43:mlp_classifier.c ****     output[0] = 1; // Bias term
+ 287              		.loc 1 43 59 is_stmt 0 view .LVU65
+ 288 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 289              	.LCFI3:
+ 290              		.cfi_def_cfa_offset 24
+ 291              		.cfi_offset 3, -24
+ 292              		.cfi_offset 4, -20
+ 293              		.cfi_offset 5, -16
+ 294              		.cfi_offset 6, -12
+ 295              		.cfi_offset 7, -8
+ 296              		.cfi_offset 14, -4
+ 297              		.loc 1 44 15 view .LVU66
+ 298 0002 0A4B     		ldr	r3, .L19
+  43:mlp_classifier.c ****     output[0] = 1; // Bias term
+ 299              		.loc 1 43 59 view .LVU67
+ 300 0004 1446     		mov	r4, r2
+ 301              		.loc 1 44 15 view .LVU68
+ 302 0006 0022     		movs	r2, #0
+ 303              	.LVL26:
+ 304              		.loc 1 44 15 view .LVU69
+ 305 0008 C4E90023 		strd	r2, [r4]
+  45:mlp_classifier.c **** 
+  46:mlp_classifier.c ****     int i;
+ 306              		.loc 1 46 5 is_stmt 1 view .LVU70
+  47:mlp_classifier.c ****     for (i = 0; i < n; i++) 
+ 307              		.loc 1 47 5 view .LVU71
+ 308              	.LVL27:
+  43:mlp_classifier.c ****     output[0] = 1; // Bias term
+ 309              		.loc 1 43 59 is_stmt 0 view .LVU72
+ 310 000c 0646     		mov	r6, r0
+ 311 000e A1F10805 		sub	r5, r1, #8
+ 312              		.loc 1 47 12 view .LVU73
+ 313 0012 0027     		movs	r7, #0
+ 314              	.LVL28:
+ 315              	.L17:
+ 316              		.loc 1 47 17 is_stmt 1 discriminator 1 view .LVU74
+ 317              		.loc 1 47 5 is_stmt 0 discriminator 1 view .LVU75
+ 318 0014 B742     		cmp	r7, r6
+ 319 0016 00DB     		blt	.L18
+  48:mlp_classifier.c ****         output[i+1] = tanh(input[i]); // tanh function
+  49:mlp_classifier.c **** }
+ 320              		.loc 1 49 1 view .LVU76
+ 321 0018 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 322              	.LVL29:
+ 323              	.L18:
+  48:mlp_classifier.c ****         output[i+1] = tanh(input[i]); // tanh function
+ 324              		.loc 1 48 9 is_stmt 1 discriminator 3 view .LVU77
+  48:mlp_classifier.c ****         output[i+1] = tanh(input[i]); // tanh function
+ 325              		.loc 1 48 23 is_stmt 0 discriminator 3 view .LVU78
+ 326 001a F5E90201 		ldrd	r0, [r5, #8]!
+ 327 001e FFF7FEFF 		bl	tanh
+ 328              	.LVL30:
+  47:mlp_classifier.c ****     for (i = 0; i < n; i++) 
+ 329              		.loc 1 47 25 discriminator 3 view .LVU79
+ 330 0022 0137     		adds	r7, r7, #1
+ 331              	.LVL31:
+  48:mlp_classifier.c ****         output[i+1] = tanh(input[i]); // tanh function
+ 332              		.loc 1 48 21 discriminator 3 view .LVU80
+ 333 0024 E4E90201 		strd	r0, [r4, #8]!
+  47:mlp_classifier.c ****     for (i = 0; i < n; i++) 
+ 334              		.loc 1 47 24 is_stmt 1 discriminator 3 view .LVU81
+ 335              	.LVL32:
+  47:mlp_classifier.c ****     for (i = 0; i < n; i++) 
+ 336              		.loc 1 47 24 is_stmt 0 discriminator 3 view .LVU82
+ 337 0028 F4E7     		b	.L17
+ 338              	.L20:
+ 339 002a 00BF     		.align	2
+ 340              	.L19:
+ 341 002c 0000F03F 		.word	1072693248
+ 342              		.cfi_endproc
+ 343              	.LFE6:
+ 345              		.global	__aeabi_dcmplt
+ 346              		.section	.text.relu_classify,"ax",%progbits
+ 347              		.align	1
+ 348              		.global	relu_classify
+ 349              		.syntax unified
+ 350              		.thumb
+ 351              		.thumb_func
+ 352              		.fpu softvfp
+ 354              	relu_classify:
+ 355              	.LVL33:
+ 356              	.LFB7:
+  50:mlp_classifier.c **** 
+  51:mlp_classifier.c **** void relu_classify(int n, double* input, double* output) {
+ 357              		.loc 1 51 58 is_stmt 1 view -0
+ 358              		.cfi_startproc
+ 359              		@ args = 0, pretend = 0, frame = 0
+ 360              		@ frame_needed = 0, uses_anonymous_args = 0
+  52:mlp_classifier.c ****     output[0] = 1; // Bias term
+ 361              		.loc 1 52 5 view .LVU84
+  51:mlp_classifier.c ****     output[0] = 1; // Bias term
+ 362              		.loc 1 51 58 is_stmt 0 view .LVU85
+ 363 0000 2DE9F84F 		push	{r3, r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 364              	.LCFI4:
+ 365              		.cfi_def_cfa_offset 40
+ 366              		.cfi_offset 3, -40
+ 367              		.cfi_offset 4, -36
+ 368              		.cfi_offset 5, -32
+ 369              		.cfi_offset 6, -28
+ 370              		.cfi_offset 7, -24
+ 371              		.cfi_offset 8, -20
+ 372              		.cfi_offset 9, -16
+ 373              		.cfi_offset 10, -12
+ 374              		.cfi_offset 11, -8
+ 375              		.cfi_offset 14, -4
+ 376              		.loc 1 52 15 view .LVU86
+ 377 0004 104B     		ldr	r3, .L26
+  51:mlp_classifier.c ****     output[0] = 1; // Bias term
+ 378              		.loc 1 51 58 view .LVU87
+ 379 0006 1446     		mov	r4, r2
+ 380              		.loc 1 52 15 view .LVU88
+ 381 0008 0022     		movs	r2, #0
+ 382              	.LVL34:
+ 383              		.loc 1 52 15 view .LVU89
+ 384 000a C4E90023 		strd	r2, [r4]
+  53:mlp_classifier.c **** 
+  54:mlp_classifier.c ****     int i;
+ 385              		.loc 1 54 5 is_stmt 1 view .LVU90
+  55:mlp_classifier.c ****     for (i = 0; i < n; i++) 
+ 386              		.loc 1 55 5 view .LVU91
+ 387              	.LVL35:
+  51:mlp_classifier.c ****     output[0] = 1; // Bias term
+ 388              		.loc 1 51 58 is_stmt 0 view .LVU92
+ 389 000e 8246     		mov	r10, r0
+ 390 0010 A1F10805 		sub	r5, r1, #8
+ 391              		.loc 1 55 12 view .LVU93
+ 392 0014 4FF0000B 		mov	fp, #0
+  56:mlp_classifier.c ****         output[i+1] = max(0.0, input[i]); // ReLU function
+ 393              		.loc 1 56 23 view .LVU94
+ 394 0018 4FF00008 		mov	r8, #0
+ 395 001c 4FF00009 		mov	r9, #0
+ 396              	.LVL36:
+ 397              	.L22:
+  55:mlp_classifier.c ****     for (i = 0; i < n; i++) 
+ 398              		.loc 1 55 17 is_stmt 1 discriminator 2 view .LVU95
+  55:mlp_classifier.c ****     for (i = 0; i < n; i++) 
+ 399              		.loc 1 55 5 is_stmt 0 discriminator 2 view .LVU96
+ 400 0020 D345     		cmp	fp, r10
+ 401 0022 01DB     		blt	.L24
+  57:mlp_classifier.c **** }
+ 402              		.loc 1 57 1 view .LVU97
+ 403 0024 BDE8F88F 		pop	{r3, r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 404              	.LVL37:
+ 405              	.L24:
+  56:mlp_classifier.c ****         output[i+1] = max(0.0, input[i]); // ReLU function
+ 406              		.loc 1 56 9 is_stmt 1 view .LVU98
+  56:mlp_classifier.c ****         output[i+1] = max(0.0, input[i]); // ReLU function
+ 407              		.loc 1 56 23 is_stmt 0 view .LVU99
+ 408 0028 F5E90267 		ldrd	r6, [r5, #8]!
+ 409 002c 4246     		mov	r2, r8
+ 410 002e 4B46     		mov	r3, r9
+ 411 0030 3046     		mov	r0, r6
+ 412 0032 3946     		mov	r1, r7
+ 413 0034 FFF7FEFF 		bl	__aeabi_dcmplt
+ 414              	.LVL38:
+ 415 0038 08B1     		cbz	r0, .L23
+ 416 003a 4646     		mov	r6, r8
+ 417 003c 4F46     		mov	r7, r9
+ 418              	.L23:
+  56:mlp_classifier.c ****         output[i+1] = max(0.0, input[i]); // ReLU function
+ 419              		.loc 1 56 21 discriminator 4 view .LVU100
+ 420 003e E4E90267 		strd	r6, [r4, #8]!
+  55:mlp_classifier.c ****     for (i = 0; i < n; i++) 
+ 421              		.loc 1 55 24 is_stmt 1 discriminator 4 view .LVU101
+  55:mlp_classifier.c ****     for (i = 0; i < n; i++) 
+ 422              		.loc 1 55 25 is_stmt 0 discriminator 4 view .LVU102
+ 423 0042 0BF1010B 		add	fp, fp, #1
+ 424              	.LVL39:
+  55:mlp_classifier.c ****     for (i = 0; i < n; i++) 
+ 425              		.loc 1 55 25 discriminator 4 view .LVU103
+ 426 0046 EBE7     		b	.L22
+ 427              	.L27:
+ 428              		.align	2
+ 429              	.L26:
+ 430 0048 0000F03F 		.word	1072693248
+ 431              		.cfi_endproc
+ 432              	.LFE7:
+ 434              		.section	.text.softmax_classify,"ax",%progbits
+ 435              		.align	1
+ 436              		.global	softmax_classify
+ 437              		.syntax unified
+ 438              		.thumb
+ 439              		.thumb_func
+ 440              		.fpu softvfp
+ 442              	softmax_classify:
+ 443              	.LVL40:
+ 444              	.LFB8:
+  58:mlp_classifier.c **** 
+  59:mlp_classifier.c **** void softmax_classify(int n, double* input, double* output) {
+ 445              		.loc 1 59 61 is_stmt 1 view -0
+ 446              		.cfi_startproc
+ 447              		@ args = 0, pretend = 0, frame = 0
+ 448              		@ frame_needed = 0, uses_anonymous_args = 0
+  60:mlp_classifier.c ****     output[0] = 1; // Bias term
+ 449              		.loc 1 60 5 view .LVU105
+ 450              		.loc 1 60 15 is_stmt 0 view .LVU106
+ 451 0000 194B     		ldr	r3, .L33
+  59:mlp_classifier.c ****     output[0] = 1; // Bias term
+ 452              		.loc 1 59 61 view .LVU107
+ 453 0002 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 454              	.LCFI5:
+ 455              		.cfi_def_cfa_offset 32
+ 456              		.cfi_offset 4, -32
+ 457              		.cfi_offset 5, -28
+ 458              		.cfi_offset 6, -24
+ 459              		.cfi_offset 7, -20
+ 460              		.cfi_offset 8, -16
+ 461              		.cfi_offset 9, -12
+ 462              		.cfi_offset 10, -8
+ 463              		.cfi_offset 14, -4
+  59:mlp_classifier.c ****     output[0] = 1; // Bias term
+ 464              		.loc 1 59 61 view .LVU108
+ 465 0006 1446     		mov	r4, r2
+ 466              		.loc 1 60 15 view .LVU109
+ 467 0008 0022     		movs	r2, #0
+ 468              	.LVL41:
+ 469              		.loc 1 60 15 view .LVU110
+ 470 000a C4E90023 		strd	r2, [r4]
+  61:mlp_classifier.c **** 
+  62:mlp_classifier.c ****     int i;
+ 471              		.loc 1 62 5 is_stmt 1 view .LVU111
+  63:mlp_classifier.c ****     double sum = 0.0;
+ 472              		.loc 1 63 5 view .LVU112
+ 473              	.LVL42:
+  64:mlp_classifier.c ****     for (i = 0; i < n; i++)
+ 474              		.loc 1 64 5 view .LVU113
+ 475              		.loc 1 64 5 is_stmt 0 view .LVU114
+ 476 000e A1F10805 		sub	r5, r1, #8
+  59:mlp_classifier.c ****     output[0] = 1; // Bias term
+ 477              		.loc 1 59 61 view .LVU115
+ 478 0012 8046     		mov	r8, r0
+ 479              		.loc 1 64 5 view .LVU116
+ 480 0014 AA46     		mov	r10, r5
+  63:mlp_classifier.c ****     double sum = 0.0;
+ 481              		.loc 1 63 12 view .LVU117
+ 482 0016 0026     		movs	r6, #0
+ 483 0018 0027     		movs	r7, #0
+ 484              		.loc 1 64 12 view .LVU118
+ 485 001a 4FF00009 		mov	r9, #0
+ 486              	.LVL43:
+ 487              	.L29:
+ 488              		.loc 1 64 17 is_stmt 1 discriminator 1 view .LVU119
+ 489              		.loc 1 64 5 is_stmt 0 discriminator 1 view .LVU120
+ 490 001e C145     		cmp	r9, r8
+ 491 0020 05DB     		blt	.L30
+  65:mlp_classifier.c ****         sum += exp(input[i]);
+  66:mlp_classifier.c **** 
+  67:mlp_classifier.c ****     for (i = 0; i < n; i++) 
+ 492              		.loc 1 67 12 view .LVU121
+ 493 0022 4FF00009 		mov	r9, #0
+ 494              	.LVL44:
+ 495              	.L31:
+ 496              		.loc 1 67 17 is_stmt 1 discriminator 1 view .LVU122
+ 497              		.loc 1 67 5 is_stmt 0 discriminator 1 view .LVU123
+ 498 0026 C145     		cmp	r9, r8
+ 499 0028 10DB     		blt	.L32
+  68:mlp_classifier.c ****         output[i+1] = exp(input[i]) / sum; // Softmax function
+  69:mlp_classifier.c **** }
+ 500              		.loc 1 69 1 view .LVU124
+ 501 002a BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 502              	.LVL45:
+ 503              	.L30:
+  65:mlp_classifier.c ****         sum += exp(input[i]);
+ 504              		.loc 1 65 9 is_stmt 1 discriminator 3 view .LVU125
+  65:mlp_classifier.c ****         sum += exp(input[i]);
+ 505              		.loc 1 65 16 is_stmt 0 discriminator 3 view .LVU126
+ 506 002e FAE90201 		ldrd	r0, [r10, #8]!
+ 507 0032 FFF7FEFF 		bl	exp
+ 508              	.LVL46:
+ 509 0036 0246     		mov	r2, r0
+ 510 0038 0B46     		mov	r3, r1
+  65:mlp_classifier.c ****         sum += exp(input[i]);
+ 511              		.loc 1 65 13 discriminator 3 view .LVU127
+ 512 003a 3046     		mov	r0, r6
+ 513 003c 3946     		mov	r1, r7
+ 514 003e FFF7FEFF 		bl	__aeabi_dadd
+ 515              	.LVL47:
+  64:mlp_classifier.c ****         sum += exp(input[i]);
+ 516              		.loc 1 64 25 discriminator 3 view .LVU128
+ 517 0042 09F10109 		add	r9, r9, #1
+ 518              	.LVL48:
+  65:mlp_classifier.c ****         sum += exp(input[i]);
+ 519              		.loc 1 65 13 discriminator 3 view .LVU129
+ 520 0046 0646     		mov	r6, r0
+ 521              	.LVL49:
+  65:mlp_classifier.c ****         sum += exp(input[i]);
+ 522              		.loc 1 65 13 discriminator 3 view .LVU130
+ 523 0048 0F46     		mov	r7, r1
+ 524              	.LVL50:
+  64:mlp_classifier.c ****         sum += exp(input[i]);
+ 525              		.loc 1 64 24 is_stmt 1 discriminator 3 view .LVU131
+  64:mlp_classifier.c ****         sum += exp(input[i]);
+ 526              		.loc 1 64 24 is_stmt 0 discriminator 3 view .LVU132
+ 527 004a E8E7     		b	.L29
+ 528              	.LVL51:
+ 529              	.L32:
+  68:mlp_classifier.c ****         output[i+1] = exp(input[i]) / sum; // Softmax function
+ 530              		.loc 1 68 9 is_stmt 1 discriminator 3 view .LVU133
+  68:mlp_classifier.c ****         output[i+1] = exp(input[i]) / sum; // Softmax function
+ 531              		.loc 1 68 23 is_stmt 0 discriminator 3 view .LVU134
+ 532 004c F5E90201 		ldrd	r0, [r5, #8]!
+ 533 0050 FFF7FEFF 		bl	exp
+ 534              	.LVL52:
+  68:mlp_classifier.c ****         output[i+1] = exp(input[i]) / sum; // Softmax function
+ 535              		.loc 1 68 37 discriminator 3 view .LVU135
+ 536 0054 3246     		mov	r2, r6
+ 537 0056 3B46     		mov	r3, r7
+ 538 0058 FFF7FEFF 		bl	__aeabi_ddiv
+ 539              	.LVL53:
+  67:mlp_classifier.c ****         output[i+1] = exp(input[i]) / sum; // Softmax function
+ 540              		.loc 1 67 25 discriminator 3 view .LVU136
+ 541 005c 09F10109 		add	r9, r9, #1
+ 542              	.LVL54:
+  68:mlp_classifier.c ****         output[i+1] = exp(input[i]) / sum; // Softmax function
+ 543              		.loc 1 68 21 discriminator 3 view .LVU137
+ 544 0060 E4E90201 		strd	r0, [r4, #8]!
+  67:mlp_classifier.c ****         output[i+1] = exp(input[i]) / sum; // Softmax function
+ 545              		.loc 1 67 24 is_stmt 1 discriminator 3 view .LVU138
+ 546              	.LVL55:
+  67:mlp_classifier.c ****         output[i+1] = exp(input[i]) / sum; // Softmax function
+ 547              		.loc 1 67 24 is_stmt 0 discriminator 3 view .LVU139
+ 548 0064 DFE7     		b	.L31
+ 549              	.L34:
+ 550 0066 00BF     		.align	2
+ 551              	.L33:
+ 552 0068 0000F03F 		.word	1072693248
+ 553              		.cfi_endproc
+ 554              	.LFE8:
+ 556              		.section	.rodata.str1.1,"aMS",%progbits,1
+ 557              	.LC0:
+ 558 0000 436C6173 		.ascii	"Classifying test example %d of %d\015\000"
+ 558      73696679 
+ 558      696E6720 
+ 558      74657374 
+ 558      20657861 
+ 559              	.LC1:
+ 560 0023 466F7277 		.ascii	"Forward propagation: Invalid hidden activation func"
+ 560      61726420 
+ 560      70726F70 
+ 560      61676174 
+ 560      696F6E3A 
+ 561 0056 74696F6E 		.ascii	"tion\000"
+ 561      00
+ 562              		.global	__aeabi_dcmpgt
+ 563              		.global	__aeabi_i2d
+ 564              		.global	__aeabi_dcmpeq
+ 565              	.LC2:
+ 566 005b 0A0A436F 		.ascii	"\012\012Confusion matrix\000"
+ 566      6E667573 
+ 566      696F6E20 
+ 566      6D617472 
+ 566      697800
+ 567              	.LC3:
+ 568 006e 2D2D2D2D 		.ascii	"-----------------\012\000"
+ 568      2D2D2D2D 
+ 568      2D2D2D2D 
+ 568      2D2D2D2D 
+ 568      2D0A00
+ 569              	.LC4:
+ 570 0081 09202020 		.ascii	"\011    |predicted 0\011 predicted 1\000"
+ 570      207C7072 
+ 570      65646963 
+ 570      74656420 
+ 570      30092070 
+ 571              	.LC5:
+ 572 00a0 2D2D2D2D 		.ascii	"--------------------------------------------\000"
+ 572      2D2D2D2D 
+ 572      2D2D2D2D 
+ 572      2D2D2D2D 
+ 572      2D2D2D2D 
+ 573              	.LC6:
+ 574 00cd 41637475 		.ascii	"Actual 0    |%d\011\011%d\012\012\000"
+ 574      616C2030 
+ 574      20202020 
+ 574      7C256409 
+ 574      0925640A 
+ 575              	.LC7:
+ 576 00e3 41637475 		.ascii	"Actual 1    |%d\011\011%d\012\012\000"
+ 576      616C2031 
+ 576      20202020 
+ 576      7C256409 
+ 576      0925640A 
+ 577              	.LC8:
+ 578 00f9 0A416363 		.ascii	"\012Accuracy: %.2lf\012\012\000"
+ 578      75726163 
+ 578      793A2025 
+ 578      2E326C66 
+ 578      0A0A00
+ 579              		.global	__aeabi_d2iz
+ 580              		.global	__aeabi_dsub
+ 581              	.LC9:
+ 582 010c 50726564 		.ascii	"Predicted %d  \000"
+ 582      69637465 
+ 582      64202564 
+ 582      202000
+ 583              	.LC10:
+ 584 011b 0A2D2D2D 		.ascii	"\012-----------------------------------------------"
+ 584      2D2D2D2D 
+ 584      2D2D2D2D 
+ 584      2D2D2D2D 
+ 584      2D2D2D2D 
+ 585 014b 2D2D2D2D 		.ascii	"----------------------------\000"
+ 585      2D2D2D2D 
+ 585      2D2D2D2D 
+ 585      2D2D2D2D 
+ 585      2D2D2D2D 
+ 586              	.LC11:
+ 587 0168 41637475 		.ascii	"Actual %d | \000"
+ 587      616C2025 
+ 587      64207C20 
+ 587      00
+ 588              	.LC12:
+ 589 0175 25640900 		.ascii	"%d\011\000"
+ 590              	.LC13:
+ 591 0179 64617461 		.ascii	"data/data_test_output.csv\000"
+ 591      2F646174 
+ 591      615F7465 
+ 591      73745F6F 
+ 591      75747075 
+ 592              		.section	.text.mlp_classifier,"ax",%progbits
+ 593              		.align	1
+ 594              		.global	mlp_classifier
+ 595              		.syntax unified
+ 596              		.thumb
+ 597              		.thumb_func
+ 598              		.fpu softvfp
+ 600              	mlp_classifier:
+ 601              	.LVL56:
+ 602              	.LFB9:
+  70:mlp_classifier.c **** 
+  71:mlp_classifier.c **** void mlp_classifier(parameters* param, int* layer_sizes) {
+ 603              		.loc 1 71 58 is_stmt 1 view -0
+ 604              		.cfi_startproc
+ 605              		@ args = 0, pretend = 0, frame = 56
+ 606              		@ frame_needed = 0, uses_anonymous_args = 0
+  72:mlp_classifier.c ****     int n_layers = param->n_hidden + 2;
+ 607              		.loc 1 72 5 view .LVU141
+  71:mlp_classifier.c ****     int n_layers = param->n_hidden + 2;
+ 608              		.loc 1 71 58 is_stmt 0 view .LVU142
+ 609 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 610              	.LCFI6:
+ 611              		.cfi_def_cfa_offset 36
+ 612              		.cfi_offset 4, -36
+ 613              		.cfi_offset 5, -32
+ 614              		.cfi_offset 6, -28
+ 615              		.cfi_offset 7, -24
+ 616              		.cfi_offset 8, -20
+ 617              		.cfi_offset 9, -16
+ 618              		.cfi_offset 10, -12
+ 619              		.cfi_offset 11, -8
+ 620              		.cfi_offset 14, -4
+ 621              		.loc 1 72 25 view .LVU143
+ 622 0004 0368     		ldr	r3, [r0]
+  71:mlp_classifier.c ****     int n_layers = param->n_hidden + 2;
+ 623              		.loc 1 71 58 view .LVU144
+ 624 0006 91B0     		sub	sp, sp, #68
+ 625              	.LCFI7:
+ 626              		.cfi_def_cfa_offset 104
+  71:mlp_classifier.c ****     int n_layers = param->n_hidden + 2;
+ 627              		.loc 1 71 58 view .LVU145
+ 628 0008 0446     		mov	r4, r0
+ 629              		.loc 1 72 25 view .LVU146
+ 630 000a 0893     		str	r3, [sp, #32]
+ 631              		.loc 1 72 9 view .LVU147
+ 632 000c 0233     		adds	r3, r3, #2
+  71:mlp_classifier.c ****     int n_layers = param->n_hidden + 2;
+ 633              		.loc 1 71 58 view .LVU148
+ 634 000e 8946     		mov	r9, r1
+  73:mlp_classifier.c **** 
+  74:mlp_classifier.c ****     // Create memory for arrays of inputs to the layers
+  75:mlp_classifier.c ****     double** layer_inputs = (double**)calloc(n_layers, sizeof(double*));
+ 635              		.loc 1 75 39 view .LVU149
+ 636 0010 1846     		mov	r0, r3
+ 637              	.LVL57:
+ 638              		.loc 1 75 39 view .LVU150
+ 639 0012 0421     		movs	r1, #4
+ 640              	.LVL58:
+  72:mlp_classifier.c **** 
+ 641              		.loc 1 72 9 view .LVU151
+ 642 0014 0493     		str	r3, [sp, #16]
+ 643              	.LVL59:
+ 644              		.loc 1 75 5 is_stmt 1 view .LVU152
+ 645              		.loc 1 75 39 is_stmt 0 view .LVU153
+ 646 0016 FFF7FEFF 		bl	calloc
+ 647              	.LVL60:
+  76:mlp_classifier.c **** 
+  77:mlp_classifier.c ****     int i;
+  78:mlp_classifier.c ****     for (i = 0; i < n_layers; i++)
+ 648              		.loc 1 78 12 view .LVU154
+ 649 001a 0025     		movs	r5, #0
+  75:mlp_classifier.c **** 
+ 650              		.loc 1 75 39 view .LVU155
+ 651 001c 0590     		str	r0, [sp, #20]
+ 652              	.LVL61:
+  77:mlp_classifier.c ****     for (i = 0; i < n_layers; i++)
+ 653              		.loc 1 77 5 is_stmt 1 view .LVU156
+ 654              		.loc 1 78 5 view .LVU157
+ 655              	.L36:
+ 656              		.loc 1 78 17 discriminator 1 view .LVU158
+ 657              		.loc 1 78 5 is_stmt 0 discriminator 1 view .LVU159
+ 658 001e 049B     		ldr	r3, [sp, #16]
+ 659 0020 9D42     		cmp	r5, r3
+ 660 0022 3CDB     		blt	.L37
+  79:mlp_classifier.c ****         layer_inputs[i] = (double*)calloc(layer_sizes[i], sizeof(double));
+  80:mlp_classifier.c **** 
+  81:mlp_classifier.c ****     // Create memory for arrays of outputs from the layers
+  82:mlp_classifier.c ****     double** layer_outputs = (double**)calloc(n_layers, sizeof(double*));
+ 661              		.loc 1 82 5 is_stmt 1 view .LVU160
+ 662              		.loc 1 82 40 is_stmt 0 view .LVU161
+ 663 0024 0421     		movs	r1, #4
+ 664 0026 1846     		mov	r0, r3
+ 665 0028 FFF7FEFF 		bl	calloc
+ 666              	.LVL62:
+  83:mlp_classifier.c **** 
+  84:mlp_classifier.c ****     for (i = 0; i < n_layers; i++)
+ 667              		.loc 1 84 12 view .LVU162
+ 668 002c 0025     		movs	r5, #0
+ 669              	.LVL63:
+  82:mlp_classifier.c **** 
+ 670              		.loc 1 82 40 view .LVU163
+ 671 002e 0390     		str	r0, [sp, #12]
+ 672              	.LVL64:
+ 673              		.loc 1 84 5 is_stmt 1 view .LVU164
+ 674              	.L38:
+ 675              		.loc 1 84 17 discriminator 1 view .LVU165
+ 676              		.loc 1 84 5 is_stmt 0 discriminator 1 view .LVU166
+ 677 0030 049B     		ldr	r3, [sp, #16]
+ 678 0032 9D42     		cmp	r5, r3
+ 679 0034 3DDB     		blt	.L39
+  85:mlp_classifier.c ****         layer_outputs[i] = (double*)calloc(layer_sizes[i]+1, sizeof(double));
+  86:mlp_classifier.c **** 
+  87:mlp_classifier.c ****     // Create memory to store final outputs
+  88:mlp_classifier.c ****     double** final_output = (double**)calloc(param->test_sample_size, sizeof(double*));
+ 680              		.loc 1 88 5 is_stmt 1 view .LVU167
+ 681              		.loc 1 88 51 is_stmt 0 view .LVU168
+ 682 0036 A56B     		ldr	r5, [r4, #56]
+ 683              	.LVL65:
+ 684              		.loc 1 88 39 view .LVU169
+ 685 0038 0421     		movs	r1, #4
+ 686 003a 2846     		mov	r0, r5
+ 687 003c FFF7FEFF 		bl	calloc
+ 688              	.LVL66:
+  89:mlp_classifier.c ****     for (i = 0; i < param->test_sample_size; i++)
+ 689              		.loc 1 89 12 view .LVU170
+ 690 0040 0026     		movs	r6, #0
+  88:mlp_classifier.c ****     for (i = 0; i < param->test_sample_size; i++)
+ 691              		.loc 1 88 39 view .LVU171
+ 692 0042 0290     		str	r0, [sp, #8]
+ 693              	.LVL67:
+ 694              		.loc 1 89 5 is_stmt 1 view .LVU172
+ 695              	.L40:
+ 696              		.loc 1 89 17 discriminator 1 view .LVU173
+ 697              		.loc 1 89 5 is_stmt 0 discriminator 1 view .LVU174
+ 698 0044 B542     		cmp	r5, r6
+ 699 0046 3FDC     		bgt	.L41
+  90:mlp_classifier.c ****         final_output[i] = (double*)calloc(param->output_layer_size, sizeof(double));
+  91:mlp_classifier.c **** 
+  92:mlp_classifier.c **** 
+  93:mlp_classifier.c ****     // Classify the test dataset on the test samples
+  94:mlp_classifier.c ****     int test_example;
+  95:mlp_classifier.c ****     for (test_example = 0; test_example < param->test_sample_size; test_example++) {
+  96:mlp_classifier.c ****         printf("Classifying test example %d of %d\r", test_example+1, param->test_sample_size);
+  97:mlp_classifier.c ****         // Fill the input layer's input and output (both are equal) from data_test matrix for the g
+  98:mlp_classifier.c ****         layer_outputs[0][0] = 1; // Bias term of input layer
+  99:mlp_classifier.c ****         for (i = 0; i < param->feature_size-1; i++)
+ 100:mlp_classifier.c ****             layer_outputs[0][i+1] = layer_inputs[0][i] = param->data_test[test_example][i];
+ 101:mlp_classifier.c **** 
+ 102:mlp_classifier.c ****         // Perform forward propagation for each hidden layer
+ 103:mlp_classifier.c ****         // Calculate input and output of each hidden layer
+ 104:mlp_classifier.c ****         trigger_high();
+ 105:mlp_classifier.c ****         for (i = 1; i < n_layers-1; i++) {
+ 106:mlp_classifier.c ****             // Compute layer_inputs[i]
+ 107:mlp_classifier.c ****             mat_mul_classify(layer_outputs[i-1], param->weight[i-1], layer_inputs[i], layer_sizes[i
+ 108:mlp_classifier.c **** 
+ 109:mlp_classifier.c ****             // Compute layer_outputs[i]
+ 110:mlp_classifier.c ****             // Activation functions (identity - 1, sigmoid - 2, tanh - 3, relu - 4, softmax - 5)
+ 111:mlp_classifier.c ****             switch (param->hidden_activation_functions[i-1]) {
+ 112:mlp_classifier.c ****                 case 1: // identity
+ 113:mlp_classifier.c ****                     identity_classify(layer_sizes[i], layer_inputs[i], layer_outputs[i]);
+ 114:mlp_classifier.c ****                     break;
+ 115:mlp_classifier.c ****                 case 2: // sigmoid
+ 116:mlp_classifier.c ****                     sigmoid_classify(layer_sizes[i], layer_inputs[i], layer_outputs[i]);
+ 117:mlp_classifier.c ****                     break;
+ 118:mlp_classifier.c ****                 case 3: // tanh
+ 119:mlp_classifier.c ****                     tan_h_classify(layer_sizes[i], layer_inputs[i], layer_outputs[i]);
+ 120:mlp_classifier.c ****                     break;
+ 121:mlp_classifier.c ****                 case 4: // relu
+ 122:mlp_classifier.c ****                     relu_classify(layer_sizes[i], layer_inputs[i], layer_outputs[i]);
+ 123:mlp_classifier.c ****                     break;
+ 124:mlp_classifier.c ****                 case 5: // softmax
+ 125:mlp_classifier.c ****                     softmax_classify(layer_sizes[i], layer_inputs[i], layer_outputs[i]);
+ 126:mlp_classifier.c ****                     break;
+ 127:mlp_classifier.c ****                 default:
+ 128:mlp_classifier.c ****                     printf("Forward propagation: Invalid hidden activation function\n");
+ 129:mlp_classifier.c ****                     exit(0);
+ 130:mlp_classifier.c ****                     break;
+ 131:mlp_classifier.c ****             }
+ 132:mlp_classifier.c ****         }
+ 133:mlp_classifier.c ****         trigger_low();
+ 134:mlp_classifier.c **** 
+ 135:mlp_classifier.c ****         // Fill the output layers's input and output
+ 136:mlp_classifier.c ****         mat_mul_classify(layer_outputs[n_layers-2], param->weight[n_layers-2], layer_inputs[n_layer
+ 700              		.loc 1 136 39 view .LVU175
+ 701 0048 089B     		ldr	r3, [sp, #32]
+ 702 004a 089A     		ldr	r2, [sp, #32]
+ 703 004c 9B00     		lsls	r3, r3, #2
+ 704 004e 0993     		str	r3, [sp, #36]
+ 705 0050 039B     		ldr	r3, [sp, #12]
+ 706 0052 03EB8203 		add	r3, r3, r2, lsl #2
+ 707 0056 0B93     		str	r3, [sp, #44]
+ 708              		.loc 1 136 92 view .LVU176
+ 709 0058 099B     		ldr	r3, [sp, #36]
+ 710 005a 1E1D     		adds	r6, r3, #4
+ 711              	.LVL68:
+ 712              		.loc 1 136 92 view .LVU177
+ 713 005c 059B     		ldr	r3, [sp, #20]
+ 714 005e 3344     		add	r3, r3, r6
+ 715 0060 0C93     		str	r3, [sp, #48]
+ 716              		.loc 1 136 117 view .LVU178
+ 717 0062 099B     		ldr	r3, [sp, #36]
+ 718 0064 4B44     		add	r3, r9, r3
+ 719 0066 0D93     		str	r3, [sp, #52]
+ 137:mlp_classifier.c **** 
+ 138:mlp_classifier.c ****         // Activation functions (identity - 1, sigmoid - 2, tanh - 3, relu - 4, softmax - 5)
+ 139:mlp_classifier.c ****         switch (param->output_activation_function) {
+ 140:mlp_classifier.c ****             case 1: // identity
+ 141:mlp_classifier.c ****                 identity_classify(layer_sizes[n_layers-1], layer_inputs[n_layers-1], layer_outputs[
+ 142:mlp_classifier.c ****                 break;
+ 143:mlp_classifier.c ****             case 2: // sigmoid
+ 144:mlp_classifier.c ****                 sigmoid_classify(layer_sizes[n_layers-1], layer_inputs[n_layers-1], layer_outputs[n
+ 145:mlp_classifier.c ****                 break;
+ 146:mlp_classifier.c ****             case 3: // tanh
+ 147:mlp_classifier.c ****                 tan_h_classify(layer_sizes[n_layers-1], layer_inputs[n_layers-1], layer_outputs[n_l
+ 148:mlp_classifier.c ****                 break;
+ 149:mlp_classifier.c ****             case 4: // relu
+ 150:mlp_classifier.c ****                 relu_classify(layer_sizes[n_layers-1], layer_inputs[n_layers-1], layer_outputs[n_la
+ 151:mlp_classifier.c ****                 break;
+ 152:mlp_classifier.c ****             case 5: // softmax
+ 153:mlp_classifier.c ****                 softmax_classify(layer_sizes[n_layers-1], layer_inputs[n_layers-1], layer_outputs[n
+ 720              		.loc 1 153 98 view .LVU179
+ 721 0068 039B     		ldr	r3, [sp, #12]
+ 136:mlp_classifier.c **** 
+ 722              		.loc 1 136 144 view .LVU180
+ 723 006a 09EB060B 		add	fp, r9, r6
+ 724              		.loc 1 153 98 view .LVU181
+ 725 006e 4FF0000A 		mov	r10, #0
+ 726 0072 1E44     		add	r6, r6, r3
+ 727              	.L42:
+ 728              	.LVL69:
+  95:mlp_classifier.c ****         printf("Classifying test example %d of %d\r", test_example+1, param->test_sample_size);
+ 729              		.loc 1 95 28 is_stmt 1 discriminator 1 view .LVU182
+  95:mlp_classifier.c ****         printf("Classifying test example %d of %d\r", test_example+1, param->test_sample_size);
+ 730              		.loc 1 95 48 is_stmt 0 discriminator 1 view .LVU183
+ 731 0074 A56B     		ldr	r5, [r4, #56]
+  95:mlp_classifier.c ****         printf("Classifying test example %d of %d\r", test_example+1, param->test_sample_size);
+ 732              		.loc 1 95 5 discriminator 1 view .LVU184
+ 733 0076 5545     		cmp	r5, r10
+ 734 0078 2FDC     		bgt	.L64
+ 154:mlp_classifier.c ****                 break;
+ 155:mlp_classifier.c ****             default:
+ 156:mlp_classifier.c ****                 printf("Forward propagation: Invalid hidden activation function\n");
+ 157:mlp_classifier.c ****                 exit(0);
+ 158:mlp_classifier.c ****                 break;
+ 159:mlp_classifier.c ****         }
+ 160:mlp_classifier.c **** 
+ 161:mlp_classifier.c ****         // Save the computed output into a output matrix
+ 162:mlp_classifier.c ****         // Final computed output is present in layer_outputs[n_layers-1] from index 1
+ 163:mlp_classifier.c ****         for (i = 0; i < param->output_layer_size; i++)
+ 164:mlp_classifier.c ****             final_output[test_example][i] = layer_outputs[n_layers-1][i+1];
+ 165:mlp_classifier.c ****     }
+ 166:mlp_classifier.c **** 
+ 167:mlp_classifier.c ****     //simpleserial_put('r', 1, (uint8_t*)final_output[0]);
+ 168:mlp_classifier.c ****     // Find the output class for each test example
+ 169:mlp_classifier.c ****     if (param->output_layer_size == 1) { // Binary classification
+ 735              		.loc 1 169 5 is_stmt 1 view .LVU185
+ 736              		.loc 1 169 14 is_stmt 0 view .LVU186
+ 737 007a 266A     		ldr	r6, [r4, #32]
+ 738              		.loc 1 169 8 view .LVU187
+ 739 007c 012E     		cmp	r6, #1
+ 740 007e 00F08A81 		beq	.L104
+ 170:mlp_classifier.c ****         for (test_example = 0; test_example < param->test_sample_size; test_example++) {
+ 171:mlp_classifier.c ****             if (final_output[test_example][0] < 0.5)
+ 172:mlp_classifier.c ****                 final_output[test_example][0] = 0;
+ 173:mlp_classifier.c ****             else
+ 174:mlp_classifier.c ****                 final_output[test_example][0] = 1;
+ 175:mlp_classifier.c ****         }
+ 176:mlp_classifier.c ****     }
+ 177:mlp_classifier.c ****     else { // Multi-class classification
+ 178:mlp_classifier.c ****         for (test_example = 0; test_example < param->test_sample_size; test_example++) {
+ 741              		.loc 1 178 27 view .LVU188
+ 742 0082 4FF0000A 		mov	r10, #0
+ 743              	.LVL70:
+ 744              	.L66:
+ 745              		.loc 1 178 32 is_stmt 1 discriminator 1 view .LVU189
+ 746              		.loc 1 178 9 is_stmt 0 discriminator 1 view .LVU190
+ 747 0086 5545     		cmp	r5, r10
+ 748 0088 40F38C82 		ble	.L73
+ 749              	.LBB2:
+ 179:mlp_classifier.c ****             double max = -1;
+ 180:mlp_classifier.c ****             int max_class;
+ 181:mlp_classifier.c ****             for (i = 0; i < param->output_layer_size; i++) {
+ 182:mlp_classifier.c ****                 if (final_output[test_example][i] > max) {
+ 750              		.loc 1 182 33 view .LVU191
+ 751 008c 029B     		ldr	r3, [sp, #8]
+ 752 008e 53F82AB0 		ldr	fp, [r3, r10, lsl #2]
+ 179:mlp_classifier.c ****             double max = -1;
+ 753              		.loc 1 179 20 view .LVU192
+ 754 0092 B24B     		ldr	r3, .L114
+ 755 0094 0022     		movs	r2, #0
+ 756 0096 CDE90623 		strd	r2, [sp, #24]
+ 181:mlp_classifier.c ****                 if (final_output[test_example][i] > max) {
+ 757              		.loc 1 181 20 view .LVU193
+ 758 009a 0027     		movs	r7, #0
+ 759 009c 93E1     		b	.L74
+ 760              	.LVL71:
+ 761              	.L37:
+ 181:mlp_classifier.c ****                 if (final_output[test_example][i] > max) {
+ 762              		.loc 1 181 20 view .LVU194
+ 763              	.LBE2:
+  79:mlp_classifier.c **** 
+ 764              		.loc 1 79 9 is_stmt 1 discriminator 3 view .LVU195
+  79:mlp_classifier.c **** 
+ 765              		.loc 1 79 36 is_stmt 0 discriminator 3 view .LVU196
+ 766 009e 59F82500 		ldr	r0, [r9, r5, lsl #2]
+ 767 00a2 0821     		movs	r1, #8
+ 768 00a4 FFF7FEFF 		bl	calloc
+ 769              	.LVL72:
+  79:mlp_classifier.c **** 
+ 770              		.loc 1 79 25 discriminator 3 view .LVU197
+ 771 00a8 059B     		ldr	r3, [sp, #20]
+ 772 00aa 43F82500 		str	r0, [r3, r5, lsl #2]
+  78:mlp_classifier.c ****         layer_inputs[i] = (double*)calloc(layer_sizes[i], sizeof(double));
+ 773              		.loc 1 78 31 is_stmt 1 discriminator 3 view .LVU198
+  78:mlp_classifier.c ****         layer_inputs[i] = (double*)calloc(layer_sizes[i], sizeof(double));
+ 774              		.loc 1 78 32 is_stmt 0 discriminator 3 view .LVU199
+ 775 00ae 0135     		adds	r5, r5, #1
+ 776              	.LVL73:
+  78:mlp_classifier.c ****         layer_inputs[i] = (double*)calloc(layer_sizes[i], sizeof(double));
+ 777              		.loc 1 78 32 discriminator 3 view .LVU200
+ 778 00b0 B5E7     		b	.L36
+ 779              	.LVL74:
+ 780              	.L39:
+  85:mlp_classifier.c **** 
+ 781              		.loc 1 85 9 is_stmt 1 discriminator 3 view .LVU201
+  85:mlp_classifier.c **** 
+ 782              		.loc 1 85 58 is_stmt 0 discriminator 3 view .LVU202
+ 783 00b2 59F82500 		ldr	r0, [r9, r5, lsl #2]
+  85:mlp_classifier.c **** 
+ 784              		.loc 1 85 37 discriminator 3 view .LVU203
+ 785 00b6 0821     		movs	r1, #8
+ 786 00b8 0130     		adds	r0, r0, #1
+ 787 00ba FFF7FEFF 		bl	calloc
+ 788              	.LVL75:
+  85:mlp_classifier.c **** 
+ 789              		.loc 1 85 26 discriminator 3 view .LVU204
+ 790 00be 039B     		ldr	r3, [sp, #12]
+ 791 00c0 43F82500 		str	r0, [r3, r5, lsl #2]
+  84:mlp_classifier.c ****         layer_outputs[i] = (double*)calloc(layer_sizes[i]+1, sizeof(double));
+ 792              		.loc 1 84 31 is_stmt 1 discriminator 3 view .LVU205
+  84:mlp_classifier.c ****         layer_outputs[i] = (double*)calloc(layer_sizes[i]+1, sizeof(double));
+ 793              		.loc 1 84 32 is_stmt 0 discriminator 3 view .LVU206
+ 794 00c4 0135     		adds	r5, r5, #1
+ 795              	.LVL76:
+  84:mlp_classifier.c ****         layer_outputs[i] = (double*)calloc(layer_sizes[i]+1, sizeof(double));
+ 796              		.loc 1 84 32 discriminator 3 view .LVU207
+ 797 00c6 B3E7     		b	.L38
+ 798              	.LVL77:
+ 799              	.L41:
+  90:mlp_classifier.c **** 
+ 800              		.loc 1 90 9 is_stmt 1 discriminator 3 view .LVU208
+  90:mlp_classifier.c **** 
+ 801              		.loc 1 90 36 is_stmt 0 discriminator 3 view .LVU209
+ 802 00c8 206A     		ldr	r0, [r4, #32]
+ 803 00ca 0821     		movs	r1, #8
+ 804 00cc FFF7FEFF 		bl	calloc
+ 805              	.LVL78:
+  90:mlp_classifier.c **** 
+ 806              		.loc 1 90 25 discriminator 3 view .LVU210
+ 807 00d0 029B     		ldr	r3, [sp, #8]
+ 808 00d2 43F82600 		str	r0, [r3, r6, lsl #2]
+  89:mlp_classifier.c ****         final_output[i] = (double*)calloc(param->output_layer_size, sizeof(double));
+ 809              		.loc 1 89 46 is_stmt 1 discriminator 3 view .LVU211
+  89:mlp_classifier.c ****         final_output[i] = (double*)calloc(param->output_layer_size, sizeof(double));
+ 810              		.loc 1 89 47 is_stmt 0 discriminator 3 view .LVU212
+ 811 00d6 0136     		adds	r6, r6, #1
+ 812              	.LVL79:
+  89:mlp_classifier.c ****         final_output[i] = (double*)calloc(param->output_layer_size, sizeof(double));
+ 813              		.loc 1 89 47 discriminator 3 view .LVU213
+ 814 00d8 B4E7     		b	.L40
+ 815              	.LVL80:
+ 816              	.L64:
+  96:mlp_classifier.c ****         // Fill the input layer's input and output (both are equal) from data_test matrix for the g
+ 817              		.loc 1 96 9 is_stmt 1 view .LVU214
+ 818 00da 0AF10103 		add	r3, r10, #1
+ 819 00de 2A46     		mov	r2, r5
+ 820 00e0 1946     		mov	r1, r3
+ 821 00e2 9F48     		ldr	r0, .L114+4
+ 822 00e4 0F93     		str	r3, [sp, #60]
+ 823 00e6 FFF7FEFF 		bl	printf
+ 824              	.LVL81:
+  98:mlp_classifier.c ****         for (i = 0; i < param->feature_size-1; i++)
+ 825              		.loc 1 98 9 view .LVU215
+  98:mlp_classifier.c ****         for (i = 0; i < param->feature_size-1; i++)
+ 826              		.loc 1 98 22 is_stmt 0 view .LVU216
+ 827 00ea 039B     		ldr	r3, [sp, #12]
+  99:mlp_classifier.c ****             layer_outputs[0][i+1] = layer_inputs[0][i] = param->data_test[test_example][i];
+ 828              		.loc 1 99 44 view .LVU217
+ 829 00ec 276B     		ldr	r7, [r4, #48]
+  98:mlp_classifier.c ****         for (i = 0; i < param->feature_size-1; i++)
+ 830              		.loc 1 98 22 view .LVU218
+ 831 00ee 1D68     		ldr	r5, [r3]
+  98:mlp_classifier.c ****         for (i = 0; i < param->feature_size-1; i++)
+ 832              		.loc 1 98 29 view .LVU219
+ 833 00f0 9C4B     		ldr	r3, .L114+8
+ 834 00f2 0022     		movs	r2, #0
+ 835 00f4 C5E90023 		strd	r2, [r5]
+  99:mlp_classifier.c ****             layer_outputs[0][i+1] = layer_inputs[0][i] = param->data_test[test_example][i];
+ 836              		.loc 1 99 9 is_stmt 1 view .LVU220
+ 837              	.LVL82:
+  99:mlp_classifier.c ****             layer_outputs[0][i+1] = layer_inputs[0][i] = param->data_test[test_example][i];
+ 838              		.loc 1 99 44 is_stmt 0 view .LVU221
+ 839 00f8 013F     		subs	r7, r7, #1
+ 840 00fa 4FEA8A0C 		lsl	ip, r10, #2
+  99:mlp_classifier.c ****             layer_outputs[0][i+1] = layer_inputs[0][i] = param->data_test[test_example][i];
+ 841              		.loc 1 99 16 view .LVU222
+ 842 00fe 0023     		movs	r3, #0
+ 843              	.LVL83:
+ 844              	.L43:
+  99:mlp_classifier.c ****             layer_outputs[0][i+1] = layer_inputs[0][i] = param->data_test[test_example][i];
+ 845              		.loc 1 99 21 is_stmt 1 discriminator 1 view .LVU223
+  99:mlp_classifier.c ****             layer_outputs[0][i+1] = layer_inputs[0][i] = param->data_test[test_example][i];
+ 846              		.loc 1 99 9 is_stmt 0 discriminator 1 view .LVU224
+ 847 0100 9F42     		cmp	r7, r3
+ 848 0102 24DC     		bgt	.L44
+ 104:mlp_classifier.c ****         for (i = 1; i < n_layers-1; i++) {
+ 849              		.loc 1 104 9 is_stmt 1 view .LVU225
+ 850 0104 FFF7FEFF 		bl	trigger_high
+ 851              	.LVL84:
+ 105:mlp_classifier.c ****             // Compute layer_inputs[i]
+ 852              		.loc 1 105 9 view .LVU226
+ 105:mlp_classifier.c ****             // Compute layer_inputs[i]
+ 853              		.loc 1 105 9 is_stmt 0 view .LVU227
+ 854 0108 039F     		ldr	r7, [sp, #12]
+ 855 010a 4D46     		mov	r5, r9
+ 105:mlp_classifier.c ****             // Compute layer_inputs[i]
+ 856              		.loc 1 105 16 view .LVU228
+ 857 010c 0123     		movs	r3, #1
+ 858              	.LVL85:
+ 859              	.L113:
+ 105:mlp_classifier.c ****             // Compute layer_inputs[i]
+ 860              		.loc 1 105 38 discriminator 2 view .LVU229
+ 861 010e 0693     		str	r3, [sp, #24]
+ 862              	.LVL86:
+ 105:mlp_classifier.c ****             // Compute layer_inputs[i]
+ 863              		.loc 1 105 21 is_stmt 1 discriminator 2 view .LVU230
+ 105:mlp_classifier.c ****             // Compute layer_inputs[i]
+ 864              		.loc 1 105 9 is_stmt 0 discriminator 2 view .LVU231
+ 865 0110 069A     		ldr	r2, [sp, #24]
+ 866 0112 089B     		ldr	r3, [sp, #32]
+ 867              	.LVL87:
+ 105:mlp_classifier.c ****             // Compute layer_inputs[i]
+ 868              		.loc 1 105 9 discriminator 2 view .LVU232
+ 869 0114 9342     		cmp	r3, r2
+ 870 0116 2BDA     		bge	.L54
+ 133:mlp_classifier.c **** 
+ 871              		.loc 1 133 9 is_stmt 1 view .LVU233
+ 872 0118 FFF7FEFF 		bl	trigger_low
+ 873              	.LVL88:
+ 136:mlp_classifier.c **** 
+ 874              		.loc 1 136 9 view .LVU234
+ 875 011c 0C9B     		ldr	r3, [sp, #48]
+ 876 011e E16B     		ldr	r1, [r4, #60]
+ 877 0120 1D68     		ldr	r5, [r3]
+ 878 0122 0D9B     		ldr	r3, [sp, #52]
+ 879 0124 DBF80020 		ldr	r2, [fp]
+ 880 0128 0998     		ldr	r0, [sp, #36]
+ 881 012a 1B68     		ldr	r3, [r3]
+ 882 012c 0092     		str	r2, [sp]
+ 883 012e 0958     		ldr	r1, [r1, r0]
+ 884 0130 0B98     		ldr	r0, [sp, #44]
+ 885 0132 0133     		adds	r3, r3, #1
+ 886 0134 0068     		ldr	r0, [r0]
+ 887 0136 2A46     		mov	r2, r5
+ 888 0138 FFF7FEFF 		bl	mat_mul_classify
+ 889              	.LVL89:
+ 139:mlp_classifier.c ****             case 1: // identity
+ 890              		.loc 1 139 9 view .LVU235
+ 891 013c 636A     		ldr	r3, [r4, #36]
+ 892 013e 013B     		subs	r3, r3, #1
+ 893 0140 042B     		cmp	r3, #4
+ 894 0142 55D8     		bhi	.L46
+ 895 0144 DFE803F0 		tbb	[pc, r3]
+ 896              	.L56:
+ 897 0148 5A       		.byte	(.L60-.L56)/2
+ 898 0149 67       		.byte	(.L59-.L56)/2
+ 899 014a 6E       		.byte	(.L58-.L56)/2
+ 900 014b 75       		.byte	(.L57-.L56)/2
+ 901 014c 7C       		.byte	(.L55-.L56)/2
+ 902              	.LVL90:
+ 903 014d 00       		.p2align 1
+ 904              	.L44:
+ 100:mlp_classifier.c **** 
+ 905              		.loc 1 100 13 discriminator 3 view .LVU236
+ 100:mlp_classifier.c **** 
+ 906              		.loc 1 100 74 is_stmt 0 discriminator 3 view .LVU237
+ 907 014e E26A     		ldr	r2, [r4, #44]
+ 100:mlp_classifier.c **** 
+ 908              		.loc 1 100 88 discriminator 3 view .LVU238
+ 909 0150 52F80C20 		ldr	r2, [r2, ip]
+ 910 0154 02EBC302 		add	r2, r2, r3, lsl #3
+ 911 0158 D2E90001 		ldrd	r0, [r2]
+ 100:mlp_classifier.c **** 
+ 912              		.loc 1 100 56 discriminator 3 view .LVU239
+ 913 015c 059A     		ldr	r2, [sp, #20]
+ 914 015e 1268     		ldr	r2, [r2]
+ 915 0160 02EBC302 		add	r2, r2, r3, lsl #3
+ 916 0164 C2E90001 		strd	r0, [r2]
+ 100:mlp_classifier.c **** 
+ 917              		.loc 1 100 35 discriminator 3 view .LVU240
+ 918 0168 E5E90201 		strd	r0, [r5, #8]!
+  99:mlp_classifier.c ****             layer_outputs[0][i+1] = layer_inputs[0][i] = param->data_test[test_example][i];
+ 919              		.loc 1 99 48 is_stmt 1 discriminator 3 view .LVU241
+  99:mlp_classifier.c ****             layer_outputs[0][i+1] = layer_inputs[0][i] = param->data_test[test_example][i];
+ 920              		.loc 1 99 49 is_stmt 0 discriminator 3 view .LVU242
+ 921 016c 0133     		adds	r3, r3, #1
+ 922              	.LVL91:
+  99:mlp_classifier.c ****             layer_outputs[0][i+1] = layer_inputs[0][i] = param->data_test[test_example][i];
+ 923              		.loc 1 99 49 discriminator 3 view .LVU243
+ 924 016e C7E7     		b	.L43
+ 925              	.LVL92:
+ 926              	.L54:
+ 107:mlp_classifier.c **** 
+ 927              		.loc 1 107 13 is_stmt 1 view .LVU244
+ 107:mlp_classifier.c **** 
+ 928              		.loc 1 107 43 is_stmt 0 view .LVU245
+ 929 0170 069B     		ldr	r3, [sp, #24]
+ 107:mlp_classifier.c **** 
+ 930              		.loc 1 107 13 view .LVU246
+ 931 0172 E16B     		ldr	r1, [r4, #60]
+ 107:mlp_classifier.c **** 
+ 932              		.loc 1 107 43 view .LVU247
+ 933 0174 9B00     		lsls	r3, r3, #2
+ 934 0176 043B     		subs	r3, r3, #4
+ 935 0178 0A93     		str	r3, [sp, #40]
+ 107:mlp_classifier.c **** 
+ 936              		.loc 1 107 13 view .LVU248
+ 937 017a DDE90532 		ldrd	r3, r2, [sp, #20]
+ 938              	.LVL93:
+ 107:mlp_classifier.c **** 
+ 939              		.loc 1 107 13 view .LVU249
+ 940 017e 0A98     		ldr	r0, [sp, #40]
+ 941 0180 53F82280 		ldr	r8, [r3, r2, lsl #2]
+ 107:mlp_classifier.c **** 
+ 942              		.loc 1 107 98 view .LVU250
+ 943 0184 2B68     		ldr	r3, [r5]
+ 107:mlp_classifier.c **** 
+ 944              		.loc 1 107 13 view .LVU251
+ 945 0186 55F8042F 		ldr	r2, [r5, #4]!
+ 946 018a 0092     		str	r2, [sp]
+ 947 018c 0958     		ldr	r1, [r1, r0]
+ 948 018e 57F8040B 		ldr	r0, [r7], #4
+ 949 0192 0133     		adds	r3, r3, #1
+ 950 0194 4246     		mov	r2, r8
+ 951 0196 FFF7FEFF 		bl	mat_mul_classify
+ 952              	.LVL94:
+ 111:mlp_classifier.c ****                 case 1: // identity
+ 953              		.loc 1 111 13 is_stmt 1 view .LVU252
+ 111:mlp_classifier.c ****                 case 1: // identity
+ 954              		.loc 1 111 55 is_stmt 0 view .LVU253
+ 955 019a A368     		ldr	r3, [r4, #8]
+ 956 019c 0A9A     		ldr	r2, [sp, #40]
+ 957 019e 9B58     		ldr	r3, [r3, r2]
+ 958 01a0 013B     		subs	r3, r3, #1
+ 959 01a2 042B     		cmp	r3, #4
+ 960 01a4 24D8     		bhi	.L46
+ 961 01a6 DFE803F0 		tbb	[pc, r3]
+ 962              	.L48:
+ 963 01aa 03       		.byte	(.L52-.L48)/2
+ 964 01ab 0B       		.byte	(.L51-.L48)/2
+ 965 01ac 11       		.byte	(.L50-.L48)/2
+ 966 01ad 17       		.byte	(.L49-.L48)/2
+ 967 01ae 1D       		.byte	(.L47-.L48)/2
+ 968 01af 00       		.p2align 1
+ 969              	.L52:
+ 113:mlp_classifier.c ****                     break;
+ 970              		.loc 1 113 21 is_stmt 1 view .LVU254
+ 971 01b0 3A68     		ldr	r2, [r7]
+ 972 01b2 2868     		ldr	r0, [r5]
+ 973 01b4 4146     		mov	r1, r8
+ 974 01b6 FFF7FEFF 		bl	identity_classify
+ 975              	.LVL95:
+ 114:mlp_classifier.c ****                 case 2: // sigmoid
+ 976              		.loc 1 114 21 view .LVU255
+ 977              	.L53:
+ 130:mlp_classifier.c ****             }
+ 978              		.loc 1 130 21 discriminator 2 view .LVU256
+ 105:mlp_classifier.c ****             // Compute layer_inputs[i]
+ 979              		.loc 1 105 37 discriminator 2 view .LVU257
+ 105:mlp_classifier.c ****             // Compute layer_inputs[i]
+ 980              		.loc 1 105 38 is_stmt 0 discriminator 2 view .LVU258
+ 981 01ba 069B     		ldr	r3, [sp, #24]
+ 982 01bc 0133     		adds	r3, r3, #1
+ 983 01be A6E7     		b	.L113
+ 984              	.L51:
+ 116:mlp_classifier.c ****                     break;
+ 985              		.loc 1 116 21 is_stmt 1 view .LVU259
+ 986 01c0 3A68     		ldr	r2, [r7]
+ 987 01c2 2868     		ldr	r0, [r5]
+ 988 01c4 4146     		mov	r1, r8
+ 989 01c6 FFF7FEFF 		bl	sigmoid_classify
+ 990              	.LVL96:
+ 117:mlp_classifier.c ****                 case 3: // tanh
+ 991              		.loc 1 117 21 view .LVU260
+ 992 01ca F6E7     		b	.L53
+ 993              	.L50:
+ 119:mlp_classifier.c ****                     break;
+ 994              		.loc 1 119 21 view .LVU261
+ 995 01cc 3A68     		ldr	r2, [r7]
+ 996 01ce 2868     		ldr	r0, [r5]
+ 997 01d0 4146     		mov	r1, r8
+ 998 01d2 FFF7FEFF 		bl	tan_h_classify
+ 999              	.LVL97:
+ 120:mlp_classifier.c ****                 case 4: // relu
+ 1000              		.loc 1 120 21 view .LVU262
+ 1001 01d6 F0E7     		b	.L53
+ 1002              	.L49:
+ 122:mlp_classifier.c ****                     break;
+ 1003              		.loc 1 122 21 view .LVU263
+ 1004 01d8 3A68     		ldr	r2, [r7]
+ 1005 01da 2868     		ldr	r0, [r5]
+ 1006 01dc 4146     		mov	r1, r8
+ 1007 01de FFF7FEFF 		bl	relu_classify
+ 1008              	.LVL98:
+ 123:mlp_classifier.c ****                 case 5: // softmax
+ 1009              		.loc 1 123 21 view .LVU264
+ 1010 01e2 EAE7     		b	.L53
+ 1011              	.L47:
+ 125:mlp_classifier.c ****                     break;
+ 1012              		.loc 1 125 21 view .LVU265
+ 1013 01e4 3A68     		ldr	r2, [r7]
+ 1014 01e6 2868     		ldr	r0, [r5]
+ 1015 01e8 4146     		mov	r1, r8
+ 1016 01ea FFF7FEFF 		bl	softmax_classify
+ 1017              	.LVL99:
+ 126:mlp_classifier.c ****                 default:
+ 1018              		.loc 1 126 21 view .LVU266
+ 1019 01ee E4E7     		b	.L53
+ 1020              	.L46:
+ 128:mlp_classifier.c ****                     exit(0);
+ 1021              		.loc 1 128 21 view .LVU267
+ 1022 01f0 5D48     		ldr	r0, .L114+12
+ 1023 01f2 FFF7FEFF 		bl	puts
+ 1024              	.LVL100:
+ 129:mlp_classifier.c ****                     break;
+ 1025              		.loc 1 129 21 view .LVU268
+ 1026 01f6 0020     		movs	r0, #0
+ 1027 01f8 FFF7FEFF 		bl	exit
+ 1028              	.LVL101:
+ 1029              	.L60:
+ 141:mlp_classifier.c ****                 break;
+ 1030              		.loc 1 141 17 view .LVU269
+ 1031 01fc 3268     		ldr	r2, [r6]
+ 1032 01fe DBF80000 		ldr	r0, [fp]
+ 1033 0202 2946     		mov	r1, r5
+ 1034 0204 FFF7FEFF 		bl	identity_classify
+ 1035              	.LVL102:
+ 142:mlp_classifier.c ****             case 2: // sigmoid
+ 1036              		.loc 1 142 17 view .LVU270
+ 1037              	.L61:
+ 163:mlp_classifier.c ****             final_output[test_example][i] = layer_outputs[n_layers-1][i+1];
+ 1038              		.loc 1 163 30 is_stmt 0 discriminator 1 view .LVU271
+ 1039 0208 256A     		ldr	r5, [r4, #32]
+ 1040 020a 0023     		movs	r3, #0
+ 1041              	.LVL103:
+ 1042              	.L62:
+ 163:mlp_classifier.c ****             final_output[test_example][i] = layer_outputs[n_layers-1][i+1];
+ 1043              		.loc 1 163 21 is_stmt 1 discriminator 1 view .LVU272
+ 163:mlp_classifier.c ****             final_output[test_example][i] = layer_outputs[n_layers-1][i+1];
+ 1044              		.loc 1 163 9 is_stmt 0 discriminator 1 view .LVU273
+ 1045 020c 9D42     		cmp	r5, r3
+ 1046 020e 1EDC     		bgt	.L63
+ 1047 0210 DDF83CA0 		ldr	r10, [sp, #60]
+ 1048              	.LVL104:
+ 163:mlp_classifier.c ****             final_output[test_example][i] = layer_outputs[n_layers-1][i+1];
+ 1049              		.loc 1 163 9 discriminator 1 view .LVU274
+ 1050 0214 2EE7     		b	.L42
+ 1051              	.LVL105:
+ 1052              	.L59:
+ 144:mlp_classifier.c ****                 break;
+ 1053              		.loc 1 144 17 is_stmt 1 view .LVU275
+ 1054 0216 3268     		ldr	r2, [r6]
+ 1055 0218 DBF80000 		ldr	r0, [fp]
+ 1056 021c 2946     		mov	r1, r5
+ 1057 021e FFF7FEFF 		bl	sigmoid_classify
+ 1058              	.LVL106:
+ 145:mlp_classifier.c ****             case 3: // tanh
+ 1059              		.loc 1 145 17 view .LVU276
+ 1060 0222 F1E7     		b	.L61
+ 1061              	.L58:
+ 147:mlp_classifier.c ****                 break;
+ 1062              		.loc 1 147 17 view .LVU277
+ 1063 0224 3268     		ldr	r2, [r6]
+ 1064 0226 DBF80000 		ldr	r0, [fp]
+ 1065 022a 2946     		mov	r1, r5
+ 1066 022c FFF7FEFF 		bl	tan_h_classify
+ 1067              	.LVL107:
+ 148:mlp_classifier.c ****             case 4: // relu
+ 1068              		.loc 1 148 17 view .LVU278
+ 1069 0230 EAE7     		b	.L61
+ 1070              	.L57:
+ 150:mlp_classifier.c ****                 break;
+ 1071              		.loc 1 150 17 view .LVU279
+ 1072 0232 3268     		ldr	r2, [r6]
+ 1073 0234 DBF80000 		ldr	r0, [fp]
+ 1074 0238 2946     		mov	r1, r5
+ 1075 023a FFF7FEFF 		bl	relu_classify
+ 1076              	.LVL108:
+ 151:mlp_classifier.c ****             case 5: // softmax
+ 1077              		.loc 1 151 17 view .LVU280
+ 1078 023e E3E7     		b	.L61
+ 1079              	.L55:
+ 153:mlp_classifier.c ****                 break;
+ 1080              		.loc 1 153 17 view .LVU281
+ 1081 0240 3268     		ldr	r2, [r6]
+ 1082 0242 DBF80000 		ldr	r0, [fp]
+ 1083 0246 2946     		mov	r1, r5
+ 1084 0248 FFF7FEFF 		bl	softmax_classify
+ 1085              	.LVL109:
+ 154:mlp_classifier.c ****             default:
+ 1086              		.loc 1 154 17 view .LVU282
+ 1087 024c DCE7     		b	.L61
+ 1088              	.LVL110:
+ 1089              	.L63:
+ 164:mlp_classifier.c ****     }
+ 1090              		.loc 1 164 13 discriminator 3 view .LVU283
+ 164:mlp_classifier.c ****     }
+ 1091              		.loc 1 164 70 is_stmt 0 discriminator 3 view .LVU284
+ 1092 024e 3268     		ldr	r2, [r6]
+ 1093 0250 02EBC302 		add	r2, r2, r3, lsl #3
+ 1094 0254 D2E90201 		ldrd	r0, [r2, #8]
+ 164:mlp_classifier.c ****     }
+ 1095              		.loc 1 164 43 discriminator 3 view .LVU285
+ 1096 0258 029A     		ldr	r2, [sp, #8]
+ 1097 025a 52F82A20 		ldr	r2, [r2, r10, lsl #2]
+ 1098 025e 02EBC302 		add	r2, r2, r3, lsl #3
+ 1099 0262 C2E90001 		strd	r0, [r2]
+ 163:mlp_classifier.c ****             final_output[test_example][i] = layer_outputs[n_layers-1][i+1];
+ 1100              		.loc 1 163 51 is_stmt 1 discriminator 3 view .LVU286
+ 163:mlp_classifier.c ****             final_output[test_example][i] = layer_outputs[n_layers-1][i+1];
+ 1101              		.loc 1 163 52 is_stmt 0 discriminator 3 view .LVU287
+ 1102 0266 0133     		adds	r3, r3, #1
+ 1103              	.LVL111:
+ 163:mlp_classifier.c ****             final_output[test_example][i] = layer_outputs[n_layers-1][i+1];
+ 1104              		.loc 1 163 52 discriminator 3 view .LVU288
+ 1105 0268 D0E7     		b	.L62
+ 1106              	.LVL112:
+ 1107              	.L68:
+ 171:mlp_classifier.c ****                 final_output[test_example][0] = 0;
+ 1108              		.loc 1 171 13 is_stmt 1 view .LVU289
+ 171:mlp_classifier.c ****                 final_output[test_example][0] = 0;
+ 1109              		.loc 1 171 29 is_stmt 0 view .LVU290
+ 1110 026a 029B     		ldr	r3, [sp, #8]
+ 1111 026c 53F82890 		ldr	r9, [r3, r8, lsl #2]
+ 171:mlp_classifier.c ****                 final_output[test_example][0] = 0;
+ 1112              		.loc 1 171 16 view .LVU291
+ 1113 0270 3246     		mov	r2, r6
+ 1114 0272 D9E90001 		ldrd	r0, [r9]
+ 1115 0276 3B46     		mov	r3, r7
+ 1116 0278 FFF7FEFF 		bl	__aeabi_dcmplt
+ 1117              	.LVL113:
+ 1118 027c 0028     		cmp	r0, #0
+ 1119 027e 40F08780 		bne	.L105
+ 174:mlp_classifier.c ****         }
+ 1120              		.loc 1 174 47 view .LVU292
+ 1121 0282 5246     		mov	r2, r10
+ 1122 0284 5B46     		mov	r3, fp
+ 1123              	.L67:
+ 174:mlp_classifier.c ****         }
+ 1124              		.loc 1 174 47 view .LVU293
+ 1125 0286 C9E90023 		strd	r2, [r9]
+ 170:mlp_classifier.c ****             if (final_output[test_example][0] < 0.5)
+ 1126              		.loc 1 170 72 is_stmt 1 discriminator 2 view .LVU294
+ 170:mlp_classifier.c ****             if (final_output[test_example][0] < 0.5)
+ 1127              		.loc 1 170 84 is_stmt 0 discriminator 2 view .LVU295
+ 1128 028a 08F10108 		add	r8, r8, #1
+ 1129              	.LVL114:
+ 1130              	.L65:
+ 170:mlp_classifier.c ****             if (final_output[test_example][0] < 0.5)
+ 1131              		.loc 1 170 32 is_stmt 1 discriminator 1 view .LVU296
+ 170:mlp_classifier.c ****             if (final_output[test_example][0] < 0.5)
+ 1132              		.loc 1 170 9 is_stmt 0 discriminator 1 view .LVU297
+ 1133 028e 4545     		cmp	r5, r8
+ 1134 0290 EBDC     		bgt	.L68
+ 1135 0292 0026     		movs	r6, #0
+ 1136 0294 B246     		mov	r10, r6
+ 1137 0296 B046     		mov	r8, r6
+ 1138              	.LVL115:
+ 170:mlp_classifier.c ****             if (final_output[test_example][0] < 0.5)
+ 1139              		.loc 1 170 9 discriminator 1 view .LVU298
+ 1140 0298 B146     		mov	r9, r6
+ 1141 029a 3746     		mov	r7, r6
+ 1142              	.LBB3:
+ 183:mlp_classifier.c ****                     max = final_output[test_example][i];
+ 184:mlp_classifier.c ****                     max_class = i+1;
+ 185:mlp_classifier.c ****                 }
+ 186:mlp_classifier.c ****             }
+ 187:mlp_classifier.c ****             final_output[test_example][0] = max_class;
+ 188:mlp_classifier.c ****         }
+ 189:mlp_classifier.c ****     }
+ 190:mlp_classifier.c **** 
+ 191:mlp_classifier.c ****     // Calculate the confusion matrix
+ 192:mlp_classifier.c ****     if (param->output_layer_size == 1) { // Binary classification
+ 193:mlp_classifier.c ****         int true_positive = 0, true_negative = 0, false_positive = 0, false_negative = 0;
+ 194:mlp_classifier.c ****         for (test_example = 0; test_example < param->test_sample_size; test_example++) {
+ 195:mlp_classifier.c ****             if (final_output[test_example][0] == 0) {
+ 196:mlp_classifier.c ****                 if (param->data_test[test_example][param->feature_size-1] == 0)
+ 1143              		.loc 1 196 51 view .LVU299
+ 1144 029c 6FF0604B 		mvn	fp, #-536870912
+ 1145              	.L69:
+ 1146              	.LVL116:
+ 194:mlp_classifier.c ****             if (final_output[test_example][0] == 0) {
+ 1147              		.loc 1 194 32 is_stmt 1 discriminator 1 view .LVU300
+ 194:mlp_classifier.c ****             if (final_output[test_example][0] == 0) {
+ 1148              		.loc 1 194 9 is_stmt 0 discriminator 1 view .LVU301
+ 1149 02a0 BD42     		cmp	r5, r7
+ 1150 02a2 00F39A80 		bgt	.L82
+ 197:mlp_classifier.c ****                     ++true_negative;
+ 198:mlp_classifier.c ****                 else
+ 199:mlp_classifier.c ****                     ++false_positive;
+ 200:mlp_classifier.c ****             }
+ 201:mlp_classifier.c ****             else {
+ 202:mlp_classifier.c ****                 if (param->data_test[test_example][param->feature_size-1] == 1)
+ 203:mlp_classifier.c ****                     ++true_positive;
+ 204:mlp_classifier.c ****                 else
+ 205:mlp_classifier.c ****                     ++false_negative;
+ 206:mlp_classifier.c ****             }
+ 207:mlp_classifier.c ****         }
+ 208:mlp_classifier.c **** 
+ 209:mlp_classifier.c ****         // Find the accuracy
+ 210:mlp_classifier.c ****         double accuracy = (double)(true_positive + true_negative) / param->test_sample_size;
+ 1151              		.loc 1 210 9 is_stmt 1 view .LVU302
+ 1152              	.LVL117:
+ 211:mlp_classifier.c **** 
+ 212:mlp_classifier.c ****         // Print confusion matrix
+ 213:mlp_classifier.c ****         printf("\n\nConfusion matrix\n");
+ 1153              		.loc 1 213 9 view .LVU303
+ 1154 02a6 3148     		ldr	r0, .L114+16
+ 1155 02a8 FFF7FEFF 		bl	puts
+ 1156              	.LVL118:
+ 214:mlp_classifier.c ****         printf("-----------------\n\n");
+ 1157              		.loc 1 214 9 view .LVU304
+ 1158 02ac 3048     		ldr	r0, .L114+20
+ 1159 02ae FFF7FEFF 		bl	puts
+ 1160              	.LVL119:
+ 215:mlp_classifier.c **** 
+ 216:mlp_classifier.c ****         printf("\t    |predicted 0\t predicted 1\n");
+ 1161              		.loc 1 216 9 view .LVU305
+ 1162 02b2 3048     		ldr	r0, .L114+24
+ 1163 02b4 FFF7FEFF 		bl	puts
+ 1164              	.LVL120:
+ 217:mlp_classifier.c ****         printf("--------------------------------------------\n");
+ 1165              		.loc 1 217 9 view .LVU306
+ 1166 02b8 2F48     		ldr	r0, .L114+28
+ 1167 02ba FFF7FEFF 		bl	puts
+ 1168              	.LVL121:
+ 218:mlp_classifier.c ****         printf("Actual 0    |%d\t\t%d\n\n", true_negative, false_positive);
+ 1169              		.loc 1 218 9 view .LVU307
+ 1170 02be 5246     		mov	r2, r10
+ 1171 02c0 4146     		mov	r1, r8
+ 1172 02c2 2E48     		ldr	r0, .L114+32
+ 1173 02c4 FFF7FEFF 		bl	printf
+ 1174              	.LVL122:
+ 219:mlp_classifier.c ****         printf("Actual 1    |%d\t\t%d\n\n", false_negative, true_positive);
+ 1175              		.loc 1 219 9 view .LVU308
+ 1176 02c8 4A46     		mov	r2, r9
+ 1177 02ca 3146     		mov	r1, r6
+ 1178 02cc 2C48     		ldr	r0, .L114+36
+ 1179 02ce FFF7FEFF 		bl	printf
+ 1180              	.LVL123:
+ 220:mlp_classifier.c **** 
+ 221:mlp_classifier.c ****         // Print the accuracy
+ 222:mlp_classifier.c ****         printf("\nAccuracy: %.2lf\n\n", accuracy * 100);
+ 1181              		.loc 1 222 9 view .LVU309
+ 210:mlp_classifier.c **** 
+ 1182              		.loc 1 210 27 is_stmt 0 view .LVU310
+ 1183 02d2 09EB0800 		add	r0, r9, r8
+ 1184 02d6 FFF7FEFF 		bl	__aeabi_i2d
+ 1185              	.LVL124:
+ 1186 02da 0646     		mov	r6, r0
+ 1187              	.LVL125:
+ 210:mlp_classifier.c **** 
+ 1188              		.loc 1 210 67 view .LVU311
+ 1189 02dc 2846     		mov	r0, r5
+ 210:mlp_classifier.c **** 
+ 1190              		.loc 1 210 27 view .LVU312
+ 1191 02de 0F46     		mov	r7, r1
+ 1192              	.LVL126:
+ 210:mlp_classifier.c **** 
+ 1193              		.loc 1 210 67 view .LVU313
+ 1194 02e0 FFF7FEFF 		bl	__aeabi_i2d
+ 1195              	.LVL127:
+ 1196 02e4 0246     		mov	r2, r0
+ 1197 02e6 0B46     		mov	r3, r1
+ 210:mlp_classifier.c **** 
+ 1198              		.loc 1 210 16 view .LVU314
+ 1199 02e8 3046     		mov	r0, r6
+ 1200 02ea 3946     		mov	r1, r7
+ 1201 02ec FFF7FEFF 		bl	__aeabi_ddiv
+ 1202              	.LVL128:
+ 1203              		.loc 1 222 9 view .LVU315
+ 1204 02f0 244B     		ldr	r3, .L114+40
+ 1205 02f2 0022     		movs	r2, #0
+ 1206 02f4 FFF7FEFF 		bl	__aeabi_dmul
+ 1207              	.LVL129:
+ 1208 02f8 0246     		mov	r2, r0
+ 1209 02fa 0B46     		mov	r3, r1
+ 1210 02fc 0646     		mov	r6, r0
+ 1211 02fe 0F46     		mov	r7, r1
+ 1212 0300 2148     		ldr	r0, .L114+44
+ 1213 0302 FFF7FEFF 		bl	printf
+ 1214              	.LVL130:
+ 223:mlp_classifier.c ****         // Scale the double and convert to integer
+ 224:mlp_classifier.c ****         int scaled_accuracy = (int)(accuracy * 100); // Assuming you want two decimal places
+ 1215              		.loc 1 224 9 is_stmt 1 view .LVU316
+ 225:mlp_classifier.c ****         simpleserial_put('r', 1, (uint8_t*)scaled_accuracy);
+ 1216              		.loc 1 225 9 view .LVU317
+ 224:mlp_classifier.c ****         simpleserial_put('r', 1, (uint8_t*)scaled_accuracy);
+ 1217              		.loc 1 224 13 is_stmt 0 view .LVU318
+ 1218 0306 3946     		mov	r1, r7
+ 1219 0308 3046     		mov	r0, r6
+ 1220 030a FFF7FEFF 		bl	__aeabi_d2iz
+ 1221              	.LVL131:
+ 1222              		.loc 1 225 9 view .LVU319
+ 1223 030e 0121     		movs	r1, #1
+ 224:mlp_classifier.c ****         simpleserial_put('r', 1, (uint8_t*)scaled_accuracy);
+ 1224              		.loc 1 224 13 view .LVU320
+ 1225 0310 0246     		mov	r2, r0
+ 1226              		.loc 1 225 9 view .LVU321
+ 1227 0312 7220     		movs	r0, #114
+ 1228 0314 FFF7FEFF 		bl	simpleserial_put
+ 1229              	.LVL132:
+ 1230              	.L83:
+ 1231              		.loc 1 225 9 view .LVU322
+ 1232              	.LBE3:
+ 226:mlp_classifier.c ****     }
+ 227:mlp_classifier.c ****     else { // Multi-class classification
+ 228:mlp_classifier.c ****         int** confusion_matrix = (int**)calloc(param->output_layer_size, sizeof(int*));
+ 229:mlp_classifier.c ****         for (i = 0; i < param->output_layer_size; i++)
+ 230:mlp_classifier.c ****             confusion_matrix[i] = (int*)calloc(param->output_layer_size, sizeof(int));
+ 231:mlp_classifier.c **** 
+ 232:mlp_classifier.c ****         // Fill the confusion matrix
+ 233:mlp_classifier.c ****         int actual_class, predicted_class;
+ 234:mlp_classifier.c ****         for (test_example = 0; test_example < param->test_sample_size; test_example++) {
+ 235:mlp_classifier.c ****             actual_class = param->data_test[test_example][param->feature_size-1] - 1;
+ 236:mlp_classifier.c ****             predicted_class = final_output[test_example][0] - 1;
+ 237:mlp_classifier.c **** 
+ 238:mlp_classifier.c ****             ++confusion_matrix[actual_class][predicted_class];
+ 239:mlp_classifier.c ****         }
+ 240:mlp_classifier.c **** 
+ 241:mlp_classifier.c ****         // Print the confusion matrix
+ 242:mlp_classifier.c ****         printf("\t");
+ 243:mlp_classifier.c ****         for (predicted_class = 1; predicted_class <= param->output_layer_size; predicted_class++)
+ 244:mlp_classifier.c ****             printf("Predicted %d  ", predicted_class);
+ 245:mlp_classifier.c ****         printf("\n---------------------------------------------------------------------------\n");
+ 246:mlp_classifier.c **** 
+ 247:mlp_classifier.c ****         for (actual_class = 0; actual_class < param->output_layer_size; actual_class++) {
+ 248:mlp_classifier.c ****             printf("Actual %d | ", actual_class+1);
+ 249:mlp_classifier.c ****             for (predicted_class = 0; predicted_class < param->output_layer_size; predicted_class++
+ 250:mlp_classifier.c ****                 printf("%d\t", confusion_matrix[actual_class][predicted_class]);
+ 251:mlp_classifier.c ****             printf("\n");
+ 252:mlp_classifier.c ****         }
+ 253:mlp_classifier.c **** 
+ 254:mlp_classifier.c ****         // Find the accuracy
+ 255:mlp_classifier.c ****         double accuracy = 0.0;
+ 256:mlp_classifier.c ****         for (i = 0; i < param->output_layer_size; i++)
+ 257:mlp_classifier.c ****             accuracy += confusion_matrix[i][i];
+ 258:mlp_classifier.c ****         accuracy /= param->test_sample_size;
+ 259:mlp_classifier.c **** 
+ 260:mlp_classifier.c ****         // Print the accuracy
+ 261:mlp_classifier.c ****         printf("\nAccuracy: %.2lf\n\n", accuracy * 100);
+ 262:mlp_classifier.c **** 
+ 263:mlp_classifier.c ****         // Free the memory allocated in heap
+ 264:mlp_classifier.c ****         for (i = 0; i < param->output_layer_size; i++)
+ 265:mlp_classifier.c ****             free(confusion_matrix[i]);
+ 266:mlp_classifier.c ****         free(confusion_matrix);
+ 267:mlp_classifier.c ****     }
+ 268:mlp_classifier.c **** 
+ 269:mlp_classifier.c **** 
+ 270:mlp_classifier.c ****     // Write the final output into a csv file
+ 271:mlp_classifier.c ****     char* output_file_name = "data/data_test_output.csv";
+ 1233              		.loc 1 271 5 is_stmt 1 view .LVU323
+ 272:mlp_classifier.c ****     write_csv(output_file_name, param->test_sample_size, param->output_layer_size, final_output);
+ 1234              		.loc 1 272 5 view .LVU324
+ 1235 0318 029B     		ldr	r3, [sp, #8]
+ 1236 031a 226A     		ldr	r2, [r4, #32]
+ 1237 031c A16B     		ldr	r1, [r4, #56]
+ 1238 031e 1B48     		ldr	r0, .L114+48
+ 1239 0320 FFF7FEFF 		bl	write_csv
+ 1240              	.LVL133:
+ 273:mlp_classifier.c **** 
+ 274:mlp_classifier.c ****     // Free the memory allocated in Heap
+ 275:mlp_classifier.c ****     for (i = 0; i < param->test_sample_size; i++)
+ 1241              		.loc 1 275 5 view .LVU325
+ 1242              		.loc 1 275 12 is_stmt 0 view .LVU326
+ 1243 0324 0025     		movs	r5, #0
+ 1244              	.LVL134:
+ 1245              	.L97:
+ 1246              		.loc 1 275 17 is_stmt 1 discriminator 1 view .LVU327
+ 1247              		.loc 1 275 5 is_stmt 0 discriminator 1 view .LVU328
+ 1248 0326 A36B     		ldr	r3, [r4, #56]
+ 1249 0328 AB42     		cmp	r3, r5
+ 1250 032a 00F32681 		bgt	.L98
+ 276:mlp_classifier.c ****         free(final_output[i]);
+ 277:mlp_classifier.c **** 
+ 278:mlp_classifier.c ****     free(final_output);
+ 1251              		.loc 1 278 5 is_stmt 1 view .LVU329
+ 1252 032e 0298     		ldr	r0, [sp, #8]
+ 1253 0330 FFF7FEFF 		bl	free
+ 1254              	.LVL135:
+ 279:mlp_classifier.c **** 
+ 280:mlp_classifier.c ****     for (i = 0; i < n_layers; i++)
+ 1255              		.loc 1 280 5 view .LVU330
+ 1256              		.loc 1 280 12 is_stmt 0 view .LVU331
+ 1257 0334 0024     		movs	r4, #0
+ 1258              	.LVL136:
+ 1259              	.L99:
+ 1260              		.loc 1 280 17 is_stmt 1 discriminator 1 view .LVU332
+ 1261              		.loc 1 280 5 is_stmt 0 discriminator 1 view .LVU333
+ 1262 0336 049B     		ldr	r3, [sp, #16]
+ 1263 0338 9C42     		cmp	r4, r3
+ 1264 033a C0F22581 		blt	.L100
+ 281:mlp_classifier.c ****         free(layer_outputs[i]);
+ 282:mlp_classifier.c **** 
+ 283:mlp_classifier.c ****     free(layer_outputs);
+ 1265              		.loc 1 283 5 is_stmt 1 view .LVU334
+ 1266 033e 0398     		ldr	r0, [sp, #12]
+ 1267 0340 FFF7FEFF 		bl	free
+ 1268              	.LVL137:
+ 284:mlp_classifier.c **** 
+ 285:mlp_classifier.c ****     for (i = 0; i < n_layers; i++)
+ 1269              		.loc 1 285 5 view .LVU335
+ 1270              		.loc 1 285 12 is_stmt 0 view .LVU336
+ 1271 0344 0024     		movs	r4, #0
+ 1272              	.LVL138:
+ 1273              	.L101:
+ 1274              		.loc 1 285 17 is_stmt 1 discriminator 1 view .LVU337
+ 1275              		.loc 1 285 5 is_stmt 0 discriminator 1 view .LVU338
+ 1276 0346 049B     		ldr	r3, [sp, #16]
+ 1277 0348 9C42     		cmp	r4, r3
+ 1278 034a C0F22481 		blt	.L102
+ 286:mlp_classifier.c ****         free(layer_inputs[i]);
+ 287:mlp_classifier.c **** 
+ 288:mlp_classifier.c ****     free(layer_inputs);
+ 1279              		.loc 1 288 5 is_stmt 1 view .LVU339
+ 1280 034e 0598     		ldr	r0, [sp, #20]
+ 289:mlp_classifier.c **** }...
+ 1281              		.loc 1 289 1 is_stmt 0 view .LVU340
+ 1282 0350 11B0     		add	sp, sp, #68
+ 1283              	.LCFI8:
+ 1284              		.cfi_remember_state
+ 1285              		.cfi_def_cfa_offset 36
+ 1286              		@ sp needed
+ 1287 0352 BDE8F04F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 1288              	.LCFI9:
+ 1289              		.cfi_restore 14
+ 1290              		.cfi_restore 11
+ 1291              		.cfi_restore 10
+ 1292              		.cfi_restore 9
+ 1293              		.cfi_restore 8
+ 1294              		.cfi_restore 7
+ 1295              		.cfi_restore 6
+ 1296              		.cfi_restore 5
+ 1297              		.cfi_restore 4
+ 1298              		.cfi_def_cfa_offset 0
+ 1299              	.LVL139:
+ 288:mlp_classifier.c ****     free(layer_inputs);
+ 1300              		.loc 1 288 5 view .LVU341
+ 1301 0356 FFF7FEBF 		b	free
+ 1302              	.LVL140:
+ 1303              	.L115:
+ 1304 035a 00BF     		.align	2
+ 1305              	.L114:
+ 1306 035c 0000F0BF 		.word	-1074790400
+ 1307 0360 00000000 		.word	.LC0
+ 1308 0364 0000F03F 		.word	1072693248
+ 1309 0368 23000000 		.word	.LC1
+ 1310 036c 5B000000 		.word	.LC2
+ 1311 0370 6E000000 		.word	.LC3
+ 1312 0374 81000000 		.word	.LC4
+ 1313 0378 A0000000 		.word	.LC5
+ 1314 037c CD000000 		.word	.LC6
+ 1315 0380 E3000000 		.word	.LC7
+ 1316 0384 00005940 		.word	1079574528
+ 1317 0388 F9000000 		.word	.LC8
+ 1318 038c 79010000 		.word	.LC13
+ 1319              	.LVL141:
+ 1320              	.L105:
+ 1321              	.LCFI10:
+ 1322              		.cfi_restore_state
+ 172:mlp_classifier.c ****                 final_output[test_example][0] = 0;
+ 1323              		.loc 1 172 47 view .LVU342
+ 1324 0390 0022     		movs	r2, #0
+ 1325 0392 0023     		movs	r3, #0
+ 1326 0394 77E7     		b	.L67
+ 1327              	.LVL142:
+ 1328              	.L104:
+ 171:mlp_classifier.c ****             if (final_output[test_example][0] < 0.5)
+ 1329              		.loc 1 171 16 view .LVU343
+ 1330 0396 874F     		ldr	r7, .L116
+ 174:mlp_classifier.c ****                 final_output[test_example][0] = 1;
+ 1331              		.loc 1 174 47 view .LVU344
+ 1332 0398 DFF81CB2 		ldr	fp, .L116+4
+ 170:mlp_classifier.c ****         for (test_example = 0; test_example < param->test_sample_size; test_example++) {
+ 1333              		.loc 1 170 27 view .LVU345
+ 1334 039c 4FF00008 		mov	r8, #0
+ 171:mlp_classifier.c ****             if (final_output[test_example][0] < 0.5)
+ 1335              		.loc 1 171 16 view .LVU346
+ 1336 03a0 0026     		movs	r6, #0
+ 174:mlp_classifier.c ****                 final_output[test_example][0] = 1;
+ 1337              		.loc 1 174 47 view .LVU347
+ 1338 03a2 4FF0000A 		mov	r10, #0
+ 1339              	.LVL143:
+ 174:mlp_classifier.c ****                 final_output[test_example][0] = 1;
+ 1340              		.loc 1 174 47 view .LVU348
+ 1341 03a6 72E7     		b	.L65
+ 1342              	.LVL144:
+ 1343              	.L72:
+ 1344              	.LBB4:
+ 182:mlp_classifier.c ****                 if (final_output[test_example][i] > max) {
+ 1345              		.loc 1 182 17 is_stmt 1 view .LVU349
+ 182:mlp_classifier.c ****                 if (final_output[test_example][i] > max) {
+ 1346              		.loc 1 182 47 is_stmt 0 view .LVU350
+ 1347 03a8 0BEBC703 		add	r3, fp, r7, lsl #3
+ 1348 03ac D3E90089 		ldrd	r8, [r3]
+ 182:mlp_classifier.c ****                 if (final_output[test_example][i] > max) {
+ 1349              		.loc 1 182 20 view .LVU351
+ 1350 03b0 DDE90623 		ldrd	r2, [sp, #24]
+ 1351 03b4 4046     		mov	r0, r8
+ 1352 03b6 4946     		mov	r1, r9
+ 184:mlp_classifier.c ****                     max_class = i+1;
+ 1353              		.loc 1 184 31 view .LVU352
+ 1354 03b8 0137     		adds	r7, r7, #1
+ 1355              	.LVL145:
+ 182:mlp_classifier.c ****                 if (final_output[test_example][i] > max) {
+ 1356              		.loc 1 182 20 view .LVU353
+ 1357 03ba FFF7FEFF 		bl	__aeabi_dcmpgt
+ 1358              	.LVL146:
+ 1359 03be 10B1     		cbz	r0, .L74
+ 183:mlp_classifier.c ****                     max = final_output[test_example][i];
+ 1360              		.loc 1 183 25 view .LVU354
+ 1361 03c0 CDE90689 		strd	r8, [sp, #24]
+ 1362              	.LVL147:
+ 181:mlp_classifier.c ****             for (i = 0; i < param->output_layer_size; i++) {
+ 1363              		.loc 1 181 55 is_stmt 1 view .LVU355
+ 184:mlp_classifier.c ****                     max_class = i+1;
+ 1364              		.loc 1 184 31 is_stmt 0 view .LVU356
+ 1365 03c4 0E97     		str	r7, [sp, #56]
+ 1366              	.LVL148:
+ 1367              	.L74:
+ 181:mlp_classifier.c ****             for (i = 0; i < param->output_layer_size; i++) {
+ 1368              		.loc 1 181 25 is_stmt 1 discriminator 1 view .LVU357
+ 181:mlp_classifier.c ****             for (i = 0; i < param->output_layer_size; i++) {
+ 1369              		.loc 1 181 13 is_stmt 0 discriminator 1 view .LVU358
+ 1370 03c6 BE42     		cmp	r6, r7
+ 1371 03c8 EEDC     		bgt	.L72
+ 187:mlp_classifier.c ****             final_output[test_example][0] = max_class;
+ 1372              		.loc 1 187 13 is_stmt 1 discriminator 2 view .LVU359
+ 187:mlp_classifier.c ****             final_output[test_example][0] = max_class;
+ 1373              		.loc 1 187 43 is_stmt 0 discriminator 2 view .LVU360
+ 1374 03ca 0E98     		ldr	r0, [sp, #56]
+ 1375 03cc FFF7FEFF 		bl	__aeabi_i2d
+ 1376              	.LVL149:
+ 1377              	.LBE4:
+ 178:mlp_classifier.c ****         for (test_example = 0; test_example < param->test_sample_size; test_example++) {
+ 1378              		.loc 1 178 84 discriminator 2 view .LVU361
+ 1379 03d0 0AF1010A 		add	r10, r10, #1
+ 1380              	.LVL150:
+ 1381              	.LBB5:
+ 187:mlp_classifier.c ****             final_output[test_example][0] = max_class;
+ 1382              		.loc 1 187 43 discriminator 2 view .LVU362
+ 1383 03d4 CBE90001 		strd	r0, [fp]
+ 1384              	.LBE5:
+ 178:mlp_classifier.c ****         for (test_example = 0; test_example < param->test_sample_size; test_example++) {
+ 1385              		.loc 1 178 72 is_stmt 1 discriminator 2 view .LVU363
+ 1386              	.LVL151:
+ 178:mlp_classifier.c ****         for (test_example = 0; test_example < param->test_sample_size; test_example++) {
+ 1387              		.loc 1 178 72 is_stmt 0 discriminator 2 view .LVU364
+ 1388 03d8 55E6     		b	.L66
+ 1389              	.LVL152:
+ 1390              	.L82:
+ 1391              	.LBB6:
+ 195:mlp_classifier.c ****             if (final_output[test_example][0] == 0) {
+ 1392              		.loc 1 195 13 is_stmt 1 view .LVU365
+ 196:mlp_classifier.c ****                 if (param->data_test[test_example][param->feature_size-1] == 0)
+ 1393              		.loc 1 196 51 is_stmt 0 view .LVU366
+ 1394 03da D4E90B13 		ldrd	r1, r3, [r4, #44]
+ 1395 03de 0BEB0302 		add	r2, fp, r3
+ 1396 03e2 51F82730 		ldr	r3, [r1, r7, lsl #2]
+ 1397 03e6 03EBC203 		add	r3, r3, r2, lsl #3
+ 1398 03ea D3E90023 		ldrd	r2, [r3]
+ 1399 03ee CDE90623 		strd	r2, [sp, #24]
+ 195:mlp_classifier.c ****             if (final_output[test_example][0] == 0) {
+ 1400              		.loc 1 195 43 view .LVU367
+ 1401 03f2 029B     		ldr	r3, [sp, #8]
+ 1402 03f4 53F82710 		ldr	r1, [r3, r7, lsl #2]
+ 195:mlp_classifier.c ****             if (final_output[test_example][0] == 0) {
+ 1403              		.loc 1 195 16 view .LVU368
+ 1404 03f8 0022     		movs	r2, #0
+ 1405 03fa D1E90001 		ldrd	r0, [r1]
+ 1406 03fe 0023     		movs	r3, #0
+ 1407 0400 FFF7FEFF 		bl	__aeabi_dcmpeq
+ 1408              	.LVL153:
+ 196:mlp_classifier.c ****                 if (param->data_test[test_example][param->feature_size-1] == 0)
+ 1409              		.loc 1 196 20 view .LVU369
+ 1410 0404 0022     		movs	r2, #0
+ 195:mlp_classifier.c ****             if (final_output[test_example][0] == 0) {
+ 1411              		.loc 1 195 16 view .LVU370
+ 1412 0406 60B1     		cbz	r0, .L110
+ 196:mlp_classifier.c ****                 if (param->data_test[test_example][param->feature_size-1] == 0)
+ 1413              		.loc 1 196 17 is_stmt 1 view .LVU371
+ 196:mlp_classifier.c ****                 if (param->data_test[test_example][param->feature_size-1] == 0)
+ 1414              		.loc 1 196 20 is_stmt 0 view .LVU372
+ 1415 0408 DDE90601 		ldrd	r0, [sp, #24]
+ 1416 040c 0023     		movs	r3, #0
+ 1417 040e FFF7FEFF 		bl	__aeabi_dcmpeq
+ 1418              	.LVL154:
+ 1419 0412 18B1     		cbz	r0, .L111
+ 197:mlp_classifier.c ****                     ++true_negative;
+ 1420              		.loc 1 197 21 is_stmt 1 view .LVU373
+ 1421 0414 08F10108 		add	r8, r8, #1
+ 1422              	.LVL155:
+ 1423              	.L79:
+ 194:mlp_classifier.c ****         for (test_example = 0; test_example < param->test_sample_size; test_example++) {
+ 1424              		.loc 1 194 72 discriminator 2 view .LVU374
+ 194:mlp_classifier.c ****         for (test_example = 0; test_example < param->test_sample_size; test_example++) {
+ 1425              		.loc 1 194 84 is_stmt 0 discriminator 2 view .LVU375
+ 1426 0418 0137     		adds	r7, r7, #1
+ 1427              	.LVL156:
+ 194:mlp_classifier.c ****         for (test_example = 0; test_example < param->test_sample_size; test_example++) {
+ 1428              		.loc 1 194 84 discriminator 2 view .LVU376
+ 1429 041a 41E7     		b	.L69
+ 1430              	.L111:
+ 199:mlp_classifier.c ****                     ++false_positive;
+ 1431              		.loc 1 199 21 is_stmt 1 view .LVU377
+ 1432 041c 0AF1010A 		add	r10, r10, #1
+ 1433              	.LVL157:
+ 199:mlp_classifier.c ****                     ++false_positive;
+ 1434              		.loc 1 199 21 is_stmt 0 view .LVU378
+ 1435 0420 FAE7     		b	.L79
+ 1436              	.L110:
+ 202:mlp_classifier.c ****                 if (param->data_test[test_example][param->feature_size-1] == 1)
+ 1437              		.loc 1 202 17 is_stmt 1 view .LVU379
+ 202:mlp_classifier.c ****                 if (param->data_test[test_example][param->feature_size-1] == 1)
+ 1438              		.loc 1 202 20 is_stmt 0 view .LVU380
+ 1439 0422 DDE90601 		ldrd	r0, [sp, #24]
+ 1440 0426 644B     		ldr	r3, .L116+4
+ 1441 0428 FFF7FEFF 		bl	__aeabi_dcmpeq
+ 1442              	.LVL158:
+ 1443 042c 10B1     		cbz	r0, .L112
+ 203:mlp_classifier.c ****                     ++true_positive;
+ 1444              		.loc 1 203 21 is_stmt 1 view .LVU381
+ 1445 042e 09F10109 		add	r9, r9, #1
+ 1446              	.LVL159:
+ 203:mlp_classifier.c ****                     ++true_positive;
+ 1447              		.loc 1 203 21 is_stmt 0 view .LVU382
+ 1448 0432 F1E7     		b	.L79
+ 1449              	.L112:
+ 205:mlp_classifier.c ****                     ++false_negative;
+ 1450              		.loc 1 205 21 is_stmt 1 view .LVU383
+ 1451 0434 0136     		adds	r6, r6, #1
+ 1452              	.LVL160:
+ 205:mlp_classifier.c ****                     ++false_negative;
+ 1453              		.loc 1 205 21 is_stmt 0 view .LVU384
+ 1454 0436 EFE7     		b	.L79
+ 1455              	.LVL161:
+ 1456              	.L84:
+ 205:mlp_classifier.c ****                     ++false_negative;
+ 1457              		.loc 1 205 21 view .LVU385
+ 1458              	.LBE6:
+ 1459              	.LBB7:
+ 230:mlp_classifier.c ****             confusion_matrix[i] = (int*)calloc(param->output_layer_size, sizeof(int));
+ 1460              		.loc 1 230 13 is_stmt 1 discriminator 3 view .LVU386
+ 230:mlp_classifier.c ****             confusion_matrix[i] = (int*)calloc(param->output_layer_size, sizeof(int));
+ 1461              		.loc 1 230 41 is_stmt 0 discriminator 3 view .LVU387
+ 1462 0438 0421     		movs	r1, #4
+ 1463 043a 3046     		mov	r0, r6
+ 1464 043c FFF7FEFF 		bl	calloc
+ 1465              	.LVL162:
+ 230:mlp_classifier.c ****             confusion_matrix[i] = (int*)calloc(param->output_layer_size, sizeof(int));
+ 1466              		.loc 1 230 33 discriminator 3 view .LVU388
+ 1467 0440 47F82800 		str	r0, [r7, r8, lsl #2]
+ 229:mlp_classifier.c ****         for (i = 0; i < param->output_layer_size; i++)
+ 1468              		.loc 1 229 51 is_stmt 1 discriminator 3 view .LVU389
+ 229:mlp_classifier.c ****         for (i = 0; i < param->output_layer_size; i++)
+ 1469              		.loc 1 229 52 is_stmt 0 discriminator 3 view .LVU390
+ 1470 0444 08F10108 		add	r8, r8, #1
+ 1471              	.LVL163:
+ 1472              	.L103:
+ 229:mlp_classifier.c ****         for (i = 0; i < param->output_layer_size; i++)
+ 1473              		.loc 1 229 21 is_stmt 1 discriminator 1 view .LVU391
+ 229:mlp_classifier.c ****         for (i = 0; i < param->output_layer_size; i++)
+ 1474              		.loc 1 229 9 is_stmt 0 discriminator 1 view .LVU392
+ 1475 0448 4645     		cmp	r6, r8
+ 1476 044a F5DC     		bgt	.L84
+ 235:mlp_classifier.c ****             actual_class = param->data_test[test_example][param->feature_size-1] - 1;
+ 1477              		.loc 1 235 82 view .LVU393
+ 1478 044c DFF86891 		ldr	r9, .L116+4
+ 1479              	.LVL164:
+ 234:mlp_classifier.c ****         for (test_example = 0; test_example < param->test_sample_size; test_example++) {
+ 1480              		.loc 1 234 27 view .LVU394
+ 1481 0450 0026     		movs	r6, #0
+ 235:mlp_classifier.c ****             actual_class = param->data_test[test_example][param->feature_size-1] - 1;
+ 1482              		.loc 1 235 58 view .LVU395
+ 1483 0452 6FF0604B 		mvn	fp, #-536870912
+ 235:mlp_classifier.c ****             actual_class = param->data_test[test_example][param->feature_size-1] - 1;
+ 1484              		.loc 1 235 82 view .LVU396
+ 1485 0456 4FF00008 		mov	r8, #0
+ 1486              	.LVL165:
+ 1487              	.L85:
+ 234:mlp_classifier.c ****         for (test_example = 0; test_example < param->test_sample_size; test_example++) {
+ 1488              		.loc 1 234 32 is_stmt 1 discriminator 1 view .LVU397
+ 234:mlp_classifier.c ****         for (test_example = 0; test_example < param->test_sample_size; test_example++) {
+ 1489              		.loc 1 234 9 is_stmt 0 discriminator 1 view .LVU398
+ 1490 045a B542     		cmp	r5, r6
+ 1491 045c 35DC     		bgt	.L86
+ 242:mlp_classifier.c ****         printf("\t");
+ 1492              		.loc 1 242 9 is_stmt 1 view .LVU399
+ 1493 045e 0920     		movs	r0, #9
+ 1494 0460 FFF7FEFF 		bl	putchar
+ 1495              	.LVL166:
+ 243:mlp_classifier.c ****         for (predicted_class = 1; predicted_class <= param->output_layer_size; predicted_class++)
+ 1496              		.loc 1 243 9 view .LVU400
+ 244:mlp_classifier.c ****             printf("Predicted %d  ", predicted_class);
+ 1497              		.loc 1 244 13 is_stmt 0 view .LVU401
+ 1498 0464 554E     		ldr	r6, .L116+8
+ 1499              	.LVL167:
+ 243:mlp_classifier.c ****         for (predicted_class = 1; predicted_class <= param->output_layer_size; predicted_class++)
+ 1500              		.loc 1 243 30 view .LVU402
+ 1501 0466 0125     		movs	r5, #1
+ 1502              	.LVL168:
+ 1503              	.L87:
+ 243:mlp_classifier.c ****         for (predicted_class = 1; predicted_class <= param->output_layer_size; predicted_class++)
+ 1504              		.loc 1 243 35 is_stmt 1 discriminator 1 view .LVU403
+ 243:mlp_classifier.c ****         for (predicted_class = 1; predicted_class <= param->output_layer_size; predicted_class++)
+ 1505              		.loc 1 243 9 is_stmt 0 discriminator 1 view .LVU404
+ 1506 0468 236A     		ldr	r3, [r4, #32]
+ 1507 046a AB42     		cmp	r3, r5
+ 1508 046c 52DA     		bge	.L88
+ 245:mlp_classifier.c ****         printf("\n---------------------------------------------------------------------------\n");
+ 1509              		.loc 1 245 9 is_stmt 1 view .LVU405
+ 1510 046e 5448     		ldr	r0, .L116+12
+ 248:mlp_classifier.c ****             printf("Actual %d | ", actual_class+1);
+ 1511              		.loc 1 248 13 is_stmt 0 view .LVU406
+ 1512 0470 544D     		ldr	r5, .L116+16
+ 1513              	.LVL169:
+ 250:mlp_classifier.c ****                 printf("%d\t", confusion_matrix[actual_class][predicted_class]);
+ 1514              		.loc 1 250 17 view .LVU407
+ 1515 0472 DFF85491 		ldr	r9, .L116+20
+ 245:mlp_classifier.c ****         printf("\n---------------------------------------------------------------------------\n");
+ 1516              		.loc 1 245 9 view .LVU408
+ 1517 0476 FFF7FEFF 		bl	puts
+ 1518              	.LVL170:
+ 247:mlp_classifier.c ****         for (actual_class = 0; actual_class < param->output_layer_size; actual_class++) {
+ 1519              		.loc 1 247 9 is_stmt 1 view .LVU409
+ 247:mlp_classifier.c ****         for (actual_class = 0; actual_class < param->output_layer_size; actual_class++) {
+ 1520              		.loc 1 247 27 is_stmt 0 view .LVU410
+ 1521 047a 4FF0000A 		mov	r10, #0
+ 250:mlp_classifier.c ****                 printf("%d\t", confusion_matrix[actual_class][predicted_class]);
+ 1522              		.loc 1 250 48 view .LVU411
+ 1523 047e A7F10408 		sub	r8, r7, #4
+ 1524              	.LVL171:
+ 1525              	.L89:
+ 247:mlp_classifier.c ****         for (actual_class = 0; actual_class < param->output_layer_size; actual_class++) {
+ 1526              		.loc 1 247 32 is_stmt 1 discriminator 1 view .LVU412
+ 247:mlp_classifier.c ****         for (actual_class = 0; actual_class < param->output_layer_size; actual_class++) {
+ 1527              		.loc 1 247 52 is_stmt 0 discriminator 1 view .LVU413
+ 1528 0482 266A     		ldr	r6, [r4, #32]
+ 247:mlp_classifier.c ****         for (actual_class = 0; actual_class < param->output_layer_size; actual_class++) {
+ 1529              		.loc 1 247 9 discriminator 1 view .LVU414
+ 1530 0484 5645     		cmp	r6, r10
+ 1531 0486 4BDC     		bgt	.L92
+ 255:mlp_classifier.c ****         double accuracy = 0.0;
+ 1532              		.loc 1 255 16 view .LVU415
+ 1533 0488 4FF00008 		mov	r8, #0
+ 1534 048c 4FF00009 		mov	r9, #0
+ 256:mlp_classifier.c ****         for (i = 0; i < param->output_layer_size; i++)
+ 1535              		.loc 1 256 16 view .LVU416
+ 1536 0490 0025     		movs	r5, #0
+ 1537              	.L93:
+ 1538              	.LVL172:
+ 256:mlp_classifier.c ****         for (i = 0; i < param->output_layer_size; i++)
+ 1539              		.loc 1 256 21 is_stmt 1 discriminator 1 view .LVU417
+ 256:mlp_classifier.c ****         for (i = 0; i < param->output_layer_size; i++)
+ 1540              		.loc 1 256 9 is_stmt 0 discriminator 1 view .LVU418
+ 1541 0492 AE42     		cmp	r6, r5
+ 1542 0494 5BDC     		bgt	.L94
+ 258:mlp_classifier.c ****         accuracy /= param->test_sample_size;
+ 1543              		.loc 1 258 9 is_stmt 1 view .LVU419
+ 1544              	.LVL173:
+ 261:mlp_classifier.c ****         printf("\nAccuracy: %.2lf\n\n", accuracy * 100);
+ 1545              		.loc 1 261 9 view .LVU420
+ 258:mlp_classifier.c ****         accuracy /= param->test_sample_size;
+ 1546              		.loc 1 258 18 is_stmt 0 view .LVU421
+ 1547 0496 A06B     		ldr	r0, [r4, #56]
+ 1548 0498 FFF7FEFF 		bl	__aeabi_i2d
+ 1549              	.LVL174:
+ 258:mlp_classifier.c ****         accuracy /= param->test_sample_size;
+ 1550              		.loc 1 258 18 view .LVU422
+ 1551 049c 0246     		mov	r2, r0
+ 1552 049e 0B46     		mov	r3, r1
+ 1553 04a0 4046     		mov	r0, r8
+ 1554 04a2 4946     		mov	r1, r9
+ 1555 04a4 FFF7FEFF 		bl	__aeabi_ddiv
+ 1556              	.LVL175:
+ 261:mlp_classifier.c ****         printf("\nAccuracy: %.2lf\n\n", accuracy * 100);
+ 1557              		.loc 1 261 9 view .LVU423
+ 1558 04a8 484B     		ldr	r3, .L116+24
+ 1559 04aa 0022     		movs	r2, #0
+ 1560 04ac FFF7FEFF 		bl	__aeabi_dmul
+ 1561              	.LVL176:
+ 1562 04b0 0246     		mov	r2, r0
+ 1563 04b2 0B46     		mov	r3, r1
+ 1564 04b4 4648     		ldr	r0, .L116+28
+ 1565 04b6 FFF7FEFF 		bl	printf
+ 1566              	.LVL177:
+ 264:mlp_classifier.c ****         for (i = 0; i < param->output_layer_size; i++)
+ 1567              		.loc 1 264 9 is_stmt 1 view .LVU424
+ 264:mlp_classifier.c ****         for (i = 0; i < param->output_layer_size; i++)
+ 1568              		.loc 1 264 16 is_stmt 0 view .LVU425
+ 1569 04ba 0025     		movs	r5, #0
+ 1570              	.LVL178:
+ 1571              	.L95:
+ 264:mlp_classifier.c ****         for (i = 0; i < param->output_layer_size; i++)
+ 1572              		.loc 1 264 21 is_stmt 1 discriminator 1 view .LVU426
+ 264:mlp_classifier.c ****         for (i = 0; i < param->output_layer_size; i++)
+ 1573              		.loc 1 264 9 is_stmt 0 discriminator 1 view .LVU427
+ 1574 04bc 236A     		ldr	r3, [r4, #32]
+ 1575 04be AB42     		cmp	r3, r5
+ 1576 04c0 55DC     		bgt	.L96
+ 266:mlp_classifier.c ****         free(confusion_matrix);
+ 1577              		.loc 1 266 9 is_stmt 1 view .LVU428
+ 1578 04c2 3846     		mov	r0, r7
+ 1579 04c4 FFF7FEFF 		bl	free
+ 1580              	.LVL179:
+ 1581 04c8 26E7     		b	.L83
+ 1582              	.LVL180:
+ 1583              	.L86:
+ 235:mlp_classifier.c ****             actual_class = param->data_test[test_example][param->feature_size-1] - 1;
+ 1584              		.loc 1 235 13 discriminator 3 view .LVU429
+ 236:mlp_classifier.c ****             predicted_class = final_output[test_example][0] - 1;
+ 1585              		.loc 1 236 13 discriminator 3 view .LVU430
+ 238:mlp_classifier.c ****             ++confusion_matrix[actual_class][predicted_class];
+ 1586              		.loc 1 238 13 discriminator 3 view .LVU431
+ 235:mlp_classifier.c ****             actual_class = param->data_test[test_example][param->feature_size-1] - 1;
+ 1587              		.loc 1 235 58 is_stmt 0 discriminator 3 view .LVU432
+ 1588 04ca D4E90B21 		ldrd	r2, r1, [r4, #44]
+ 1589 04ce 0BEB0103 		add	r3, fp, r1
+ 1590 04d2 52F82610 		ldr	r1, [r2, r6, lsl #2]
+ 1591 04d6 01EBC301 		add	r1, r1, r3, lsl #3
+ 235:mlp_classifier.c ****             actual_class = param->data_test[test_example][param->feature_size-1] - 1;
+ 1592              		.loc 1 235 82 discriminator 3 view .LVU433
+ 1593 04da 4246     		mov	r2, r8
+ 1594 04dc 4B46     		mov	r3, r9
+ 1595 04de D1E90001 		ldrd	r0, [r1]
+ 1596 04e2 FFF7FEFF 		bl	__aeabi_dsub
+ 1597              	.LVL181:
+ 235:mlp_classifier.c ****             actual_class = param->data_test[test_example][param->feature_size-1] - 1;
+ 1598              		.loc 1 235 26 discriminator 3 view .LVU434
+ 1599 04e6 FFF7FEFF 		bl	__aeabi_d2iz
+ 1600              	.LVL182:
+ 236:mlp_classifier.c ****             predicted_class = final_output[test_example][0] - 1;
+ 1601              		.loc 1 236 57 discriminator 3 view .LVU435
+ 1602 04ea 029B     		ldr	r3, [sp, #8]
+ 1603 04ec 53F82610 		ldr	r1, [r3, r6, lsl #2]
+ 236:mlp_classifier.c ****             predicted_class = final_output[test_example][0] - 1;
+ 1604              		.loc 1 236 61 discriminator 3 view .LVU436
+ 1605 04f0 4246     		mov	r2, r8
+ 1606 04f2 4B46     		mov	r3, r9
+ 235:mlp_classifier.c ****             actual_class = param->data_test[test_example][param->feature_size-1] - 1;
+ 1607              		.loc 1 235 26 discriminator 3 view .LVU437
+ 1608 04f4 8246     		mov	r10, r0
+ 236:mlp_classifier.c ****             predicted_class = final_output[test_example][0] - 1;
+ 1609              		.loc 1 236 61 discriminator 3 view .LVU438
+ 1610 04f6 D1E90001 		ldrd	r0, [r1]
+ 1611 04fa FFF7FEFF 		bl	__aeabi_dsub
+ 1612              	.LVL183:
+ 236:mlp_classifier.c ****             predicted_class = final_output[test_example][0] - 1;
+ 1613              		.loc 1 236 29 discriminator 3 view .LVU439
+ 1614 04fe FFF7FEFF 		bl	__aeabi_d2iz
+ 1615              	.LVL184:
+ 238:mlp_classifier.c ****             ++confusion_matrix[actual_class][predicted_class];
+ 1616              		.loc 1 238 45 discriminator 3 view .LVU440
+ 1617 0502 57F82A20 		ldr	r2, [r7, r10, lsl #2]
+ 238:mlp_classifier.c ****             ++confusion_matrix[actual_class][predicted_class];
+ 1618              		.loc 1 238 13 discriminator 3 view .LVU441
+ 1619 0506 52F82030 		ldr	r3, [r2, r0, lsl #2]
+ 1620 050a 0133     		adds	r3, r3, #1
+ 1621 050c 42F82030 		str	r3, [r2, r0, lsl #2]
+ 234:mlp_classifier.c ****         for (test_example = 0; test_example < param->test_sample_size; test_example++) {
+ 1622              		.loc 1 234 72 is_stmt 1 discriminator 3 view .LVU442
+ 234:mlp_classifier.c ****         for (test_example = 0; test_example < param->test_sample_size; test_example++) {
+ 1623              		.loc 1 234 84 is_stmt 0 discriminator 3 view .LVU443
+ 1624 0510 0136     		adds	r6, r6, #1
+ 1625              	.LVL185:
+ 234:mlp_classifier.c ****         for (test_example = 0; test_example < param->test_sample_size; test_example++) {
+ 1626              		.loc 1 234 84 discriminator 3 view .LVU444
+ 1627 0512 A2E7     		b	.L85
+ 1628              	.LVL186:
+ 1629              	.L88:
+ 244:mlp_classifier.c ****             printf("Predicted %d  ", predicted_class);
+ 1630              		.loc 1 244 13 is_stmt 1 discriminator 3 view .LVU445
+ 1631 0514 2946     		mov	r1, r5
+ 1632 0516 3046     		mov	r0, r6
+ 1633 0518 FFF7FEFF 		bl	printf
+ 1634              	.LVL187:
+ 243:mlp_classifier.c ****         for (predicted_class = 1; predicted_class <= param->output_layer_size; predicted_class++)
+ 1635              		.loc 1 243 80 discriminator 3 view .LVU446
+ 243:mlp_classifier.c ****         for (predicted_class = 1; predicted_class <= param->output_layer_size; predicted_class++)
+ 1636              		.loc 1 243 95 is_stmt 0 discriminator 3 view .LVU447
+ 1637 051c 0135     		adds	r5, r5, #1
+ 1638              	.LVL188:
+ 243:mlp_classifier.c ****         for (predicted_class = 1; predicted_class <= param->output_layer_size; predicted_class++)
+ 1639              		.loc 1 243 95 discriminator 3 view .LVU448
+ 1640 051e A3E7     		b	.L87
+ 1641              	.LVL189:
+ 1642              	.L92:
+ 248:mlp_classifier.c ****             printf("Actual %d | ", actual_class+1);
+ 1643              		.loc 1 248 13 is_stmt 1 view .LVU449
+ 1644 0520 0AF1010A 		add	r10, r10, #1
+ 1645              	.LVL190:
+ 248:mlp_classifier.c ****             printf("Actual %d | ", actual_class+1);
+ 1646              		.loc 1 248 13 is_stmt 0 view .LVU450
+ 1647 0524 5146     		mov	r1, r10
+ 1648 0526 2846     		mov	r0, r5
+ 1649 0528 FFF7FEFF 		bl	printf
+ 1650              	.LVL191:
+ 249:mlp_classifier.c ****             for (predicted_class = 0; predicted_class < param->output_layer_size; predicted_class++
+ 1651              		.loc 1 249 13 is_stmt 1 view .LVU451
+ 249:mlp_classifier.c ****             for (predicted_class = 0; predicted_class < param->output_layer_size; predicted_class++
+ 1652              		.loc 1 249 34 is_stmt 0 view .LVU452
+ 1653 052c 0026     		movs	r6, #0
+ 1654              	.LVL192:
+ 1655              	.L90:
+ 249:mlp_classifier.c ****             for (predicted_class = 0; predicted_class < param->output_layer_size; predicted_class++
+ 1656              		.loc 1 249 39 is_stmt 1 discriminator 1 view .LVU453
+ 249:mlp_classifier.c ****             for (predicted_class = 0; predicted_class < param->output_layer_size; predicted_class++
+ 1657              		.loc 1 249 13 is_stmt 0 discriminator 1 view .LVU454
+ 1658 052e 236A     		ldr	r3, [r4, #32]
+ 1659 0530 B342     		cmp	r3, r6
+ 1660 0532 03DC     		bgt	.L91
+ 251:mlp_classifier.c ****             printf("\n");
+ 1661              		.loc 1 251 13 is_stmt 1 discriminator 2 view .LVU455
+ 1662 0534 0A20     		movs	r0, #10
+ 1663 0536 FFF7FEFF 		bl	putchar
+ 1664              	.LVL193:
+ 247:mlp_classifier.c ****         for (actual_class = 0; actual_class < param->output_layer_size; actual_class++) {
+ 1665              		.loc 1 247 73 discriminator 2 view .LVU456
+ 247:mlp_classifier.c ****         for (actual_class = 0; actual_class < param->output_layer_size; actual_class++) {
+ 1666              		.loc 1 247 73 is_stmt 0 discriminator 2 view .LVU457
+ 1667 053a A2E7     		b	.L89
+ 1668              	.LVL194:
+ 1669              	.L91:
+ 250:mlp_classifier.c ****                 printf("%d\t", confusion_matrix[actual_class][predicted_class]);
+ 1670              		.loc 1 250 17 is_stmt 1 discriminator 3 view .LVU458
+ 1671 053c 58F82A30 		ldr	r3, [r8, r10, lsl #2]
+ 1672 0540 4846     		mov	r0, r9
+ 1673 0542 53F82610 		ldr	r1, [r3, r6, lsl #2]
+ 1674 0546 FFF7FEFF 		bl	printf
+ 1675              	.LVL195:
+ 249:mlp_classifier.c ****             for (predicted_class = 0; predicted_class < param->output_layer_size; predicted_class++
+ 1676              		.loc 1 249 83 discriminator 3 view .LVU459
+ 249:mlp_classifier.c ****             for (predicted_class = 0; predicted_class < param->output_layer_size; predicted_class++
+ 1677              		.loc 1 249 98 is_stmt 0 discriminator 3 view .LVU460
+ 1678 054a 0136     		adds	r6, r6, #1
+ 1679              	.LVL196:
+ 249:mlp_classifier.c ****             for (predicted_class = 0; predicted_class < param->output_layer_size; predicted_class++
+ 1680              		.loc 1 249 98 discriminator 3 view .LVU461
+ 1681 054c EFE7     		b	.L90
+ 1682              	.LVL197:
+ 1683              	.L94:
+ 257:mlp_classifier.c ****             accuracy += confusion_matrix[i][i];
+ 1684              		.loc 1 257 13 is_stmt 1 discriminator 3 view .LVU462
+ 257:mlp_classifier.c ****             accuracy += confusion_matrix[i][i];
+ 1685              		.loc 1 257 44 is_stmt 0 discriminator 3 view .LVU463
+ 1686 054e 57F82530 		ldr	r3, [r7, r5, lsl #2]
+ 257:mlp_classifier.c ****             accuracy += confusion_matrix[i][i];
+ 1687              		.loc 1 257 22 discriminator 3 view .LVU464
+ 1688 0552 53F82500 		ldr	r0, [r3, r5, lsl #2]
+ 1689 0556 FFF7FEFF 		bl	__aeabi_i2d
+ 1690              	.LVL198:
+ 1691 055a 0246     		mov	r2, r0
+ 1692 055c 0B46     		mov	r3, r1
+ 1693 055e 4046     		mov	r0, r8
+ 1694 0560 4946     		mov	r1, r9
+ 1695 0562 FFF7FEFF 		bl	__aeabi_dadd
+ 1696              	.LVL199:
+ 256:mlp_classifier.c ****         for (i = 0; i < param->output_layer_size; i++)
+ 1697              		.loc 1 256 52 discriminator 3 view .LVU465
+ 1698 0566 0135     		adds	r5, r5, #1
+ 1699              	.LVL200:
+ 257:mlp_classifier.c ****             accuracy += confusion_matrix[i][i];
+ 1700              		.loc 1 257 22 discriminator 3 view .LVU466
+ 1701 0568 8046     		mov	r8, r0
+ 1702              	.LVL201:
+ 257:mlp_classifier.c ****             accuracy += confusion_matrix[i][i];
+ 1703              		.loc 1 257 22 discriminator 3 view .LVU467
+ 1704 056a 8946     		mov	r9, r1
+ 1705              	.LVL202:
+ 256:mlp_classifier.c ****         for (i = 0; i < param->output_layer_size; i++)
+ 1706              		.loc 1 256 51 is_stmt 1 discriminator 3 view .LVU468
+ 256:mlp_classifier.c ****         for (i = 0; i < param->output_layer_size; i++)
+ 1707              		.loc 1 256 51 is_stmt 0 discriminator 3 view .LVU469
+ 1708 056c 91E7     		b	.L93
+ 1709              	.LVL203:
+ 1710              	.L96:
+ 265:mlp_classifier.c ****             free(confusion_matrix[i]);
+ 1711              		.loc 1 265 13 is_stmt 1 discriminator 3 view .LVU470
+ 1712 056e 57F82500 		ldr	r0, [r7, r5, lsl #2]
+ 1713 0572 FFF7FEFF 		bl	free
+ 1714              	.LVL204:
+ 264:mlp_classifier.c ****         for (i = 0; i < param->output_layer_size; i++)
+ 1715              		.loc 1 264 51 discriminator 3 view .LVU471
+ 264:mlp_classifier.c ****         for (i = 0; i < param->output_layer_size; i++)
+ 1716              		.loc 1 264 52 is_stmt 0 discriminator 3 view .LVU472
+ 1717 0576 0135     		adds	r5, r5, #1
+ 1718              	.LVL205:
+ 264:mlp_classifier.c ****         for (i = 0; i < param->output_layer_size; i++)
+ 1719              		.loc 1 264 52 discriminator 3 view .LVU473
+ 1720 0578 A0E7     		b	.L95
+ 1721              	.LVL206:
+ 1722              	.L98:
+ 264:mlp_classifier.c ****         for (i = 0; i < param->output_layer_size; i++)
+ 1723              		.loc 1 264 52 discriminator 3 view .LVU474
+ 1724              	.LBE7:
+ 276:mlp_classifier.c ****         free(final_output[i]);
+ 1725              		.loc 1 276 9 is_stmt 1 discriminator 3 view .LVU475
+ 1726 057a 029B     		ldr	r3, [sp, #8]
+ 1727 057c 53F82500 		ldr	r0, [r3, r5, lsl #2]
+ 1728 0580 FFF7FEFF 		bl	free
+ 1729              	.LVL207:
+ 275:mlp_classifier.c ****     for (i = 0; i < param->test_sample_size; i++)
+ 1730              		.loc 1 275 46 discriminator 3 view .LVU476
+ 275:mlp_classifier.c ****     for (i = 0; i < param->test_sample_size; i++)
+ 1731              		.loc 1 275 47 is_stmt 0 discriminator 3 view .LVU477
+ 1732 0584 0135     		adds	r5, r5, #1
+ 1733              	.LVL208:
+ 275:mlp_classifier.c ****     for (i = 0; i < param->test_sample_size; i++)
+ 1734              		.loc 1 275 47 discriminator 3 view .LVU478
+ 1735 0586 CEE6     		b	.L97
+ 1736              	.LVL209:
+ 1737              	.L100:
+ 281:mlp_classifier.c ****         free(layer_outputs[i]);
+ 1738              		.loc 1 281 9 is_stmt 1 discriminator 3 view .LVU479
+ 1739 0588 039B     		ldr	r3, [sp, #12]
+ 1740 058a 53F82400 		ldr	r0, [r3, r4, lsl #2]
+ 1741 058e FFF7FEFF 		bl	free
+ 1742              	.LVL210:
+ 280:mlp_classifier.c ****     for (i = 0; i < n_layers; i++)
+ 1743              		.loc 1 280 31 discriminator 3 view .LVU480
+ 280:mlp_classifier.c ****     for (i = 0; i < n_layers; i++)
+ 1744              		.loc 1 280 32 is_stmt 0 discriminator 3 view .LVU481
+ 1745 0592 0134     		adds	r4, r4, #1
+ 1746              	.LVL211:
+ 280:mlp_classifier.c ****     for (i = 0; i < n_layers; i++)
+ 1747              		.loc 1 280 32 discriminator 3 view .LVU482
+ 1748 0594 CFE6     		b	.L99
+ 1749              	.L102:
+ 286:mlp_classifier.c ****         free(layer_inputs[i]);
+ 1750              		.loc 1 286 9 is_stmt 1 discriminator 3 view .LVU483
+ 1751 0596 059B     		ldr	r3, [sp, #20]
+ 1752 0598 53F82400 		ldr	r0, [r3, r4, lsl #2]
+ 1753 059c FFF7FEFF 		bl	free
+ 1754              	.LVL212:
+ 285:mlp_classifier.c ****     for (i = 0; i < n_layers; i++)
+ 1755              		.loc 1 285 31 discriminator 3 view .LVU484
+ 285:mlp_classifier.c ****     for (i = 0; i < n_layers; i++)
+ 1756              		.loc 1 285 32 is_stmt 0 discriminator 3 view .LVU485
+ 1757 05a0 0134     		adds	r4, r4, #1
+ 1758              	.LVL213:
+ 285:mlp_classifier.c ****     for (i = 0; i < n_layers; i++)
+ 1759              		.loc 1 285 32 discriminator 3 view .LVU486
+ 1760 05a2 D0E6     		b	.L101
+ 1761              	.LVL214:
+ 1762              	.L73:
+ 192:mlp_classifier.c ****     if (param->output_layer_size == 1) { // Binary classification
+ 1763              		.loc 1 192 5 is_stmt 1 view .LVU487
+ 1764              	.LBB8:
+ 228:mlp_classifier.c ****         int** confusion_matrix = (int**)calloc(param->output_layer_size, sizeof(int*));
+ 1765              		.loc 1 228 9 view .LVU488
+ 228:mlp_classifier.c ****         int** confusion_matrix = (int**)calloc(param->output_layer_size, sizeof(int*));
+ 1766              		.loc 1 228 41 is_stmt 0 view .LVU489
+ 1767 05a4 0421     		movs	r1, #4
+ 1768 05a6 3046     		mov	r0, r6
+ 1769 05a8 FFF7FEFF 		bl	calloc
+ 1770              	.LVL215:
+ 229:mlp_classifier.c ****         for (i = 0; i < param->output_layer_size; i++)
+ 1771              		.loc 1 229 16 view .LVU490
+ 1772 05ac 4FF00008 		mov	r8, #0
+ 228:mlp_classifier.c ****         int** confusion_matrix = (int**)calloc(param->output_layer_size, sizeof(int*));
+ 1773              		.loc 1 228 41 view .LVU491
+ 1774 05b0 0746     		mov	r7, r0
+ 1775              	.LVL216:
+ 229:mlp_classifier.c ****         for (i = 0; i < param->output_layer_size; i++)
+ 1776              		.loc 1 229 9 is_stmt 1 view .LVU492
+ 229:mlp_classifier.c ****         for (i = 0; i < param->output_layer_size; i++)
+ 1777              		.loc 1 229 9 is_stmt 0 view .LVU493
+ 1778 05b2 49E7     		b	.L103
+ 1779              	.L117:
+ 1780              		.align	2
+ 1781              	.L116:
+ 1782 05b4 0000E03F 		.word	1071644672
+ 1783 05b8 0000F03F 		.word	1072693248
+ 1784 05bc 0C010000 		.word	.LC9
+ 1785 05c0 1B010000 		.word	.LC10
+ 1786 05c4 68010000 		.word	.LC11
+ 1787 05c8 75010000 		.word	.LC12
+ 1788 05cc 00005940 		.word	1079574528
+ 1789 05d0 F9000000 		.word	.LC8
+ 1790              	.LBE8:
+ 1791              		.cfi_endproc
+ 1792              	.LFE9:
+ 1794              		.text
+ 1795              	.Letext0:
+ 1796              		.file 2 "c:\\users\\joris\\chipwh~1\\cw\\home\\portable\\armgcc\\arm-none-eabi\\include\\machine\\
+ 1797              		.file 3 "c:\\users\\joris\\chipwh~1\\cw\\home\\portable\\armgcc\\arm-none-eabi\\include\\sys\\_std
+ 1798              		.file 4 "parameters.h"
+ 1799              		.file 5 "c:\\users\\joris\\chipwh~1\\cw\\home\\portable\\armgcc\\arm-none-eabi\\include\\stdio.h"
+ 1800              		.file 6 "simpleserial.h"
+ 1801              		.file 7 "c:\\users\\joris\\chipwh~1\\cw\\home\\portable\\armgcc\\arm-none-eabi\\include\\stdlib.h"
+ 1802              		.file 8 "<built-in>"
+ 1803              		.file 9 "../hardware/victims/firmware/hal/stm32f3/stm32f3_hal.h"
+ 1804              		.file 10 "write_csv.h"
+ 1805              		.file 11 "c:\\users\\joris\\chipwh~1\\cw\\home\\portable\\armgcc\\arm-none-eabi\\include\\math.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 mlp_classifier.c
+C:\Users\joris\AppData\Local\Temp\ccHvMBJB.s:18     .text.mat_mul_classify:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccHvMBJB.s:26     .text.mat_mul_classify:00000000 mat_mul_classify
+C:\Users\joris\AppData\Local\Temp\ccHvMBJB.s:121    .text.identity_classify:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccHvMBJB.s:128    .text.identity_classify:00000000 identity_classify
+C:\Users\joris\AppData\Local\Temp\ccHvMBJB.s:179    .text.identity_classify:00000020 $d
+C:\Users\joris\AppData\Local\Temp\ccHvMBJB.s:185    .text.sigmoid_classify:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccHvMBJB.s:192    .text.sigmoid_classify:00000000 sigmoid_classify
+C:\Users\joris\AppData\Local\Temp\ccHvMBJB.s:267    .text.sigmoid_classify:00000050 $d
+C:\Users\joris\AppData\Local\Temp\ccHvMBJB.s:272    .text.tan_h_classify:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccHvMBJB.s:279    .text.tan_h_classify:00000000 tan_h_classify
+C:\Users\joris\AppData\Local\Temp\ccHvMBJB.s:341    .text.tan_h_classify:0000002c $d
+C:\Users\joris\AppData\Local\Temp\ccHvMBJB.s:347    .text.relu_classify:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccHvMBJB.s:354    .text.relu_classify:00000000 relu_classify
+C:\Users\joris\AppData\Local\Temp\ccHvMBJB.s:430    .text.relu_classify:00000048 $d
+C:\Users\joris\AppData\Local\Temp\ccHvMBJB.s:435    .text.softmax_classify:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccHvMBJB.s:442    .text.softmax_classify:00000000 softmax_classify
+C:\Users\joris\AppData\Local\Temp\ccHvMBJB.s:552    .text.softmax_classify:00000068 $d
+C:\Users\joris\AppData\Local\Temp\ccHvMBJB.s:593    .text.mlp_classifier:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccHvMBJB.s:600    .text.mlp_classifier:00000000 mlp_classifier
+C:\Users\joris\AppData\Local\Temp\ccHvMBJB.s:897    .text.mlp_classifier:00000148 $d
+C:\Users\joris\AppData\Local\Temp\ccHvMBJB.s:963    .text.mlp_classifier:000001aa $d
+C:\Users\joris\AppData\Local\Temp\ccHvMBJB.s:1306   .text.mlp_classifier:0000035c $d
+C:\Users\joris\AppData\Local\Temp\ccHvMBJB.s:1324   .text.mlp_classifier:00000390 $t
+C:\Users\joris\AppData\Local\Temp\ccHvMBJB.s:1782   .text.mlp_classifier:000005b4 $d
+C:\Users\joris\AppData\Local\Temp\ccHvMBJB.s:903    .text.mlp_classifier:0000014d $d
+C:\Users\joris\AppData\Local\Temp\ccHvMBJB.s:903    .text.mlp_classifier:0000014e $t
+C:\Users\joris\AppData\Local\Temp\ccHvMBJB.s:968    .text.mlp_classifier:000001af $d
+C:\Users\joris\AppData\Local\Temp\ccHvMBJB.s:968    .text.mlp_classifier:000001b0 $t
+
+UNDEFINED SYMBOLS
+__aeabi_dmul
+__aeabi_dadd
+__aeabi_ddiv
+exp
+tanh
+__aeabi_dcmplt
+__aeabi_dcmpgt
+__aeabi_i2d
+__aeabi_dcmpeq
+__aeabi_d2iz
+__aeabi_dsub
+calloc
+printf
+trigger_high
+trigger_low
+puts
+exit
+simpleserial_put
+write_csv
+free
+putchar

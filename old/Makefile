@@ -1,10 +1,10 @@
 # Defines
 CC         = gcc
 OBJ_DIR    = ./obj
-SRC_DIR    = ./src
-INCL_DIR   = ./include
-OBJECTS    = $(addprefix $(OBJ_DIR)/, read_csv.o write_csv.o forward_propagation.o back_propagation.o mlp_trainer.o mlp_classifier.o simpleserial.o)
-INCLUDES   = $(addprefix $(INCL_DIR)/, read_csv.h write_csv.h forward_propagation.h back_propagation.h mlp_trainer.h mlp_classifier.h parameters.h simpleserial.h)
+SRC_DIR    = .
+INCL_DIR   = .
+OBJECTS    = $(addprefix $(OBJ_DIR)/, read_csv.o write_csv.o forward_propagation.o back_propagation.o mlp_trainer.o mlp_classifier.o)
+INCLUDES   = $(addprefix $(INCL_DIR)/, read_csv.h write_csv.h forward_propagation.h back_propagation.h mlp_trainer.h mlp_classifier.h parameters.h)
 CFLAGS     = -g -Wall
 EXECUTABLE = MLP
 

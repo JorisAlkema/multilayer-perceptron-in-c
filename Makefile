@@ -42,5 +42,7 @@ ifeq ($(CRYPTO_OPTIONS),)
 CRYPTO_OPTIONS = AES128C
 endif
 
-FIRMWAREPATH = firmware
+include ../hardware/victims/firmware/simpleserial/Makefile.simpleserial
+
+FIRMWAREPATH = ../hardware/victims/firmware
 include ./Makefile.inc

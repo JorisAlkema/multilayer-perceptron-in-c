@@ -1,0 +1,317 @@
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 20, 1
+   3              		.eabi_attribute 21, 1
+   4              		.eabi_attribute 23, 3
+   5              		.eabi_attribute 24, 1
+   6              		.eabi_attribute 25, 1
+   7              		.eabi_attribute 26, 1
+   8              		.eabi_attribute 30, 4
+   9              		.eabi_attribute 34, 1
+  10              		.eabi_attribute 18, 4
+  11              		.file	"write_csv.c"
+  12              		.text
+  13              	.Ltext0:
+  14              		.cfi_sections	.debug_frame
+  15              		.section	.rodata.str1.1,"aMS",%progbits,1
+  16              	.LC0:
+  17 0000 7700     		.ascii	"w\000"
+  18              	.LC1:
+  19 0002 43616E6E 		.ascii	"Cannot create/open file %s. Make sure you have perm"
+  19      6F742063 
+  19      72656174 
+  19      652F6F70 
+  19      656E2066 
+  20 0035 69737369 		.ascii	"ission to create/open a file in the directory\012\000"
+  20      6F6E2074 
+  20      6F206372 
+  20      65617465 
+  20      2F6F7065 
+  21              	.LC2:
+  22 0064 4E6F6465 		.ascii	"Node %d output,\000"
+  22      20256420 
+  22      6F757470 
+  22      75742C00 
+  23              	.LC3:
+  24 0074 4E6F6465 		.ascii	"Node %d output\012\000"
+  24      20256420 
+  24      6F757470 
+  24      75740A00 
+  25              	.LC4:
+  26 0084 256C662C 		.ascii	"%lf,\000"
+  26      00
+  27              	.LC5:
+  28 0089 256C660A 		.ascii	"%lf\012\000"
+  28      00
+  29              		.section	.text.write_csv,"ax",%progbits
+  30              		.align	1
+  31              		.global	write_csv
+  32              		.arch armv7e-m
+  33              		.syntax unified
+  34              		.thumb
+  35              		.thumb_func
+  36              		.fpu softvfp
+  38              	write_csv:
+  39              	.LVL0:
+  40              	.LFB3:
+  41              		.file 1 "write_csv.c"
+   1:write_csv.c   **** /*
+   2:write_csv.c   **** Author: Manohar Mukku
+   3:write_csv.c   **** Date: 31.07.2018
+   4:write_csv.c   **** Desc: Write a matrix to a specified .csv file
+   5:write_csv.c   **** GitHub: https://github.com/manoharmukku/multilayer-perceptron-in-c
+   6:write_csv.c   **** */
+   7:write_csv.c   **** 
+   8:write_csv.c   **** #include "write_csv.h"
+   9:write_csv.c   **** 
+  10:write_csv.c   **** void write_csv(char* filename, int rows, int cols, double** data) {
+  42              		.loc 1 10 67 view -0
+  43              		.cfi_startproc
+  44              		@ args = 0, pretend = 0, frame = 8
+  45              		@ frame_needed = 0, uses_anonymous_args = 0
+  11:write_csv.c   ****     FILE* fp = fopen(filename, "w");
+  46              		.loc 1 11 5 view .LVU1
+  10:write_csv.c   ****     FILE* fp = fopen(filename, "w");
+  47              		.loc 1 10 67 is_stmt 0 view .LVU2
+  48 0000 2DE9F74F 		push	{r0, r1, r2, r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  49              	.LCFI0:
+  50              		.cfi_def_cfa_offset 48
+  51              		.cfi_offset 4, -36
+  52              		.cfi_offset 5, -32
+  53              		.cfi_offset 6, -28
+  54              		.cfi_offset 7, -24
+  55              		.cfi_offset 8, -20
+  56              		.cfi_offset 9, -16
+  57              		.cfi_offset 10, -12
+  58              		.cfi_offset 11, -8
+  59              		.cfi_offset 14, -4
+  10:write_csv.c   ****     FILE* fp = fopen(filename, "w");
+  60              		.loc 1 10 67 view .LVU3
+  61 0004 0191     		str	r1, [sp, #4]
+  62              		.loc 1 11 16 view .LVU4
+  63 0006 2649     		ldr	r1, .L9
+  64              	.LVL1:
+  10:write_csv.c   ****     FILE* fp = fopen(filename, "w");
+  65              		.loc 1 10 67 view .LVU5
+  66 0008 0646     		mov	r6, r0
+  67 000a 1546     		mov	r5, r2
+  68 000c 9946     		mov	r9, r3
+  69              		.loc 1 11 16 view .LVU6
+  70 000e FFF7FEFF 		bl	fopen
+  71              	.LVL2:
+  12:write_csv.c   ****     if (NULL == fp) {
+  72              		.loc 1 12 5 is_stmt 1 view .LVU7
+  73              		.loc 1 12 8 is_stmt 0 view .LVU8
+  74 0012 0446     		mov	r4, r0
+  75 0014 30BB     		cbnz	r0, .L7
+  13:write_csv.c   ****         printf("Cannot create/open file %s. Make sure you have permission to create/open a file in 
+  76              		.loc 1 13 9 is_stmt 1 view .LVU9
+  77 0016 2348     		ldr	r0, .L9+4
+  78              	.LVL3:
+  79              		.loc 1 13 9 is_stmt 0 view .LVU10
+  80 0018 3146     		mov	r1, r6
+  81 001a FFF7FEFF 		bl	printf
+  82              	.LVL4:
+  14:write_csv.c   ****         exit(0);
+  83              		.loc 1 14 9 is_stmt 1 view .LVU11
+  84 001e 2046     		mov	r0, r4
+  85 0020 FFF7FEFF 		bl	exit
+  86              	.LVL5:
+  87              	.L3:
+  15:write_csv.c   ****     }
+  16:write_csv.c   **** 
+  17:write_csv.c   ****     // Create a header in the file with the output layer node numbers
+  18:write_csv.c   ****     int i;
+  19:write_csv.c   ****     for (i = 1; i <= cols-1; i++)
+  20:write_csv.c   ****         fprintf(fp, "Node %d output,", i);
+  88              		.loc 1 20 9 discriminator 3 view .LVU12
+  89 0024 3246     		mov	r2, r6
+  90 0026 3946     		mov	r1, r7
+  91 0028 2046     		mov	r0, r4
+  92 002a FFF7FEFF 		bl	fprintf
+  93              	.LVL6:
+  19:write_csv.c   ****         fprintf(fp, "Node %d output,", i);
+  94              		.loc 1 19 30 discriminator 3 view .LVU13
+  19:write_csv.c   ****         fprintf(fp, "Node %d output,", i);
+  95              		.loc 1 19 31 is_stmt 0 discriminator 3 view .LVU14
+  96 002e 0136     		adds	r6, r6, #1
+  97              	.LVL7:
+  98              	.L2:
+  19:write_csv.c   ****         fprintf(fp, "Node %d output,", i);
+  99              		.loc 1 19 17 is_stmt 1 discriminator 1 view .LVU15
+  19:write_csv.c   ****         fprintf(fp, "Node %d output,", i);
+ 100              		.loc 1 19 5 is_stmt 0 discriminator 1 view .LVU16
+ 101 0030 AE42     		cmp	r6, r5
+ 102 0032 F7DB     		blt	.L3
+  21:write_csv.c   ****     fprintf(fp, "Node %d output\n", cols);
+ 103              		.loc 1 21 5 is_stmt 1 view .LVU17
+ 104 0034 2A46     		mov	r2, r5
+ 105 0036 1C49     		ldr	r1, .L9+8
+  22:write_csv.c   **** 
+  23:write_csv.c   ****     // Dump the matrix into the file element by element
+  24:write_csv.c   ****     int j;
+  25:write_csv.c   ****     for (i = 0; i < rows; i++) {
+  26:write_csv.c   ****         for (j = 0; j <= cols-2; j++) {
+  27:write_csv.c   ****             fprintf(fp, "%lf,", data[i][j]);
+ 106              		.loc 1 27 13 is_stmt 0 view .LVU18
+ 107 0038 DFF870A0 		ldr	r10, .L9+12
+  28:write_csv.c   ****         }
+  29:write_csv.c   ****         fprintf(fp, "%lf\n", data[i][cols-1]);
+ 108              		.loc 1 29 9 view .LVU19
+ 109 003c DFF870B0 		ldr	fp, .L9+16
+  21:write_csv.c   **** 
+ 110              		.loc 1 21 5 view .LVU20
+ 111 0040 2046     		mov	r0, r4
+ 112              		.loc 1 29 37 view .LVU21
+ 113 0042 05F10056 		add	r6, r5, #536870912
+ 114              	.LVL8:
+  21:write_csv.c   **** 
+ 115              		.loc 1 21 5 view .LVU22
+ 116 0046 FFF7FEFF 		bl	fprintf
+ 117              	.LVL9:
+  24:write_csv.c   ****     for (i = 0; i < rows; i++) {
+ 118              		.loc 1 24 5 is_stmt 1 view .LVU23
+  25:write_csv.c   ****         for (j = 0; j <= cols-2; j++) {
+ 119              		.loc 1 25 5 view .LVU24
+ 120              		.loc 1 29 37 is_stmt 0 view .LVU25
+ 121 004a 013E     		subs	r6, r6, #1
+ 122 004c F600     		lsls	r6, r6, #3
+  25:write_csv.c   ****         for (j = 0; j <= cols-2; j++) {
+ 123              		.loc 1 25 12 view .LVU26
+ 124 004e 0027     		movs	r7, #0
+  26:write_csv.c   ****             fprintf(fp, "%lf,", data[i][j]);
+ 125              		.loc 1 26 23 view .LVU27
+ 126 0050 013D     		subs	r5, r5, #1
+ 127              	.LVL10:
+ 128              	.L4:
+  25:write_csv.c   ****         for (j = 0; j <= cols-2; j++) {
+ 129              		.loc 1 25 17 is_stmt 1 discriminator 1 view .LVU28
+  25:write_csv.c   ****         for (j = 0; j <= cols-2; j++) {
+ 130              		.loc 1 25 5 is_stmt 0 discriminator 1 view .LVU29
+ 131 0052 019B     		ldr	r3, [sp, #4]
+ 132 0054 9F42     		cmp	r7, r3
+ 133 0056 1FDB     		blt	.L8
+  30:write_csv.c   ****     }
+  31:write_csv.c   **** 
+  32:write_csv.c   ****     // Close the file
+  33:write_csv.c   ****     fclose(fp);
+ 134              		.loc 1 33 5 is_stmt 1 view .LVU30
+ 135 0058 2046     		mov	r0, r4
+  34:write_csv.c   **** }...
+ 136              		.loc 1 34 1 is_stmt 0 view .LVU31
+ 137 005a 03B0     		add	sp, sp, #12
+ 138              	.LCFI1:
+ 139              		.cfi_remember_state
+ 140              		.cfi_def_cfa_offset 36
+ 141              		@ sp needed
+ 142 005c BDE8F04F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 143              	.LCFI2:
+ 144              		.cfi_restore 14
+ 145              		.cfi_restore 11
+ 146              		.cfi_restore 10
+ 147              		.cfi_restore 9
+ 148              		.cfi_restore 8
+ 149              		.cfi_restore 7
+ 150              		.cfi_restore 6
+ 151              		.cfi_restore 5
+ 152              		.cfi_restore 4
+ 153              		.cfi_def_cfa_offset 0
+ 154              	.LVL11:
+  33:write_csv.c   ****     fclose(fp);
+ 155              		.loc 1 33 5 view .LVU32
+ 156 0060 FFF7FEBF 		b	fclose
+ 157              	.LVL12:
+ 158              	.L7:
+ 159              	.LCFI3:
+ 160              		.cfi_restore_state
+  20:write_csv.c   ****         fprintf(fp, "Node %d output,", i);
+ 161              		.loc 1 20 9 view .LVU33
+ 162 0064 134F     		ldr	r7, .L9+20
+  19:write_csv.c   ****     for (i = 1; i <= cols-1; i++)
+ 163              		.loc 1 19 12 view .LVU34
+ 164 0066 0126     		movs	r6, #1
+ 165              	.LVL13:
+  19:write_csv.c   ****     for (i = 1; i <= cols-1; i++)
+ 166              		.loc 1 19 12 view .LVU35
+ 167 0068 E2E7     		b	.L2
+ 168              	.LVL14:
+ 169              	.L5:
+  27:write_csv.c   ****             fprintf(fp, "%lf,", data[i][j]);
+ 170              		.loc 1 27 13 is_stmt 1 discriminator 3 view .LVU36
+ 171 006a 03EBC803 		add	r3, r3, r8, lsl #3
+ 172 006e D3E90023 		ldrd	r2, [r3]
+ 173 0072 5146     		mov	r1, r10
+ 174 0074 2046     		mov	r0, r4
+ 175 0076 FFF7FEFF 		bl	fprintf
+ 176              	.LVL15:
+  26:write_csv.c   ****         for (j = 0; j <= cols-2; j++) {
+ 177              		.loc 1 26 34 discriminator 3 view .LVU37
+  26:write_csv.c   ****         for (j = 0; j <= cols-2; j++) {
+ 178              		.loc 1 26 35 is_stmt 0 discriminator 3 view .LVU38
+ 179 007a 08F10108 		add	r8, r8, #1
+ 180              	.LVL16:
+ 181              	.L6:
+  26:write_csv.c   ****         for (j = 0; j <= cols-2; j++) {
+ 182              		.loc 1 26 21 is_stmt 1 discriminator 1 view .LVU39
+  26:write_csv.c   ****         for (j = 0; j <= cols-2; j++) {
+ 183              		.loc 1 26 9 is_stmt 0 discriminator 1 view .LVU40
+ 184 007e 4545     		cmp	r5, r8
+  27:write_csv.c   ****             fprintf(fp, "%lf,", data[i][j]);
+ 185              		.loc 1 27 37 discriminator 1 view .LVU41
+ 186 0080 59F82730 		ldr	r3, [r9, r7, lsl #2]
+  26:write_csv.c   ****         for (j = 0; j <= cols-2; j++) {
+ 187              		.loc 1 26 9 discriminator 1 view .LVU42
+ 188 0084 F1DC     		bgt	.L5
+  29:write_csv.c   ****         fprintf(fp, "%lf\n", data[i][cols-1]);
+ 189              		.loc 1 29 9 is_stmt 1 discriminator 2 view .LVU43
+ 190 0086 3344     		add	r3, r3, r6
+ 191 0088 D3E90023 		ldrd	r2, [r3]
+ 192 008c 5946     		mov	r1, fp
+ 193 008e 2046     		mov	r0, r4
+ 194 0090 FFF7FEFF 		bl	fprintf
+ 195              	.LVL17:
+  25:write_csv.c   ****     for (i = 0; i < rows; i++) {
+ 196              		.loc 1 25 27 discriminator 2 view .LVU44
+  25:write_csv.c   ****     for (i = 0; i < rows; i++) {
+ 197              		.loc 1 25 28 is_stmt 0 discriminator 2 view .LVU45
+ 198 0094 0137     		adds	r7, r7, #1
+ 199              	.LVL18:
+  25:write_csv.c   ****     for (i = 0; i < rows; i++) {
+ 200              		.loc 1 25 28 discriminator 2 view .LVU46
+ 201 0096 DCE7     		b	.L4
+ 202              	.LVL19:
+ 203              	.L8:
+  26:write_csv.c   ****         for (j = 0; j <= cols-2; j++) {
+ 204              		.loc 1 26 16 view .LVU47
+ 205 0098 4FF00008 		mov	r8, #0
+ 206 009c EFE7     		b	.L6
+ 207              	.L10:
+ 208 009e 00BF     		.align	2
+ 209              	.L9:
+ 210 00a0 00000000 		.word	.LC0
+ 211 00a4 02000000 		.word	.LC1
+ 212 00a8 74000000 		.word	.LC3
+ 213 00ac 84000000 		.word	.LC4
+ 214 00b0 89000000 		.word	.LC5
+ 215 00b4 64000000 		.word	.LC2
+ 216              		.cfi_endproc
+ 217              	.LFE3:
+ 219              		.text
+ 220              	.Letext0:
+ 221              		.file 2 "c:\\users\\joris\\chipwh~1\\cw\\home\\portable\\armgcc\\lib\\gcc\\arm-none-eabi\\10.2.1\\
+ 222              		.file 3 "c:\\users\\joris\\chipwh~1\\cw\\home\\portable\\armgcc\\arm-none-eabi\\include\\sys\\_typ
+ 223              		.file 4 "c:\\users\\joris\\chipwh~1\\cw\\home\\portable\\armgcc\\arm-none-eabi\\include\\sys\\reen
+ 224              		.file 5 "c:\\users\\joris\\chipwh~1\\cw\\home\\portable\\armgcc\\arm-none-eabi\\include\\sys\\lock
+ 225              		.file 6 "c:\\users\\joris\\chipwh~1\\cw\\home\\portable\\armgcc\\arm-none-eabi\\include\\stdio.h"
+ 226              		.file 7 "c:\\users\\joris\\chipwh~1\\cw\\home\\portable\\armgcc\\arm-none-eabi\\include\\stdlib.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 write_csv.c
+C:\Users\joris\AppData\Local\Temp\cczns9GI.s:30     .text.write_csv:00000000 $t
+C:\Users\joris\AppData\Local\Temp\cczns9GI.s:38     .text.write_csv:00000000 write_csv
+C:\Users\joris\AppData\Local\Temp\cczns9GI.s:210    .text.write_csv:000000a0 $d
+
+UNDEFINED SYMBOLS
+fopen
+printf
+exit
+fprintf
+fclose

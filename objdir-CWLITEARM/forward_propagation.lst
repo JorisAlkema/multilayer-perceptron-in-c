@@ -1,0 +1,1242 @@
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 20, 1
+   3              		.eabi_attribute 21, 1
+   4              		.eabi_attribute 23, 3
+   5              		.eabi_attribute 24, 1
+   6              		.eabi_attribute 25, 1
+   7              		.eabi_attribute 26, 1
+   8              		.eabi_attribute 30, 4
+   9              		.eabi_attribute 34, 1
+  10              		.eabi_attribute 18, 4
+  11              		.file	"forward_propagation.c"
+  12              		.text
+  13              	.Ltext0:
+  14              		.cfi_sections	.debug_frame
+  15              		.global	__aeabi_dmul
+  16              		.global	__aeabi_dadd
+  17              		.section	.text.mat_mul,"ax",%progbits
+  18              		.align	1
+  19              		.global	mat_mul
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu softvfp
+  26              	mat_mul:
+  27              	.LVL0:
+  28              	.LFB3:
+  29              		.file 1 "forward_propagation.c"
+   1:forward_propagation.c **** /*
+   2:forward_propagation.c **** Author: Manohar Mukku
+   3:forward_propagation.c **** Date: 21.07.2018
+   4:forward_propagation.c **** Desc: Feedforward propagation
+   5:forward_propagation.c **** GitHub: https://github.com/manoharmukku/multilayer-perceptron-in-c
+   6:forward_propagation.c **** */
+   7:forward_propagation.c **** 
+   8:forward_propagation.c **** #include "forward_propagation.h"
+   9:forward_propagation.c **** 
+  10:forward_propagation.c **** #define max(x, y) (x > y ? x : y)
+  11:forward_propagation.c **** 
+  12:forward_propagation.c **** void mat_mul(double* a, double** b, double* result, int n, int p) {
+  30              		.loc 1 12 67 view -0
+  31              		.cfi_startproc
+  32              		@ args = 4, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  13:forward_propagation.c ****     // matrix a of size 1 x n (array)
+  14:forward_propagation.c ****     // matrix b of size n x p
+  15:forward_propagation.c ****     // matrix result of size 1 x p (array)
+  16:forward_propagation.c ****     // result = a * b
+  17:forward_propagation.c ****     int j, k;
+  34              		.loc 1 17 5 view .LVU1
+  18:forward_propagation.c ****     for (j = 0; j < p; j++) {
+  35              		.loc 1 18 5 view .LVU2
+  12:forward_propagation.c ****     // matrix a of size 1 x n (array)
+  36              		.loc 1 12 67 is_stmt 0 view .LVU3
+  37 0000 2DE9F84F 		push	{r3, r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  38              	.LCFI0:
+  39              		.cfi_def_cfa_offset 40
+  40              		.cfi_offset 3, -40
+  41              		.cfi_offset 4, -36
+  42              		.cfi_offset 5, -32
+  43              		.cfi_offset 6, -28
+  44              		.cfi_offset 7, -24
+  45              		.cfi_offset 8, -20
+  46              		.cfi_offset 9, -16
+  47              		.cfi_offset 10, -12
+  48              		.cfi_offset 11, -8
+  49              		.cfi_offset 14, -4
+  12:forward_propagation.c ****     // matrix a of size 1 x n (array)
+  50              		.loc 1 12 67 view .LVU4
+  51 0004 0746     		mov	r7, r0
+  52 0006 8846     		mov	r8, r1
+  53 0008 9946     		mov	r9, r3
+  54 000a A2F10804 		sub	r4, r2, #8
+  55              		.loc 1 18 12 view .LVU5
+  56 000e 0025     		movs	r5, #0
+  57              	.LVL1:
+  58              	.L2:
+  59              		.loc 1 18 17 is_stmt 1 discriminator 1 view .LVU6
+  60              		.loc 1 18 5 is_stmt 0 discriminator 1 view .LVU7
+  61 0010 0A9B     		ldr	r3, [sp, #40]
+  62 0012 9D42     		cmp	r5, r3
+  63 0014 01DB     		blt	.L5
+  19:forward_propagation.c ****         result[j] = 0.0;
+  20:forward_propagation.c ****         for (k = 0; k < n; k++)
+  21:forward_propagation.c ****             result[j] += (a[k] * b[k][j]);
+  22:forward_propagation.c ****     }
+  23:forward_propagation.c **** }
+  64              		.loc 1 23 1 view .LVU8
+  65 0016 BDE8F88F 		pop	{r3, r4, r5, r6, r7, r8, r9, r10, fp, pc}
+  66              	.LVL2:
+  67              	.L5:
+  19:forward_propagation.c ****         result[j] = 0.0;
+  68              		.loc 1 19 9 is_stmt 1 view .LVU9
+  19:forward_propagation.c ****         result[j] = 0.0;
+  69              		.loc 1 19 19 is_stmt 0 view .LVU10
+  70 001a 0022     		movs	r2, #0
+  71 001c 0023     		movs	r3, #0
+  72 001e E4E90223 		strd	r2, [r4, #8]!
+  20:forward_propagation.c ****             result[j] += (a[k] * b[k][j]);
+  73              		.loc 1 20 9 is_stmt 1 view .LVU11
+  74              	.LVL3:
+  20:forward_propagation.c ****             result[j] += (a[k] * b[k][j]);
+  75              		.loc 1 20 9 is_stmt 0 view .LVU12
+  76 0022 4FEAC50B 		lsl	fp, r5, #3
+  77 0026 A7F1080A 		sub	r10, r7, #8
+  20:forward_propagation.c ****             result[j] += (a[k] * b[k][j]);
+  78              		.loc 1 20 16 view .LVU13
+  79 002a 0026     		movs	r6, #0
+  80              	.LVL4:
+  81              	.L3:
+  20:forward_propagation.c ****             result[j] += (a[k] * b[k][j]);
+  82              		.loc 1 20 21 is_stmt 1 discriminator 1 view .LVU14
+  20:forward_propagation.c ****             result[j] += (a[k] * b[k][j]);
+  83              		.loc 1 20 9 is_stmt 0 discriminator 1 view .LVU15
+  84 002c 4E45     		cmp	r6, r9
+  85 002e 01DB     		blt	.L4
+  18:forward_propagation.c ****         result[j] = 0.0;
+  86              		.loc 1 18 24 is_stmt 1 discriminator 2 view .LVU16
+  18:forward_propagation.c ****         result[j] = 0.0;
+  87              		.loc 1 18 25 is_stmt 0 discriminator 2 view .LVU17
+  88 0030 0135     		adds	r5, r5, #1
+  89              	.LVL5:
+  18:forward_propagation.c ****         result[j] = 0.0;
+  90              		.loc 1 18 25 discriminator 2 view .LVU18
+  91 0032 EDE7     		b	.L2
+  92              	.L4:
+  21:forward_propagation.c ****     }
+  93              		.loc 1 21 13 is_stmt 1 discriminator 3 view .LVU19
+  21:forward_propagation.c ****     }
+  94              		.loc 1 21 38 is_stmt 0 discriminator 3 view .LVU20
+  95 0034 58F82630 		ldr	r3, [r8, r6, lsl #2]
+  96 0038 03EB0B01 		add	r1, r3, fp
+  21:forward_propagation.c ****     }
+  97              		.loc 1 21 32 discriminator 3 view .LVU21
+  98 003c D1E90001 		ldrd	r0, [r1]
+  99 0040 FAE90223 		ldrd	r2, [r10, #8]!
+ 100 0044 FFF7FEFF 		bl	__aeabi_dmul
+ 101              	.LVL6:
+ 102 0048 0246     		mov	r2, r0
+ 103 004a 0B46     		mov	r3, r1
+  21:forward_propagation.c ****     }
+ 104              		.loc 1 21 23 discriminator 3 view .LVU22
+ 105 004c D4E90001 		ldrd	r0, [r4]
+ 106 0050 FFF7FEFF 		bl	__aeabi_dadd
+ 107              	.LVL7:
+  20:forward_propagation.c ****             result[j] += (a[k] * b[k][j]);
+ 108              		.loc 1 20 29 discriminator 3 view .LVU23
+ 109 0054 0136     		adds	r6, r6, #1
+ 110              	.LVL8:
+  21:forward_propagation.c ****     }
+ 111              		.loc 1 21 23 discriminator 3 view .LVU24
+ 112 0056 C4E90001 		strd	r0, [r4]
+  20:forward_propagation.c ****             result[j] += (a[k] * b[k][j]);
+ 113              		.loc 1 20 28 is_stmt 1 discriminator 3 view .LVU25
+ 114              	.LVL9:
+  20:forward_propagation.c ****             result[j] += (a[k] * b[k][j]);
+ 115              		.loc 1 20 28 is_stmt 0 discriminator 3 view .LVU26
+ 116 005a E7E7     		b	.L3
+ 117              		.cfi_endproc
+ 118              	.LFE3:
+ 120              		.section	.text.identity,"ax",%progbits
+ 121              		.align	1
+ 122              		.global	identity
+ 123              		.syntax unified
+ 124              		.thumb
+ 125              		.thumb_func
+ 126              		.fpu softvfp
+ 128              	identity:
+ 129              	.LVL10:
+ 130              	.LFB4:
+  24:forward_propagation.c **** 
+  25:forward_propagation.c **** void identity(int n, double* input, double* output) {
+ 131              		.loc 1 25 53 is_stmt 1 view -0
+ 132              		.cfi_startproc
+ 133              		@ args = 0, pretend = 0, frame = 0
+ 134              		@ frame_needed = 0, uses_anonymous_args = 0
+  26:forward_propagation.c ****     output[0] = 1; // Bias term
+ 135              		.loc 1 26 5 view .LVU28
+  25:forward_propagation.c ****     output[0] = 1; // Bias term
+ 136              		.loc 1 25 53 is_stmt 0 view .LVU29
+ 137 0000 30B5     		push	{r4, r5, lr}
+ 138              	.LCFI1:
+ 139              		.cfi_def_cfa_offset 12
+ 140              		.cfi_offset 4, -12
+ 141              		.cfi_offset 5, -8
+ 142              		.cfi_offset 14, -4
+ 143              		.loc 1 26 15 view .LVU30
+ 144 0002 074D     		ldr	r5, .L9
+ 145 0004 0024     		movs	r4, #0
+ 146 0006 C2E90045 		strd	r4, [r2]
+  27:forward_propagation.c **** 
+  28:forward_propagation.c ****     int i;
+ 147              		.loc 1 28 5 is_stmt 1 view .LVU31
+  29:forward_propagation.c ****     for (i = 0; i < n; i++) 
+ 148              		.loc 1 29 5 view .LVU32
+ 149              	.LVL11:
+ 150              		.loc 1 29 5 is_stmt 0 view .LVU33
+ 151 000a 0839     		subs	r1, r1, #8
+ 152              	.LVL12:
+ 153              		.loc 1 29 12 view .LVU34
+ 154 000c 0023     		movs	r3, #0
+ 155              	.LVL13:
+ 156              	.L7:
+ 157              		.loc 1 29 17 is_stmt 1 discriminator 1 view .LVU35
+ 158              		.loc 1 29 5 is_stmt 0 discriminator 1 view .LVU36
+ 159 000e 8342     		cmp	r3, r0
+ 160 0010 00DB     		blt	.L8
+  30:forward_propagation.c ****         output[i+1] = input[i]; // Identity function
+  31:forward_propagation.c **** }
+ 161              		.loc 1 31 1 view .LVU37
+ 162 0012 30BD     		pop	{r4, r5, pc}
+ 163              	.L8:
+  30:forward_propagation.c ****         output[i+1] = input[i]; // Identity function
+ 164              		.loc 1 30 9 is_stmt 1 discriminator 3 view .LVU38
+  30:forward_propagation.c ****         output[i+1] = input[i]; // Identity function
+ 165              		.loc 1 30 28 is_stmt 0 discriminator 3 view .LVU39
+ 166 0014 F1E90245 		ldrd	r4, [r1, #8]!
+  29:forward_propagation.c ****     for (i = 0; i < n; i++) 
+ 167              		.loc 1 29 25 discriminator 3 view .LVU40
+ 168 0018 0133     		adds	r3, r3, #1
+ 169              	.LVL14:
+  30:forward_propagation.c ****         output[i+1] = input[i]; // Identity function
+ 170              		.loc 1 30 21 discriminator 3 view .LVU41
+ 171 001a E2E90245 		strd	r4, [r2, #8]!
+  29:forward_propagation.c ****     for (i = 0; i < n; i++) 
+ 172              		.loc 1 29 24 is_stmt 1 discriminator 3 view .LVU42
+ 173              	.LVL15:
+  29:forward_propagation.c ****     for (i = 0; i < n; i++) 
+ 174              		.loc 1 29 24 is_stmt 0 discriminator 3 view .LVU43
+ 175 001e F6E7     		b	.L7
+ 176              	.L10:
+ 177              		.align	2
+ 178              	.L9:
+ 179 0020 0000F03F 		.word	1072693248
+ 180              		.cfi_endproc
+ 181              	.LFE4:
+ 183              		.global	__aeabi_ddiv
+ 184              		.section	.text.sigmoid,"ax",%progbits
+ 185              		.align	1
+ 186              		.global	sigmoid
+ 187              		.syntax unified
+ 188              		.thumb
+ 189              		.thumb_func
+ 190              		.fpu softvfp
+ 192              	sigmoid:
+ 193              	.LVL16:
+ 194              	.LFB5:
+  32:forward_propagation.c **** 
+  33:forward_propagation.c **** void sigmoid(int n, double* input, double* output) {
+ 195              		.loc 1 33 52 is_stmt 1 view -0
+ 196              		.cfi_startproc
+ 197              		@ args = 0, pretend = 0, frame = 0
+ 198              		@ frame_needed = 0, uses_anonymous_args = 0
+  34:forward_propagation.c ****     output[0] = 1; // Bias term
+ 199              		.loc 1 34 5 view .LVU45
+  33:forward_propagation.c ****     output[0] = 1; // Bias term
+ 200              		.loc 1 33 52 is_stmt 0 view .LVU46
+ 201 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+ 202              	.LCFI2:
+ 203              		.cfi_def_cfa_offset 32
+ 204              		.cfi_offset 3, -32
+ 205              		.cfi_offset 4, -28
+ 206              		.cfi_offset 5, -24
+ 207              		.cfi_offset 6, -20
+ 208              		.cfi_offset 7, -16
+ 209              		.cfi_offset 8, -12
+ 210              		.cfi_offset 9, -8
+ 211              		.cfi_offset 14, -4
+ 212              		.loc 1 34 15 view .LVU47
+ 213 0004 124F     		ldr	r7, .L14
+ 214 0006 0026     		movs	r6, #0
+ 215 0008 C2E90067 		strd	r6, [r2]
+  35:forward_propagation.c **** 
+  36:forward_propagation.c ****     int i;
+ 216              		.loc 1 36 5 is_stmt 1 view .LVU48
+  37:forward_propagation.c ****     for (i = 0; i < n; i++) 
+ 217              		.loc 1 37 5 view .LVU49
+ 218              	.LVL17:
+  33:forward_propagation.c ****     output[0] = 1; // Bias term
+ 219              		.loc 1 33 52 is_stmt 0 view .LVU50
+ 220 000c 8046     		mov	r8, r0
+ 221 000e 1446     		mov	r4, r2
+ 222 0010 A1F10805 		sub	r5, r1, #8
+ 223              		.loc 1 37 12 view .LVU51
+ 224 0014 4FF00009 		mov	r9, #0
+ 225              	.LVL18:
+ 226              	.L12:
+ 227              		.loc 1 37 17 is_stmt 1 discriminator 1 view .LVU52
+ 228              		.loc 1 37 5 is_stmt 0 discriminator 1 view .LVU53
+ 229 0018 C145     		cmp	r9, r8
+ 230 001a 01DB     		blt	.L13
+  38:forward_propagation.c ****         output[i+1] = 1.0 / (1.0 + exp(-input[i])); // Sigmoid function
+  39:forward_propagation.c **** }
+ 231              		.loc 1 39 1 view .LVU54
+ 232 001c BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 233              	.LVL19:
+ 234              	.L13:
+  38:forward_propagation.c ****         output[i+1] = 1.0 / (1.0 + exp(-input[i])); // Sigmoid function
+ 235              		.loc 1 38 9 is_stmt 1 discriminator 3 view .LVU55
+  38:forward_propagation.c ****         output[i+1] = 1.0 / (1.0 + exp(-input[i])); // Sigmoid function
+ 236              		.loc 1 38 36 is_stmt 0 discriminator 3 view .LVU56
+ 237 0020 55F8082F 		ldr	r2, [r5, #8]!
+ 238 0024 6B68     		ldr	r3, [r5, #4]
+ 239 0026 1046     		mov	r0, r2
+ 240 0028 03F10041 		add	r1, r3, #-2147483648
+ 241 002c FFF7FEFF 		bl	exp
+ 242              	.LVL20:
+  38:forward_propagation.c ****         output[i+1] = 1.0 / (1.0 + exp(-input[i])); // Sigmoid function
+ 243              		.loc 1 38 34 discriminator 3 view .LVU57
+ 244 0030 3246     		mov	r2, r6
+ 245 0032 3B46     		mov	r3, r7
+ 246 0034 FFF7FEFF 		bl	__aeabi_dadd
+ 247              	.LVL21:
+ 248 0038 0246     		mov	r2, r0
+ 249 003a 0B46     		mov	r3, r1
+  38:forward_propagation.c ****         output[i+1] = 1.0 / (1.0 + exp(-input[i])); // Sigmoid function
+ 250              		.loc 1 38 27 discriminator 3 view .LVU58
+ 251 003c 3046     		mov	r0, r6
+ 252 003e 3946     		mov	r1, r7
+ 253 0040 FFF7FEFF 		bl	__aeabi_ddiv
+ 254              	.LVL22:
+  37:forward_propagation.c ****     for (i = 0; i < n; i++) 
+ 255              		.loc 1 37 25 discriminator 3 view .LVU59
+ 256 0044 09F10109 		add	r9, r9, #1
+ 257              	.LVL23:
+  38:forward_propagation.c ****         output[i+1] = 1.0 / (1.0 + exp(-input[i])); // Sigmoid function
+ 258              		.loc 1 38 21 discriminator 3 view .LVU60
+ 259 0048 E4E90201 		strd	r0, [r4, #8]!
+  37:forward_propagation.c ****     for (i = 0; i < n; i++) 
+ 260              		.loc 1 37 24 is_stmt 1 discriminator 3 view .LVU61
+ 261              	.LVL24:
+  37:forward_propagation.c ****     for (i = 0; i < n; i++) 
+ 262              		.loc 1 37 24 is_stmt 0 discriminator 3 view .LVU62
+ 263 004c E4E7     		b	.L12
+ 264              	.L15:
+ 265 004e 00BF     		.align	2
+ 266              	.L14:
+ 267 0050 0000F03F 		.word	1072693248
+ 268              		.cfi_endproc
+ 269              	.LFE5:
+ 271              		.section	.text.tan_h,"ax",%progbits
+ 272              		.align	1
+ 273              		.global	tan_h
+ 274              		.syntax unified
+ 275              		.thumb
+ 276              		.thumb_func
+ 277              		.fpu softvfp
+ 279              	tan_h:
+ 280              	.LVL25:
+ 281              	.LFB6:
+  40:forward_propagation.c **** 
+  41:forward_propagation.c **** void tan_h(int n, double* input, double* output) {
+ 282              		.loc 1 41 50 is_stmt 1 view -0
+ 283              		.cfi_startproc
+ 284              		@ args = 0, pretend = 0, frame = 0
+ 285              		@ frame_needed = 0, uses_anonymous_args = 0
+  42:forward_propagation.c ****     output[0] = 1; // Bias term
+ 286              		.loc 1 42 5 view .LVU64
+  41:forward_propagation.c ****     output[0] = 1; // Bias term
+ 287              		.loc 1 41 50 is_stmt 0 view .LVU65
+ 288 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 289              	.LCFI3:
+ 290              		.cfi_def_cfa_offset 24
+ 291              		.cfi_offset 3, -24
+ 292              		.cfi_offset 4, -20
+ 293              		.cfi_offset 5, -16
+ 294              		.cfi_offset 6, -12
+ 295              		.cfi_offset 7, -8
+ 296              		.cfi_offset 14, -4
+ 297              		.loc 1 42 15 view .LVU66
+ 298 0002 0A4B     		ldr	r3, .L19
+  41:forward_propagation.c ****     output[0] = 1; // Bias term
+ 299              		.loc 1 41 50 view .LVU67
+ 300 0004 1446     		mov	r4, r2
+ 301              		.loc 1 42 15 view .LVU68
+ 302 0006 0022     		movs	r2, #0
+ 303              	.LVL26:
+ 304              		.loc 1 42 15 view .LVU69
+ 305 0008 C4E90023 		strd	r2, [r4]
+  43:forward_propagation.c **** 
+  44:forward_propagation.c ****     int i;
+ 306              		.loc 1 44 5 is_stmt 1 view .LVU70
+  45:forward_propagation.c ****     for (i = 0; i < n; i++) 
+ 307              		.loc 1 45 5 view .LVU71
+ 308              	.LVL27:
+  41:forward_propagation.c ****     output[0] = 1; // Bias term
+ 309              		.loc 1 41 50 is_stmt 0 view .LVU72
+ 310 000c 0646     		mov	r6, r0
+ 311 000e A1F10805 		sub	r5, r1, #8
+ 312              		.loc 1 45 12 view .LVU73
+ 313 0012 0027     		movs	r7, #0
+ 314              	.LVL28:
+ 315              	.L17:
+ 316              		.loc 1 45 17 is_stmt 1 discriminator 1 view .LVU74
+ 317              		.loc 1 45 5 is_stmt 0 discriminator 1 view .LVU75
+ 318 0014 B742     		cmp	r7, r6
+ 319 0016 00DB     		blt	.L18
+  46:forward_propagation.c ****         output[i+1] = tanh(input[i]); // tanh function
+  47:forward_propagation.c **** }
+ 320              		.loc 1 47 1 view .LVU76
+ 321 0018 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 322              	.LVL29:
+ 323              	.L18:
+  46:forward_propagation.c ****         output[i+1] = tanh(input[i]); // tanh function
+ 324              		.loc 1 46 9 is_stmt 1 discriminator 3 view .LVU77
+  46:forward_propagation.c ****         output[i+1] = tanh(input[i]); // tanh function
+ 325              		.loc 1 46 23 is_stmt 0 discriminator 3 view .LVU78
+ 326 001a F5E90201 		ldrd	r0, [r5, #8]!
+ 327 001e FFF7FEFF 		bl	tanh
+ 328              	.LVL30:
+  45:forward_propagation.c ****     for (i = 0; i < n; i++) 
+ 329              		.loc 1 45 25 discriminator 3 view .LVU79
+ 330 0022 0137     		adds	r7, r7, #1
+ 331              	.LVL31:
+  46:forward_propagation.c ****         output[i+1] = tanh(input[i]); // tanh function
+ 332              		.loc 1 46 21 discriminator 3 view .LVU80
+ 333 0024 E4E90201 		strd	r0, [r4, #8]!
+  45:forward_propagation.c ****     for (i = 0; i < n; i++) 
+ 334              		.loc 1 45 24 is_stmt 1 discriminator 3 view .LVU81
+ 335              	.LVL32:
+  45:forward_propagation.c ****     for (i = 0; i < n; i++) 
+ 336              		.loc 1 45 24 is_stmt 0 discriminator 3 view .LVU82
+ 337 0028 F4E7     		b	.L17
+ 338              	.L20:
+ 339 002a 00BF     		.align	2
+ 340              	.L19:
+ 341 002c 0000F03F 		.word	1072693248
+ 342              		.cfi_endproc
+ 343              	.LFE6:
+ 345              		.global	__aeabi_dcmplt
+ 346              		.section	.text.relu,"ax",%progbits
+ 347              		.align	1
+ 348              		.global	relu
+ 349              		.syntax unified
+ 350              		.thumb
+ 351              		.thumb_func
+ 352              		.fpu softvfp
+ 354              	relu:
+ 355              	.LVL33:
+ 356              	.LFB7:
+  48:forward_propagation.c **** 
+  49:forward_propagation.c **** void relu(int n, double* input, double* output) {
+ 357              		.loc 1 49 49 is_stmt 1 view -0
+ 358              		.cfi_startproc
+ 359              		@ args = 0, pretend = 0, frame = 0
+ 360              		@ frame_needed = 0, uses_anonymous_args = 0
+  50:forward_propagation.c ****     output[0] = 1; // Bias term
+ 361              		.loc 1 50 5 view .LVU84
+  49:forward_propagation.c ****     output[0] = 1; // Bias term
+ 362              		.loc 1 49 49 is_stmt 0 view .LVU85
+ 363 0000 2DE9F84F 		push	{r3, r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 364              	.LCFI4:
+ 365              		.cfi_def_cfa_offset 40
+ 366              		.cfi_offset 3, -40
+ 367              		.cfi_offset 4, -36
+ 368              		.cfi_offset 5, -32
+ 369              		.cfi_offset 6, -28
+ 370              		.cfi_offset 7, -24
+ 371              		.cfi_offset 8, -20
+ 372              		.cfi_offset 9, -16
+ 373              		.cfi_offset 10, -12
+ 374              		.cfi_offset 11, -8
+ 375              		.cfi_offset 14, -4
+ 376              		.loc 1 50 15 view .LVU86
+ 377 0004 104B     		ldr	r3, .L26
+  49:forward_propagation.c ****     output[0] = 1; // Bias term
+ 378              		.loc 1 49 49 view .LVU87
+ 379 0006 1446     		mov	r4, r2
+ 380              		.loc 1 50 15 view .LVU88
+ 381 0008 0022     		movs	r2, #0
+ 382              	.LVL34:
+ 383              		.loc 1 50 15 view .LVU89
+ 384 000a C4E90023 		strd	r2, [r4]
+  51:forward_propagation.c **** 
+  52:forward_propagation.c ****     int i;
+ 385              		.loc 1 52 5 is_stmt 1 view .LVU90
+  53:forward_propagation.c ****     for (i = 0; i < n; i++) 
+ 386              		.loc 1 53 5 view .LVU91
+ 387              	.LVL35:
+  49:forward_propagation.c ****     output[0] = 1; // Bias term
+ 388              		.loc 1 49 49 is_stmt 0 view .LVU92
+ 389 000e 8246     		mov	r10, r0
+ 390 0010 A1F10805 		sub	r5, r1, #8
+ 391              		.loc 1 53 12 view .LVU93
+ 392 0014 4FF0000B 		mov	fp, #0
+  54:forward_propagation.c ****         output[i+1] = max(0.0, input[i]); // ReLU function
+ 393              		.loc 1 54 23 view .LVU94
+ 394 0018 4FF00008 		mov	r8, #0
+ 395 001c 4FF00009 		mov	r9, #0
+ 396              	.LVL36:
+ 397              	.L22:
+  53:forward_propagation.c ****     for (i = 0; i < n; i++) 
+ 398              		.loc 1 53 17 is_stmt 1 discriminator 2 view .LVU95
+  53:forward_propagation.c ****     for (i = 0; i < n; i++) 
+ 399              		.loc 1 53 5 is_stmt 0 discriminator 2 view .LVU96
+ 400 0020 D345     		cmp	fp, r10
+ 401 0022 01DB     		blt	.L24
+  55:forward_propagation.c **** }
+ 402              		.loc 1 55 1 view .LVU97
+ 403 0024 BDE8F88F 		pop	{r3, r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 404              	.LVL37:
+ 405              	.L24:
+  54:forward_propagation.c ****         output[i+1] = max(0.0, input[i]); // ReLU function
+ 406              		.loc 1 54 9 is_stmt 1 view .LVU98
+  54:forward_propagation.c ****         output[i+1] = max(0.0, input[i]); // ReLU function
+ 407              		.loc 1 54 23 is_stmt 0 view .LVU99
+ 408 0028 F5E90267 		ldrd	r6, [r5, #8]!
+ 409 002c 4246     		mov	r2, r8
+ 410 002e 4B46     		mov	r3, r9
+ 411 0030 3046     		mov	r0, r6
+ 412 0032 3946     		mov	r1, r7
+ 413 0034 FFF7FEFF 		bl	__aeabi_dcmplt
+ 414              	.LVL38:
+ 415 0038 08B1     		cbz	r0, .L23
+ 416 003a 4646     		mov	r6, r8
+ 417 003c 4F46     		mov	r7, r9
+ 418              	.L23:
+  54:forward_propagation.c ****         output[i+1] = max(0.0, input[i]); // ReLU function
+ 419              		.loc 1 54 21 discriminator 4 view .LVU100
+ 420 003e E4E90267 		strd	r6, [r4, #8]!
+  53:forward_propagation.c ****     for (i = 0; i < n; i++) 
+ 421              		.loc 1 53 24 is_stmt 1 discriminator 4 view .LVU101
+  53:forward_propagation.c ****     for (i = 0; i < n; i++) 
+ 422              		.loc 1 53 25 is_stmt 0 discriminator 4 view .LVU102
+ 423 0042 0BF1010B 		add	fp, fp, #1
+ 424              	.LVL39:
+  53:forward_propagation.c ****     for (i = 0; i < n; i++) 
+ 425              		.loc 1 53 25 discriminator 4 view .LVU103
+ 426 0046 EBE7     		b	.L22
+ 427              	.L27:
+ 428              		.align	2
+ 429              	.L26:
+ 430 0048 0000F03F 		.word	1072693248
+ 431              		.cfi_endproc
+ 432              	.LFE7:
+ 434              		.section	.text.softmax,"ax",%progbits
+ 435              		.align	1
+ 436              		.global	softmax
+ 437              		.syntax unified
+ 438              		.thumb
+ 439              		.thumb_func
+ 440              		.fpu softvfp
+ 442              	softmax:
+ 443              	.LVL40:
+ 444              	.LFB8:
+  56:forward_propagation.c **** 
+  57:forward_propagation.c **** void softmax(int n, double* input, double* output) {
+ 445              		.loc 1 57 52 is_stmt 1 view -0
+ 446              		.cfi_startproc
+ 447              		@ args = 0, pretend = 0, frame = 0
+ 448              		@ frame_needed = 0, uses_anonymous_args = 0
+  58:forward_propagation.c ****     output[0] = 1; // Bias term
+ 449              		.loc 1 58 5 view .LVU105
+ 450              		.loc 1 58 15 is_stmt 0 view .LVU106
+ 451 0000 194B     		ldr	r3, .L33
+  57:forward_propagation.c ****     output[0] = 1; // Bias term
+ 452              		.loc 1 57 52 view .LVU107
+ 453 0002 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 454              	.LCFI5:
+ 455              		.cfi_def_cfa_offset 32
+ 456              		.cfi_offset 4, -32
+ 457              		.cfi_offset 5, -28
+ 458              		.cfi_offset 6, -24
+ 459              		.cfi_offset 7, -20
+ 460              		.cfi_offset 8, -16
+ 461              		.cfi_offset 9, -12
+ 462              		.cfi_offset 10, -8
+ 463              		.cfi_offset 14, -4
+  57:forward_propagation.c ****     output[0] = 1; // Bias term
+ 464              		.loc 1 57 52 view .LVU108
+ 465 0006 1446     		mov	r4, r2
+ 466              		.loc 1 58 15 view .LVU109
+ 467 0008 0022     		movs	r2, #0
+ 468              	.LVL41:
+ 469              		.loc 1 58 15 view .LVU110
+ 470 000a C4E90023 		strd	r2, [r4]
+  59:forward_propagation.c **** 
+  60:forward_propagation.c ****     int i;
+ 471              		.loc 1 60 5 is_stmt 1 view .LVU111
+  61:forward_propagation.c ****     double sum = 0.0;
+ 472              		.loc 1 61 5 view .LVU112
+ 473              	.LVL42:
+  62:forward_propagation.c ****     for (i = 0; i < n; i++)
+ 474              		.loc 1 62 5 view .LVU113
+ 475              		.loc 1 62 5 is_stmt 0 view .LVU114
+ 476 000e A1F10805 		sub	r5, r1, #8
+  57:forward_propagation.c ****     output[0] = 1; // Bias term
+ 477              		.loc 1 57 52 view .LVU115
+ 478 0012 8046     		mov	r8, r0
+ 479              		.loc 1 62 5 view .LVU116
+ 480 0014 AA46     		mov	r10, r5
+  61:forward_propagation.c ****     double sum = 0.0;
+ 481              		.loc 1 61 12 view .LVU117
+ 482 0016 0026     		movs	r6, #0
+ 483 0018 0027     		movs	r7, #0
+ 484              		.loc 1 62 12 view .LVU118
+ 485 001a 4FF00009 		mov	r9, #0
+ 486              	.LVL43:
+ 487              	.L29:
+ 488              		.loc 1 62 17 is_stmt 1 discriminator 1 view .LVU119
+ 489              		.loc 1 62 5 is_stmt 0 discriminator 1 view .LVU120
+ 490 001e C145     		cmp	r9, r8
+ 491 0020 05DB     		blt	.L30
+  63:forward_propagation.c ****         sum += exp(input[i]);
+  64:forward_propagation.c **** 
+  65:forward_propagation.c ****     for (i = 0; i < n; i++) 
+ 492              		.loc 1 65 12 view .LVU121
+ 493 0022 4FF00009 		mov	r9, #0
+ 494              	.LVL44:
+ 495              	.L31:
+ 496              		.loc 1 65 17 is_stmt 1 discriminator 1 view .LVU122
+ 497              		.loc 1 65 5 is_stmt 0 discriminator 1 view .LVU123
+ 498 0026 C145     		cmp	r9, r8
+ 499 0028 10DB     		blt	.L32
+  66:forward_propagation.c ****         output[i+1] = exp(input[i]) / sum; // Softmax function
+  67:forward_propagation.c **** }
+ 500              		.loc 1 67 1 view .LVU124
+ 501 002a BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 502              	.LVL45:
+ 503              	.L30:
+  63:forward_propagation.c ****         sum += exp(input[i]);
+ 504              		.loc 1 63 9 is_stmt 1 discriminator 3 view .LVU125
+  63:forward_propagation.c ****         sum += exp(input[i]);
+ 505              		.loc 1 63 16 is_stmt 0 discriminator 3 view .LVU126
+ 506 002e FAE90201 		ldrd	r0, [r10, #8]!
+ 507 0032 FFF7FEFF 		bl	exp
+ 508              	.LVL46:
+ 509 0036 0246     		mov	r2, r0
+ 510 0038 0B46     		mov	r3, r1
+  63:forward_propagation.c ****         sum += exp(input[i]);
+ 511              		.loc 1 63 13 discriminator 3 view .LVU127
+ 512 003a 3046     		mov	r0, r6
+ 513 003c 3946     		mov	r1, r7
+ 514 003e FFF7FEFF 		bl	__aeabi_dadd
+ 515              	.LVL47:
+  62:forward_propagation.c ****         sum += exp(input[i]);
+ 516              		.loc 1 62 25 discriminator 3 view .LVU128
+ 517 0042 09F10109 		add	r9, r9, #1
+ 518              	.LVL48:
+  63:forward_propagation.c ****         sum += exp(input[i]);
+ 519              		.loc 1 63 13 discriminator 3 view .LVU129
+ 520 0046 0646     		mov	r6, r0
+ 521              	.LVL49:
+  63:forward_propagation.c ****         sum += exp(input[i]);
+ 522              		.loc 1 63 13 discriminator 3 view .LVU130
+ 523 0048 0F46     		mov	r7, r1
+ 524              	.LVL50:
+  62:forward_propagation.c ****         sum += exp(input[i]);
+ 525              		.loc 1 62 24 is_stmt 1 discriminator 3 view .LVU131
+  62:forward_propagation.c ****         sum += exp(input[i]);
+ 526              		.loc 1 62 24 is_stmt 0 discriminator 3 view .LVU132
+ 527 004a E8E7     		b	.L29
+ 528              	.LVL51:
+ 529              	.L32:
+  66:forward_propagation.c ****         output[i+1] = exp(input[i]) / sum; // Softmax function
+ 530              		.loc 1 66 9 is_stmt 1 discriminator 3 view .LVU133
+  66:forward_propagation.c ****         output[i+1] = exp(input[i]) / sum; // Softmax function
+ 531              		.loc 1 66 23 is_stmt 0 discriminator 3 view .LVU134
+ 532 004c F5E90201 		ldrd	r0, [r5, #8]!
+ 533 0050 FFF7FEFF 		bl	exp
+ 534              	.LVL52:
+  66:forward_propagation.c ****         output[i+1] = exp(input[i]) / sum; // Softmax function
+ 535              		.loc 1 66 37 discriminator 3 view .LVU135
+ 536 0054 3246     		mov	r2, r6
+ 537 0056 3B46     		mov	r3, r7
+ 538 0058 FFF7FEFF 		bl	__aeabi_ddiv
+ 539              	.LVL53:
+  65:forward_propagation.c ****         output[i+1] = exp(input[i]) / sum; // Softmax function
+ 540              		.loc 1 65 25 discriminator 3 view .LVU136
+ 541 005c 09F10109 		add	r9, r9, #1
+ 542              	.LVL54:
+  66:forward_propagation.c ****         output[i+1] = exp(input[i]) / sum; // Softmax function
+ 543              		.loc 1 66 21 discriminator 3 view .LVU137
+ 544 0060 E4E90201 		strd	r0, [r4, #8]!
+  65:forward_propagation.c ****         output[i+1] = exp(input[i]) / sum; // Softmax function
+ 545              		.loc 1 65 24 is_stmt 1 discriminator 3 view .LVU138
+ 546              	.LVL55:
+  65:forward_propagation.c ****         output[i+1] = exp(input[i]) / sum; // Softmax function
+ 547              		.loc 1 65 24 is_stmt 0 discriminator 3 view .LVU139
+ 548 0064 DFE7     		b	.L31
+ 549              	.L34:
+ 550 0066 00BF     		.align	2
+ 551              	.L33:
+ 552 0068 0000F03F 		.word	1072693248
+ 553              		.cfi_endproc
+ 554              	.LFE8:
+ 556              		.section	.rodata.str1.1,"aMS",%progbits,1
+ 557              	.LC0:
+ 558 0000 466F7277 		.ascii	"Forward propagation: Invalid hidden activation func"
+ 558      61726420 
+ 558      70726F70 
+ 558      61676174 
+ 558      696F6E3A 
+ 559 0033 74696F6E 		.ascii	"tion\000"
+ 559      00
+ 560              		.section	.text.forward_propagation,"ax",%progbits
+ 561              		.align	1
+ 562              		.global	forward_propagation
+ 563              		.syntax unified
+ 564              		.thumb
+ 565              		.thumb_func
+ 566              		.fpu softvfp
+ 568              	forward_propagation:
+ 569              	.LVL56:
+ 570              	.LFB9:
+  68:forward_propagation.c **** 
+  69:forward_propagation.c **** void forward_propagation(parameters* param, int training_example, int n_layers, int* layer_sizes, d
+ 571              		.loc 1 69 146 is_stmt 1 view -0
+ 572              		.cfi_startproc
+ 573              		@ args = 8, pretend = 0, frame = 16
+ 574              		@ frame_needed = 0, uses_anonymous_args = 0
+  70:forward_propagation.c ****     // Fill the input layer's input and output (both are equal) from data matrix with the given tra
+  71:forward_propagation.c ****     int i;
+ 575              		.loc 1 71 5 view .LVU141
+  72:forward_propagation.c ****     layer_outputs[0][0] = 1; // Bias term of input layer
+ 576              		.loc 1 72 5 view .LVU142
+  69:forward_propagation.c ****     // Fill the input layer's input and output (both are equal) from data matrix with the given tra
+ 577              		.loc 1 69 146 is_stmt 0 view .LVU143
+ 578 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 579              	.LCFI6:
+ 580              		.cfi_def_cfa_offset 36
+ 581              		.cfi_offset 4, -36
+ 582              		.cfi_offset 5, -32
+ 583              		.cfi_offset 6, -28
+ 584              		.cfi_offset 7, -24
+ 585              		.cfi_offset 8, -20
+ 586              		.cfi_offset 9, -16
+ 587              		.cfi_offset 10, -12
+ 588              		.cfi_offset 11, -8
+ 589              		.cfi_offset 14, -4
+ 590 0004 87B0     		sub	sp, sp, #28
+ 591              	.LCFI7:
+ 592              		.cfi_def_cfa_offset 64
+  69:forward_propagation.c ****     // Fill the input layer's input and output (both are equal) from data matrix with the given tra
+ 593              		.loc 1 69 146 view .LVU144
+ 594 0006 DDE91056 		ldrd	r5, r6, [sp, #64]
+ 595 000a 1C46     		mov	r4, r3
+ 596              		.loc 1 72 18 view .LVU145
+ 597 000c 3768     		ldr	r7, [r6]
+ 598              		.loc 1 72 25 view .LVU146
+ 599 000e 604B     		ldr	r3, .L54
+ 600              	.LVL57:
+  69:forward_propagation.c ****     // Fill the input layer's input and output (both are equal) from data matrix with the given tra
+ 601              		.loc 1 69 146 view .LVU147
+ 602 0010 0492     		str	r2, [sp, #16]
+ 603              		.loc 1 72 25 view .LVU148
+ 604 0012 0022     		movs	r2, #0
+ 605              	.LVL58:
+ 606              		.loc 1 72 25 view .LVU149
+ 607 0014 C7E90023 		strd	r2, [r7]
+  73:forward_propagation.c ****     for (i = 0; i < param->feature_size-1; i++)
+ 608              		.loc 1 73 5 is_stmt 1 view .LVU150
+ 609              	.LVL59:
+ 610              		.loc 1 73 40 is_stmt 0 view .LVU151
+ 611 0018 036B     		ldr	r3, [r0, #48]
+  69:forward_propagation.c ****     // Fill the input layer's input and output (both are equal) from data matrix with the given tra
+ 612              		.loc 1 69 146 view .LVU152
+ 613 001a 8146     		mov	r9, r0
+ 614              		.loc 1 73 40 view .LVU153
+ 615 001c 03F1FF3C 		add	ip, r3, #-1
+  74:forward_propagation.c ****         layer_outputs[0][i+1] = layer_inputs[0][i] = param->data_train[training_example][i];
+ 616              		.loc 1 74 71 view .LVU154
+ 617 0020 4FEA810E 		lsl	lr, r1, #2
+  73:forward_propagation.c ****     for (i = 0; i < param->feature_size-1; i++)
+ 618              		.loc 1 73 12 view .LVU155
+ 619 0024 0023     		movs	r3, #0
+ 620              	.LVL60:
+ 621              	.L36:
+  73:forward_propagation.c ****     for (i = 0; i < param->feature_size-1; i++)
+ 622              		.loc 1 73 17 is_stmt 1 discriminator 1 view .LVU156
+  73:forward_propagation.c ****     for (i = 0; i < param->feature_size-1; i++)
+ 623              		.loc 1 73 5 is_stmt 0 discriminator 1 view .LVU157
+ 624 0026 9C45     		cmp	ip, r3
+ 625 0028 29DC     		bgt	.L37
+  75:forward_propagation.c **** 
+  76:forward_propagation.c ****     // Perform forward propagation for each hidden layer
+  77:forward_propagation.c ****     // Calculate input and output of each hidden layer
+  78:forward_propagation.c ****     for (i = 1; i < n_layers-1; i++) {
+ 626              		.loc 1 78 12 view .LVU158
+ 627 002a 0123     		movs	r3, #1
+ 628              	.LVL61:
+ 629              		.loc 1 78 12 view .LVU159
+ 630 002c 0393     		str	r3, [sp, #12]
+ 631              		.loc 1 78 29 view .LVU160
+ 632 002e 049B     		ldr	r3, [sp, #16]
+ 633 0030 013B     		subs	r3, r3, #1
+ 634 0032 A046     		mov	r8, r4
+ 635 0034 2F1D     		adds	r7, r5, #4
+ 636 0036 B246     		mov	r10, r6
+ 637 0038 0593     		str	r3, [sp, #20]
+ 638              	.LVL62:
+ 639              	.L38:
+ 640              		.loc 1 78 17 is_stmt 1 discriminator 1 view .LVU161
+ 641              		.loc 1 78 5 is_stmt 0 discriminator 1 view .LVU162
+ 642 003a 059B     		ldr	r3, [sp, #20]
+ 643 003c 039A     		ldr	r2, [sp, #12]
+  79:forward_propagation.c ****         // Compute layer_inputs[i]
+  80:forward_propagation.c ****         mat_mul(layer_outputs[i-1], param->weight[i-1], layer_inputs[i], layer_sizes[i-1]+1, layer_
+ 644              		.loc 1 80 42 discriminator 1 view .LVU163
+ 645 003e D9F83C10 		ldr	r1, [r9, #60]
+  78:forward_propagation.c ****         // Compute layer_inputs[i]
+ 646              		.loc 1 78 5 discriminator 1 view .LVU164
+ 647 0042 9342     		cmp	r3, r2
+ 648 0044 2CDC     		bgt	.L47
+  81:forward_propagation.c **** 
+  82:forward_propagation.c ****         // Compute layer_outputs[i]
+  83:forward_propagation.c ****         // Activation functions (identity - 1, sigmoid - 2, tanh - 3, relu - 4, softmax - 5)
+  84:forward_propagation.c ****         switch (param->hidden_activation_functions[i-1]) {
+  85:forward_propagation.c ****             case 1: // identity
+  86:forward_propagation.c ****                 identity(layer_sizes[i], layer_inputs[i], layer_outputs[i]);
+  87:forward_propagation.c ****                 break;
+  88:forward_propagation.c ****             case 2: // sigmoid
+  89:forward_propagation.c ****                 sigmoid(layer_sizes[i], layer_inputs[i], layer_outputs[i]);
+  90:forward_propagation.c ****                 break;
+  91:forward_propagation.c ****             case 3: // tanh
+  92:forward_propagation.c ****                 tan_h(layer_sizes[i], layer_inputs[i], layer_outputs[i]);
+  93:forward_propagation.c ****                 break;
+  94:forward_propagation.c ****             case 4: // relu
+  95:forward_propagation.c ****                 relu(layer_sizes[i], layer_inputs[i], layer_outputs[i]);
+  96:forward_propagation.c ****                 break;
+  97:forward_propagation.c ****             case 5: // softmax
+  98:forward_propagation.c ****                 softmax(layer_sizes[i], layer_inputs[i], layer_outputs[i]);
+  99:forward_propagation.c ****                 break;
+ 100:forward_propagation.c ****             default:
+ 101:forward_propagation.c ****                 printf("Forward propagation: Invalid hidden activation function\n");
+ 102:forward_propagation.c ****                 exit(0);
+ 103:forward_propagation.c ****                 break;
+ 104:forward_propagation.c ****         }
+ 105:forward_propagation.c ****     }
+ 106:forward_propagation.c **** 
+ 107:forward_propagation.c ****     // Fill the output layers's input and output
+ 108:forward_propagation.c ****     mat_mul(layer_outputs[n_layers-2], param->weight[n_layers-2], layer_inputs[n_layers-1], layer_s
+ 649              		.loc 1 108 5 is_stmt 1 view .LVU165
+ 650              		.loc 1 108 26 is_stmt 0 view .LVU166
+ 651 0046 049B     		ldr	r3, [sp, #16]
+ 652 0048 03F18040 		add	r0, r3, #1073741824
+ 653 004c 0238     		subs	r0, r0, #2
+ 654 004e 8700     		lsls	r7, r0, #2
+ 655              		.loc 1 108 79 view .LVU167
+ 656 0050 0437     		adds	r7, r7, #4
+ 657              		.loc 1 108 5 view .LVU168
+ 658 0052 54F82030 		ldr	r3, [r4, r0, lsl #2]
+ 659 0056 E259     		ldr	r2, [r4, r7]
+ 660 0058 0092     		str	r2, [sp]
+ 661 005a 51F82010 		ldr	r1, [r1, r0, lsl #2]
+ 662 005e EA59     		ldr	r2, [r5, r7]
+ 663 0060 56F82000 		ldr	r0, [r6, r0, lsl #2]
+ 664 0064 0133     		adds	r3, r3, #1
+ 665 0066 FFF7FEFF 		bl	mat_mul
+ 666              	.LVL63:
+ 109:forward_propagation.c **** 
+ 110:forward_propagation.c ****     // Activation functions (identity - 1, sigmoid - 2, tanh - 3, relu - 4, softmax - 5)
+ 111:forward_propagation.c ****     switch (param->output_activation_function) {
+ 667              		.loc 1 111 5 is_stmt 1 view .LVU169
+ 668 006a D9F82430 		ldr	r3, [r9, #36]
+ 669 006e 013B     		subs	r3, r3, #1
+ 670 0070 042B     		cmp	r3, #4
+ 671 0072 5FD8     		bhi	.L39
+ 672 0074 DFE803F0 		tbb	[pc, r3]
+ 673              	.L49:
+ 674 0078 64       		.byte	(.L53-.L49)/2
+ 675 0079 6C       		.byte	(.L52-.L49)/2
+ 676 007a 74       		.byte	(.L51-.L49)/2
+ 677 007b 7C       		.byte	(.L50-.L49)/2
+ 678 007c 84       		.byte	(.L48-.L49)/2
+ 679              	.LVL64:
+ 680 007d 00       		.p2align 1
+ 681              	.L37:
+  74:forward_propagation.c **** 
+ 682              		.loc 1 74 9 discriminator 3 view .LVU170
+  74:forward_propagation.c **** 
+ 683              		.loc 1 74 71 is_stmt 0 discriminator 3 view .LVU171
+ 684 007e D9F82820 		ldr	r2, [r9, #40]
+  74:forward_propagation.c **** 
+ 685              		.loc 1 74 89 discriminator 3 view .LVU172
+ 686 0082 52F80E20 		ldr	r2, [r2, lr]
+ 687 0086 02EBC302 		add	r2, r2, r3, lsl #3
+ 688 008a D2E90001 		ldrd	r0, [r2]
+  74:forward_propagation.c **** 
+ 689              		.loc 1 74 52 discriminator 3 view .LVU173
+ 690 008e 2A68     		ldr	r2, [r5]
+ 691 0090 02EBC302 		add	r2, r2, r3, lsl #3
+ 692 0094 C2E90001 		strd	r0, [r2]
+  73:forward_propagation.c ****         layer_outputs[0][i+1] = layer_inputs[0][i] = param->data_train[training_example][i];
+ 693              		.loc 1 73 45 discriminator 3 view .LVU174
+ 694 0098 0133     		adds	r3, r3, #1
+ 695              	.LVL65:
+  74:forward_propagation.c **** 
+ 696              		.loc 1 74 31 discriminator 3 view .LVU175
+ 697 009a E7E90201 		strd	r0, [r7, #8]!
+  73:forward_propagation.c ****         layer_outputs[0][i+1] = layer_inputs[0][i] = param->data_train[training_example][i];
+ 698              		.loc 1 73 44 is_stmt 1 discriminator 3 view .LVU176
+ 699              	.LVL66:
+  73:forward_propagation.c ****         layer_outputs[0][i+1] = layer_inputs[0][i] = param->data_train[training_example][i];
+ 700              		.loc 1 73 44 is_stmt 0 discriminator 3 view .LVU177
+ 701 009e C2E7     		b	.L36
+ 702              	.LVL67:
+ 703              	.L47:
+  80:forward_propagation.c **** 
+ 704              		.loc 1 80 9 is_stmt 1 view .LVU178
+  80:forward_propagation.c **** 
+ 705              		.loc 1 80 30 is_stmt 0 view .LVU179
+ 706 00a0 039B     		ldr	r3, [sp, #12]
+ 707 00a2 4FEA830B 		lsl	fp, r3, #2
+ 708 00a6 ABF1040B 		sub	fp, fp, #4
+  80:forward_propagation.c **** 
+ 709              		.loc 1 80 85 view .LVU180
+ 710 00aa D8F80030 		ldr	r3, [r8]
+  80:forward_propagation.c **** 
+ 711              		.loc 1 80 9 view .LVU181
+ 712 00ae 58F8042F 		ldr	r2, [r8, #4]!
+ 713              	.LVL68:
+  80:forward_propagation.c **** 
+ 714              		.loc 1 80 9 view .LVU182
+ 715 00b2 0092     		str	r2, [sp]
+ 716 00b4 0133     		adds	r3, r3, #1
+ 717 00b6 3A68     		ldr	r2, [r7]
+ 718 00b8 51F80B10 		ldr	r1, [r1, fp]
+ 719 00bc 5AF8040B 		ldr	r0, [r10], #4
+ 720 00c0 FFF7FEFF 		bl	mat_mul
+ 721              	.LVL69:
+  84:forward_propagation.c ****             case 1: // identity
+ 722              		.loc 1 84 9 is_stmt 1 view .LVU183
+  84:forward_propagation.c ****             case 1: // identity
+ 723              		.loc 1 84 51 is_stmt 0 view .LVU184
+ 724 00c4 D9F80830 		ldr	r3, [r9, #8]
+ 725 00c8 53F80B30 		ldr	r3, [r3, fp]
+ 726 00cc 013B     		subs	r3, r3, #1
+ 727 00ce 042B     		cmp	r3, #4
+ 728 00d0 30D8     		bhi	.L39
+ 729 00d2 DFE803F0 		tbb	[pc, r3]
+ 730              	.L41:
+ 731 00d6 03       		.byte	(.L45-.L41)/2
+ 732 00d7 0F       		.byte	(.L44-.L41)/2
+ 733 00d8 17       		.byte	(.L43-.L41)/2
+ 734 00d9 1F       		.byte	(.L42-.L41)/2
+ 735 00da 27       		.byte	(.L40-.L41)/2
+ 736 00db 00       		.p2align 1
+ 737              	.L45:
+  86:forward_propagation.c ****                 break;
+ 738              		.loc 1 86 17 is_stmt 1 view .LVU185
+ 739 00dc DAF80020 		ldr	r2, [r10]
+ 740 00e0 3968     		ldr	r1, [r7]
+ 741 00e2 D8F80000 		ldr	r0, [r8]
+ 742 00e6 FFF7FEFF 		bl	identity
+ 743              	.LVL70:
+  87:forward_propagation.c ****             case 2: // sigmoid
+ 744              		.loc 1 87 17 view .LVU186
+ 745              	.L46:
+ 103:forward_propagation.c ****         }
+ 746              		.loc 1 103 17 discriminator 2 view .LVU187
+  78:forward_propagation.c ****         // Compute layer_inputs[i]
+ 747              		.loc 1 78 33 discriminator 2 view .LVU188
+  78:forward_propagation.c ****         // Compute layer_inputs[i]
+ 748              		.loc 1 78 34 is_stmt 0 discriminator 2 view .LVU189
+ 749 00ea 039B     		ldr	r3, [sp, #12]
+ 750 00ec 0133     		adds	r3, r3, #1
+ 751 00ee 0393     		str	r3, [sp, #12]
+ 752              	.LVL71:
+  78:forward_propagation.c ****         // Compute layer_inputs[i]
+ 753              		.loc 1 78 34 discriminator 2 view .LVU190
+ 754 00f0 0437     		adds	r7, r7, #4
+ 755 00f2 A2E7     		b	.L38
+ 756              	.LVL72:
+ 757              	.L44:
+  89:forward_propagation.c ****                 break;
+ 758              		.loc 1 89 17 is_stmt 1 view .LVU191
+ 759 00f4 DAF80020 		ldr	r2, [r10]
+ 760 00f8 3968     		ldr	r1, [r7]
+ 761 00fa D8F80000 		ldr	r0, [r8]
+ 762 00fe FFF7FEFF 		bl	sigmoid
+ 763              	.LVL73:
+  90:forward_propagation.c ****             case 3: // tanh
+ 764              		.loc 1 90 17 view .LVU192
+ 765 0102 F2E7     		b	.L46
+ 766              	.L43:
+  92:forward_propagation.c ****                 break;
+ 767              		.loc 1 92 17 view .LVU193
+ 768 0104 DAF80020 		ldr	r2, [r10]
+ 769 0108 3968     		ldr	r1, [r7]
+ 770 010a D8F80000 		ldr	r0, [r8]
+ 771 010e FFF7FEFF 		bl	tan_h
+ 772              	.LVL74:
+  93:forward_propagation.c ****             case 4: // relu
+ 773              		.loc 1 93 17 view .LVU194
+ 774 0112 EAE7     		b	.L46
+ 775              	.L42:
+  95:forward_propagation.c ****                 break;
+ 776              		.loc 1 95 17 view .LVU195
+ 777 0114 DAF80020 		ldr	r2, [r10]
+ 778 0118 3968     		ldr	r1, [r7]
+ 779 011a D8F80000 		ldr	r0, [r8]
+ 780 011e FFF7FEFF 		bl	relu
+ 781              	.LVL75:
+  96:forward_propagation.c ****             case 5: // softmax
+ 782              		.loc 1 96 17 view .LVU196
+ 783 0122 E2E7     		b	.L46
+ 784              	.L40:
+  98:forward_propagation.c ****                 break;
+ 785              		.loc 1 98 17 view .LVU197
+ 786 0124 DAF80020 		ldr	r2, [r10]
+ 787 0128 3968     		ldr	r1, [r7]
+ 788 012a D8F80000 		ldr	r0, [r8]
+ 789 012e FFF7FEFF 		bl	softmax
+ 790              	.LVL76:
+  99:forward_propagation.c ****             default:
+ 791              		.loc 1 99 17 view .LVU198
+ 792 0132 DAE7     		b	.L46
+ 793              	.L39:
+ 101:forward_propagation.c ****                 exit(0);
+ 794              		.loc 1 101 17 view .LVU199
+ 795 0134 1748     		ldr	r0, .L54+4
+ 796 0136 FFF7FEFF 		bl	puts
+ 797              	.LVL77:
+ 102:forward_propagation.c ****                 break;
+ 798              		.loc 1 102 17 view .LVU200
+ 799 013a 0020     		movs	r0, #0
+ 800 013c FFF7FEFF 		bl	exit
+ 801              	.LVL78:
+ 802              	.L53:
+ 112:forward_propagation.c ****         case 1: // identity
+ 113:forward_propagation.c ****             identity(layer_sizes[n_layers-1], layer_inputs[n_layers-1], layer_outputs[n_layers-1]);
+ 803              		.loc 1 113 13 view .LVU201
+ 804 0140 F259     		ldr	r2, [r6, r7]
+ 805 0142 E959     		ldr	r1, [r5, r7]
+ 806 0144 E059     		ldr	r0, [r4, r7]
+ 114:forward_propagation.c ****             break;
+ 115:forward_propagation.c ****         case 2: // sigmoid
+ 116:forward_propagation.c ****             sigmoid(layer_sizes[n_layers-1], layer_inputs[n_layers-1], layer_outputs[n_layers-1]);
+ 117:forward_propagation.c ****             break;
+ 118:forward_propagation.c ****         case 3: // tanh
+ 119:forward_propagation.c ****             tan_h(layer_sizes[n_layers-1], layer_inputs[n_layers-1], layer_outputs[n_layers-1]);
+ 120:forward_propagation.c ****             break;
+ 121:forward_propagation.c ****         case 4: // relu
+ 122:forward_propagation.c ****             relu(layer_sizes[n_layers-1], layer_inputs[n_layers-1], layer_outputs[n_layers-1]);
+ 123:forward_propagation.c ****             break;
+ 124:forward_propagation.c ****         case 5: // softmax
+ 125:forward_propagation.c ****             softmax(layer_sizes[n_layers-1], layer_inputs[n_layers-1], layer_outputs[n_layers-1]);
+ 126:forward_propagation.c ****             break;
+ 127:forward_propagation.c ****         default:
+ 128:forward_propagation.c ****             printf("Forward propagation: Invalid hidden activation function\n");
+ 129:forward_propagation.c ****             exit(0);
+ 130:forward_propagation.c ****             break;
+ 131:forward_propagation.c ****     }
+ 132:forward_propagation.c **** }
+ 807              		.loc 1 132 1 is_stmt 0 view .LVU202
+ 808 0146 07B0     		add	sp, sp, #28
+ 809              	.LCFI8:
+ 810              		.cfi_remember_state
+ 811              		.cfi_def_cfa_offset 36
+ 812              		@ sp needed
+ 813 0148 BDE8F04F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 814              	.LCFI9:
+ 815              		.cfi_restore 14
+ 816              		.cfi_restore 11
+ 817              		.cfi_restore 10
+ 818              		.cfi_restore 9
+ 819              		.cfi_restore 8
+ 820              		.cfi_restore 7
+ 821              		.cfi_restore 6
+ 822              		.cfi_restore 5
+ 823              		.cfi_restore 4
+ 824              		.cfi_def_cfa_offset 0
+ 825              	.LVL79:
+ 113:forward_propagation.c ****             break;
+ 826              		.loc 1 113 13 view .LVU203
+ 827 014c FFF7FEBF 		b	identity
+ 828              	.LVL80:
+ 829              	.L52:
+ 830              	.LCFI10:
+ 831              		.cfi_restore_state
+ 116:forward_propagation.c ****             break;
+ 832              		.loc 1 116 13 is_stmt 1 view .LVU204
+ 833 0150 F259     		ldr	r2, [r6, r7]
+ 834 0152 E959     		ldr	r1, [r5, r7]
+ 835 0154 E059     		ldr	r0, [r4, r7]
+ 836              		.loc 1 132 1 is_stmt 0 view .LVU205
+ 837 0156 07B0     		add	sp, sp, #28
+ 838              	.LCFI11:
+ 839              		.cfi_remember_state
+ 840              		.cfi_def_cfa_offset 36
+ 841              		@ sp needed
+ 842 0158 BDE8F04F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 843              	.LCFI12:
+ 844              		.cfi_restore 14
+ 845              		.cfi_restore 11
+ 846              		.cfi_restore 10
+ 847              		.cfi_restore 9
+ 848              		.cfi_restore 8
+ 849              		.cfi_restore 7
+ 850              		.cfi_restore 6
+ 851              		.cfi_restore 5
+ 852              		.cfi_restore 4
+ 853              		.cfi_def_cfa_offset 0
+ 854              	.LVL81:
+ 116:forward_propagation.c ****             break;
+ 855              		.loc 1 116 13 view .LVU206
+ 856 015c FFF7FEBF 		b	sigmoid
+ 857              	.LVL82:
+ 858              	.L51:
+ 859              	.LCFI13:
+ 860              		.cfi_restore_state
+ 119:forward_propagation.c ****             break;
+ 861              		.loc 1 119 13 is_stmt 1 view .LVU207
+ 862 0160 F259     		ldr	r2, [r6, r7]
+ 863 0162 E959     		ldr	r1, [r5, r7]
+ 864 0164 E059     		ldr	r0, [r4, r7]
+ 865              		.loc 1 132 1 is_stmt 0 view .LVU208
+ 866 0166 07B0     		add	sp, sp, #28
+ 867              	.LCFI14:
+ 868              		.cfi_remember_state
+ 869              		.cfi_def_cfa_offset 36
+ 870              		@ sp needed
+ 871 0168 BDE8F04F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 872              	.LCFI15:
+ 873              		.cfi_restore 14
+ 874              		.cfi_restore 11
+ 875              		.cfi_restore 10
+ 876              		.cfi_restore 9
+ 877              		.cfi_restore 8
+ 878              		.cfi_restore 7
+ 879              		.cfi_restore 6
+ 880              		.cfi_restore 5
+ 881              		.cfi_restore 4
+ 882              		.cfi_def_cfa_offset 0
+ 883              	.LVL83:
+ 119:forward_propagation.c ****             break;
+ 884              		.loc 1 119 13 view .LVU209
+ 885 016c FFF7FEBF 		b	tan_h
+ 886              	.LVL84:
+ 887              	.L50:
+ 888              	.LCFI16:
+ 889              		.cfi_restore_state
+ 122:forward_propagation.c ****             break;
+ 890              		.loc 1 122 13 is_stmt 1 view .LVU210
+ 891 0170 F259     		ldr	r2, [r6, r7]
+ 892 0172 E959     		ldr	r1, [r5, r7]
+ 893 0174 E059     		ldr	r0, [r4, r7]
+ 894              		.loc 1 132 1 is_stmt 0 view .LVU211
+ 895 0176 07B0     		add	sp, sp, #28
+ 896              	.LCFI17:
+ 897              		.cfi_remember_state
+ 898              		.cfi_def_cfa_offset 36
+ 899              		@ sp needed
+ 900 0178 BDE8F04F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 901              	.LCFI18:
+ 902              		.cfi_restore 14
+ 903              		.cfi_restore 11
+ 904              		.cfi_restore 10
+ 905              		.cfi_restore 9
+ 906              		.cfi_restore 8
+ 907              		.cfi_restore 7
+ 908              		.cfi_restore 6
+ 909              		.cfi_restore 5
+ 910              		.cfi_restore 4
+ 911              		.cfi_def_cfa_offset 0
+ 912              	.LVL85:
+ 122:forward_propagation.c ****             break;
+ 913              		.loc 1 122 13 view .LVU212
+ 914 017c FFF7FEBF 		b	relu
+ 915              	.LVL86:
+ 916              	.L48:
+ 917              	.LCFI19:
+ 918              		.cfi_restore_state
+ 125:forward_propagation.c ****             break;
+ 919              		.loc 1 125 13 is_stmt 1 view .LVU213
+ 920 0180 F259     		ldr	r2, [r6, r7]
+ 921 0182 E959     		ldr	r1, [r5, r7]
+ 922 0184 E059     		ldr	r0, [r4, r7]
+ 923              		.loc 1 132 1 is_stmt 0 view .LVU214
+ 924 0186 07B0     		add	sp, sp, #28
+ 925              	.LCFI20:
+ 926              		.cfi_def_cfa_offset 36
+ 927              		@ sp needed
+ 928 0188 BDE8F04F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 929              	.LCFI21:
+ 930              		.cfi_restore 14
+ 931              		.cfi_restore 11
+ 932              		.cfi_restore 10
+ 933              		.cfi_restore 9
+ 934              		.cfi_restore 8
+ 935              		.cfi_restore 7
+ 936              		.cfi_restore 6
+ 937              		.cfi_restore 5
+ 938              		.cfi_restore 4
+ 939              		.cfi_def_cfa_offset 0
+ 940              	.LVL87:
+ 125:forward_propagation.c ****             break;
+ 941              		.loc 1 125 13 view .LVU215
+ 942 018c FFF7FEBF 		b	softmax
+ 943              	.LVL88:
+ 944              	.L55:
+ 945              		.align	2
+ 946              	.L54:
+ 947 0190 0000F03F 		.word	1072693248
+ 948 0194 00000000 		.word	.LC0
+ 949              		.cfi_endproc
+ 950              	.LFE9:
+ 952              		.text
+ 953              	.Letext0:
+ 954              		.file 2 "parameters.h"
+ 955              		.file 3 "c:\\users\\joris\\chipwh~1\\cw\\home\\portable\\armgcc\\arm-none-eabi\\include\\stdlib.h"
+ 956              		.file 4 "c:\\users\\joris\\chipwh~1\\cw\\home\\portable\\armgcc\\arm-none-eabi\\include\\math.h"
+ 957              		.file 5 "<built-in>"
+DEFINED SYMBOLS
+                            *ABS*:00000000 forward_propagation.c
+C:\Users\joris\AppData\Local\Temp\ccLnea5v.s:18     .text.mat_mul:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccLnea5v.s:26     .text.mat_mul:00000000 mat_mul
+C:\Users\joris\AppData\Local\Temp\ccLnea5v.s:121    .text.identity:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccLnea5v.s:128    .text.identity:00000000 identity
+C:\Users\joris\AppData\Local\Temp\ccLnea5v.s:179    .text.identity:00000020 $d
+C:\Users\joris\AppData\Local\Temp\ccLnea5v.s:185    .text.sigmoid:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccLnea5v.s:192    .text.sigmoid:00000000 sigmoid
+C:\Users\joris\AppData\Local\Temp\ccLnea5v.s:267    .text.sigmoid:00000050 $d
+C:\Users\joris\AppData\Local\Temp\ccLnea5v.s:272    .text.tan_h:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccLnea5v.s:279    .text.tan_h:00000000 tan_h
+C:\Users\joris\AppData\Local\Temp\ccLnea5v.s:341    .text.tan_h:0000002c $d
+C:\Users\joris\AppData\Local\Temp\ccLnea5v.s:347    .text.relu:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccLnea5v.s:354    .text.relu:00000000 relu
+C:\Users\joris\AppData\Local\Temp\ccLnea5v.s:430    .text.relu:00000048 $d
+C:\Users\joris\AppData\Local\Temp\ccLnea5v.s:435    .text.softmax:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccLnea5v.s:442    .text.softmax:00000000 softmax
+C:\Users\joris\AppData\Local\Temp\ccLnea5v.s:552    .text.softmax:00000068 $d
+C:\Users\joris\AppData\Local\Temp\ccLnea5v.s:561    .text.forward_propagation:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccLnea5v.s:568    .text.forward_propagation:00000000 forward_propagation
+C:\Users\joris\AppData\Local\Temp\ccLnea5v.s:674    .text.forward_propagation:00000078 $d
+C:\Users\joris\AppData\Local\Temp\ccLnea5v.s:731    .text.forward_propagation:000000d6 $d
+C:\Users\joris\AppData\Local\Temp\ccLnea5v.s:947    .text.forward_propagation:00000190 $d
+C:\Users\joris\AppData\Local\Temp\ccLnea5v.s:680    .text.forward_propagation:0000007d $d
+C:\Users\joris\AppData\Local\Temp\ccLnea5v.s:680    .text.forward_propagation:0000007e $t
+C:\Users\joris\AppData\Local\Temp\ccLnea5v.s:736    .text.forward_propagation:000000db $d
+C:\Users\joris\AppData\Local\Temp\ccLnea5v.s:736    .text.forward_propagation:000000dc $t
+
+UNDEFINED SYMBOLS
+__aeabi_dmul
+__aeabi_dadd
+__aeabi_ddiv
+exp
+tanh
+__aeabi_dcmplt
+puts
+exit

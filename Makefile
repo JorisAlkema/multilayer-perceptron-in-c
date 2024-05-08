@@ -34,13 +34,15 @@ TARGET = MLP
 
 # List C source files here.
 # Header files (.h) are automatically pulled in.
-SRC += back_propagation.c forward_propagation.c main.c mlp_classifier.c mlp_trainer.c read_csv.c write_csv.c
+SRC += main.c mlp_classifier.c
 
 # -----------------------------------------------------------------------------
 
-ifeq ($(CRYPTO_OPTIONS),)
-CRYPTO_OPTIONS = AES128C
-endif
+# Use simpleserial 2
+SS_VER = SS_VER_2_1
+
+# No crypto required
+CRYPTO_TARGET = NONE
 
 include ../hardware/victims/firmware/simpleserial/Makefile.simpleserial
 

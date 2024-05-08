@@ -5,7 +5,6 @@ Desc: To classify the test dataset on the trained parameter weights
 GitHub: https://github.com/manoharmukku/multilayer-perceptron-in-c
 */
 
-//hallo??
 #include "mlp_classifier.h"
 #include "simpleserial.h"
 #include "hal.h"
@@ -211,19 +210,21 @@ void mlp_classifier(parameters* param, int* layer_sizes) {
         double accuracy = (double)(true_positive + true_negative) / param->test_sample_size;
 
         // Print confusion matrix
-        printf("\n\nConfusion matrix\n");
-        printf("-----------------\n\n");
+        //printf("\n\nConfusion matrix\n");
+        //printf("-----------------\n\n");
 
-        printf("\t    |predicted 0\t predicted 1\n");
-        printf("--------------------------------------------\n");
-        printf("Actual 0    |%d\t\t%d\n\n", true_negative, false_positive);
-        printf("Actual 1    |%d\t\t%d\n\n", false_negative, true_positive);
+        //printf("\t    |predicted 0\t predicted 1\n");
+        //printf("--------------------------------------------\n");
+        //printf("Actual 0    |%d\t\t%d\n\n", true_negative, false_positive);
+        //printf("Actual 1    |%d\t\t%d\n\n", false_negative, true_positive);
 
         // Print the accuracy
-        printf("\nAccuracy: %.2lf\n\n", accuracy * 100);
+        //printf("\nAccuracy: %.2lf\n\n", accuracy * 100);
         // Scale the double and convert to integer
-        int scaled_accuracy = (int)(accuracy * 100); // Assuming you want two decimal places
-        simpleserial_put('r', 1, (uint8_t*)scaled_accuracy);
+        // cast to uint8_t
+        uint8_t acc;
+        acc = (accuracy * 100);
+        simpleserial_put('r', 1, (uint8_t*)&acc);
     }
     else { // Multi-class classification
         int** confusion_matrix = (int**)calloc(param->output_layer_size, sizeof(int*));
@@ -259,8 +260,10 @@ void mlp_classifier(parameters* param, int* layer_sizes) {
         accuracy /= param->test_sample_size;
 
         // Print the accuracy
-        printf("\nAccuracy: %.2lf\n\n", accuracy * 100);
-
+        //printf("\nAccuracy: %.2lf\n\n", accuracy * 100);
+        uint8_t acc;
+        acc = (accuracy * 100);
+        simpleserial_put('r', 1, (uint8_t*)&acc);
         // Free the memory allocated in heap
         for (i = 0; i < param->output_layer_size; i++)
             free(confusion_matrix[i]);
@@ -269,8 +272,8 @@ void mlp_classifier(parameters* param, int* layer_sizes) {
 
 
     // Write the final output into a csv file
-    char* output_file_name = "data/data_test_output.csv";
-    write_csv(output_file_name, param->test_sample_size, param->output_layer_size, final_output);
+    //char* output_file_name = "data/data_test_output.csv";
+    //write_csv(output_file_name, param->test_sample_size, param->output_layer_size, final_output);
 
     // Free the memory allocated in Heap
     for (i = 0; i < param->test_sample_size; i++)

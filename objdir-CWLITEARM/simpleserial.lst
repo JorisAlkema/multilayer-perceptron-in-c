@@ -1563,35 +1563,35 @@
  1096              		.file 6 "<built-in>"
 DEFINED SYMBOLS
                             *ABS*:00000000 simpleserial.c
-C:\Users\joris\AppData\Local\Temp\ccjTjR9N.s:16     .text.ss_crc:00000000 $t
-C:\Users\joris\AppData\Local\Temp\ccjTjR9N.s:24     .text.ss_crc:00000000 ss_crc
-C:\Users\joris\AppData\Local\Temp\ccjTjR9N.s:90     .text.hex_decode:00000000 $t
-C:\Users\joris\AppData\Local\Temp\ccjTjR9N.s:97     .text.hex_decode:00000000 hex_decode
-C:\Users\joris\AppData\Local\Temp\ccjTjR9N.s:265    .text.ss_puts:00000000 $t
-C:\Users\joris\AppData\Local\Temp\ccjTjR9N.s:272    .text.ss_puts:00000000 ss_puts
-C:\Users\joris\AppData\Local\Temp\ccjTjR9N.s:307    .text.stuff_data:00000000 $t
-C:\Users\joris\AppData\Local\Temp\ccjTjR9N.s:314    .text.stuff_data:00000000 stuff_data
-C:\Users\joris\AppData\Local\Temp\ccjTjR9N.s:378    .text.unstuff_data:00000000 $t
-C:\Users\joris\AppData\Local\Temp\ccjTjR9N.s:385    .text.unstuff_data:00000000 unstuff_data
-C:\Users\joris\AppData\Local\Temp\ccjTjR9N.s:445    .text.simpleserial_addcmd:00000000 $t
-C:\Users\joris\AppData\Local\Temp\ccjTjR9N.s:452    .text.simpleserial_addcmd:00000000 simpleserial_addcmd
-C:\Users\joris\AppData\Local\Temp\ccjTjR9N.s:523    .text.simpleserial_addcmd:00000030 $d
-C:\Users\joris\AppData\Local\Temp\ccjTjR9N.s:528    .text.simpleserial_init:00000000 $t
-C:\Users\joris\AppData\Local\Temp\ccjTjR9N.s:535    .text.simpleserial_init:00000000 simpleserial_init
-C:\Users\joris\AppData\Local\Temp\ccjTjR9N.s:570    .text.simpleserial_init:0000001c $d
-C:\Users\joris\AppData\Local\Temp\ccjTjR9N.s:693    .text.check_version:00000000 check_version
-C:\Users\joris\AppData\Local\Temp\ccjTjR9N.s:742    .text.ss_get_commands:00000000 ss_get_commands
-C:\Users\joris\AppData\Local\Temp\ccjTjR9N.s:576    .text.simpleserial_put:00000000 $t
-C:\Users\joris\AppData\Local\Temp\ccjTjR9N.s:583    .text.simpleserial_put:00000000 simpleserial_put
-C:\Users\joris\AppData\Local\Temp\ccjTjR9N.s:686    .text.check_version:00000000 $t
-C:\Users\joris\AppData\Local\Temp\ccjTjR9N.s:735    .text.ss_get_commands:00000000 $t
-C:\Users\joris\AppData\Local\Temp\ccjTjR9N.s:829    .text.ss_get_commands:00000034 $d
-C:\Users\joris\AppData\Local\Temp\ccjTjR9N.s:835    .text.simpleserial_get:00000000 $t
-C:\Users\joris\AppData\Local\Temp\ccjTjR9N.s:842    .text.simpleserial_get:00000000 simpleserial_get
-C:\Users\joris\AppData\Local\Temp\ccjTjR9N.s:1075   .text.simpleserial_get:000000d8 $d
-C:\Users\joris\AppData\Local\Temp\ccjTjR9N.s:1080   .bss:00000000 $d
-C:\Users\joris\AppData\Local\Temp\ccjTjR9N.s:1084   .bss:00000000 num_commands
-C:\Users\joris\AppData\Local\Temp\ccjTjR9N.s:1088   .bss:00000004 commands
+C:\Users\joris\AppData\Local\Temp\ccuIscJx.s:16     .text.ss_crc:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccuIscJx.s:24     .text.ss_crc:00000000 ss_crc
+C:\Users\joris\AppData\Local\Temp\ccuIscJx.s:90     .text.hex_decode:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccuIscJx.s:97     .text.hex_decode:00000000 hex_decode
+C:\Users\joris\AppData\Local\Temp\ccuIscJx.s:265    .text.ss_puts:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccuIscJx.s:272    .text.ss_puts:00000000 ss_puts
+C:\Users\joris\AppData\Local\Temp\ccuIscJx.s:307    .text.stuff_data:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccuIscJx.s:314    .text.stuff_data:00000000 stuff_data
+C:\Users\joris\AppData\Local\Temp\ccuIscJx.s:378    .text.unstuff_data:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccuIscJx.s:385    .text.unstuff_data:00000000 unstuff_data
+C:\Users\joris\AppData\Local\Temp\ccuIscJx.s:445    .text.simpleserial_addcmd:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccuIscJx.s:452    .text.simpleserial_addcmd:00000000 simpleserial_addcmd
+C:\Users\joris\AppData\Local\Temp\ccuIscJx.s:523    .text.simpleserial_addcmd:00000030 $d
+C:\Users\joris\AppData\Local\Temp\ccuIscJx.s:528    .text.simpleserial_init:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccuIscJx.s:535    .text.simpleserial_init:00000000 simpleserial_init
+C:\Users\joris\AppData\Local\Temp\ccuIscJx.s:570    .text.simpleserial_init:0000001c $d
+C:\Users\joris\AppData\Local\Temp\ccuIscJx.s:693    .text.check_version:00000000 check_version
+C:\Users\joris\AppData\Local\Temp\ccuIscJx.s:742    .text.ss_get_commands:00000000 ss_get_commands
+C:\Users\joris\AppData\Local\Temp\ccuIscJx.s:576    .text.simpleserial_put:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccuIscJx.s:583    .text.simpleserial_put:00000000 simpleserial_put
+C:\Users\joris\AppData\Local\Temp\ccuIscJx.s:686    .text.check_version:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccuIscJx.s:735    .text.ss_get_commands:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccuIscJx.s:829    .text.ss_get_commands:00000034 $d
+C:\Users\joris\AppData\Local\Temp\ccuIscJx.s:835    .text.simpleserial_get:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccuIscJx.s:842    .text.simpleserial_get:00000000 simpleserial_get
+C:\Users\joris\AppData\Local\Temp\ccuIscJx.s:1075   .text.simpleserial_get:000000d8 $d
+C:\Users\joris\AppData\Local\Temp\ccuIscJx.s:1080   .bss:00000000 $d
+C:\Users\joris\AppData\Local\Temp\ccuIscJx.s:1084   .bss:00000000 num_commands
+C:\Users\joris\AppData\Local\Temp\ccuIscJx.s:1088   .bss:00000004 commands
 
 UNDEFINED SYMBOLS
 putch

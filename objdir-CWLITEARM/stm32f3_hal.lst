@@ -783,33 +783,33 @@
  613              		.file 10 "../hardware/victims/firmware/hal/stm32f3/stm32f3xx_hal_uart.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f3_hal.c
-C:\Users\joris\AppData\Local\Temp\ccFCiYnP.s:16     .text.platform_init:00000000 $t
-C:\Users\joris\AppData\Local\Temp\ccFCiYnP.s:24     .text.platform_init:00000000 platform_init
-C:\Users\joris\AppData\Local\Temp\ccFCiYnP.s:145    .text.platform_init:00000078 $d
-C:\Users\joris\AppData\Local\Temp\ccFCiYnP.s:151    .text.init_uart:00000000 $t
-C:\Users\joris\AppData\Local\Temp\ccFCiYnP.s:158    .text.init_uart:00000000 init_uart
-C:\Users\joris\AppData\Local\Temp\ccFCiYnP.s:267    .text.init_uart:00000070 $d
-C:\Users\joris\AppData\Local\Temp\ccFCiYnP.s:274    .text.trigger_setup:00000000 $t
-C:\Users\joris\AppData\Local\Temp\ccFCiYnP.s:281    .text.trigger_setup:00000000 trigger_setup
-C:\Users\joris\AppData\Local\Temp\ccFCiYnP.s:353    .text.trigger_setup:00000044 $d
-C:\Users\joris\AppData\Local\Temp\ccFCiYnP.s:358    .text.trigger_high:00000000 $t
-C:\Users\joris\AppData\Local\Temp\ccFCiYnP.s:365    .text.trigger_high:00000000 trigger_high
-C:\Users\joris\AppData\Local\Temp\ccFCiYnP.s:382    .text.trigger_low:00000000 $t
-C:\Users\joris\AppData\Local\Temp\ccFCiYnP.s:389    .text.trigger_low:00000000 trigger_low
-C:\Users\joris\AppData\Local\Temp\ccFCiYnP.s:406    .text.getch:00000000 $t
-C:\Users\joris\AppData\Local\Temp\ccFCiYnP.s:413    .text.getch:00000000 getch
-C:\Users\joris\AppData\Local\Temp\ccFCiYnP.s:464    .text.getch:0000002c $d
-C:\Users\joris\AppData\Local\Temp\ccFCiYnP.s:470    .text.putch:00000000 $t
-C:\Users\joris\AppData\Local\Temp\ccFCiYnP.s:477    .text.putch:00000000 putch
-C:\Users\joris\AppData\Local\Temp\ccFCiYnP.s:511    .text.putch:0000001c $d
-C:\Users\joris\AppData\Local\Temp\ccFCiYnP.s:516    .text.change_err_led:00000000 $t
-C:\Users\joris\AppData\Local\Temp\ccFCiYnP.s:523    .text.change_err_led:00000000 change_err_led
-C:\Users\joris\AppData\Local\Temp\ccFCiYnP.s:551    .text.change_err_led:00000014 $d
-C:\Users\joris\AppData\Local\Temp\ccFCiYnP.s:556    .text.change_ok_led:00000000 $t
-C:\Users\joris\AppData\Local\Temp\ccFCiYnP.s:563    .text.change_ok_led:00000000 change_ok_led
-C:\Users\joris\AppData\Local\Temp\ccFCiYnP.s:591    .text.change_ok_led:00000014 $d
-C:\Users\joris\AppData\Local\Temp\ccFCiYnP.s:601    .bss:00000000 UartHandle
-C:\Users\joris\AppData\Local\Temp\ccFCiYnP.s:597    .bss:00000000 $d
+C:\Users\joris\AppData\Local\Temp\ccKWAVFT.s:16     .text.platform_init:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccKWAVFT.s:24     .text.platform_init:00000000 platform_init
+C:\Users\joris\AppData\Local\Temp\ccKWAVFT.s:145    .text.platform_init:00000078 $d
+C:\Users\joris\AppData\Local\Temp\ccKWAVFT.s:151    .text.init_uart:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccKWAVFT.s:158    .text.init_uart:00000000 init_uart
+C:\Users\joris\AppData\Local\Temp\ccKWAVFT.s:267    .text.init_uart:00000070 $d
+C:\Users\joris\AppData\Local\Temp\ccKWAVFT.s:274    .text.trigger_setup:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccKWAVFT.s:281    .text.trigger_setup:00000000 trigger_setup
+C:\Users\joris\AppData\Local\Temp\ccKWAVFT.s:353    .text.trigger_setup:00000044 $d
+C:\Users\joris\AppData\Local\Temp\ccKWAVFT.s:358    .text.trigger_high:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccKWAVFT.s:365    .text.trigger_high:00000000 trigger_high
+C:\Users\joris\AppData\Local\Temp\ccKWAVFT.s:382    .text.trigger_low:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccKWAVFT.s:389    .text.trigger_low:00000000 trigger_low
+C:\Users\joris\AppData\Local\Temp\ccKWAVFT.s:406    .text.getch:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccKWAVFT.s:413    .text.getch:00000000 getch
+C:\Users\joris\AppData\Local\Temp\ccKWAVFT.s:464    .text.getch:0000002c $d
+C:\Users\joris\AppData\Local\Temp\ccKWAVFT.s:470    .text.putch:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccKWAVFT.s:477    .text.putch:00000000 putch
+C:\Users\joris\AppData\Local\Temp\ccKWAVFT.s:511    .text.putch:0000001c $d
+C:\Users\joris\AppData\Local\Temp\ccKWAVFT.s:516    .text.change_err_led:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccKWAVFT.s:523    .text.change_err_led:00000000 change_err_led
+C:\Users\joris\AppData\Local\Temp\ccKWAVFT.s:551    .text.change_err_led:00000014 $d
+C:\Users\joris\AppData\Local\Temp\ccKWAVFT.s:556    .text.change_ok_led:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccKWAVFT.s:563    .text.change_ok_led:00000000 change_ok_led
+C:\Users\joris\AppData\Local\Temp\ccKWAVFT.s:591    .text.change_ok_led:00000014 $d
+C:\Users\joris\AppData\Local\Temp\ccKWAVFT.s:601    .bss:00000000 UartHandle
+C:\Users\joris\AppData\Local\Temp\ccKWAVFT.s:597    .bss:00000000 $d
 
 UNDEFINED SYMBOLS
 HAL_RCC_OscConfig

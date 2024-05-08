@@ -155,9 +155,9 @@
    5:main.c        **** GitHub: https://github.com/manoharmukku/multilayer-perceptron-in-c
    6:main.c        **** */
    7:main.c        **** 
-   8:main.c        **** #include "mlp_trainer.h"
+   8:main.c        **** //#include "mlp_trainer.h"
    9:main.c        **** #include "mlp_classifier.h"
-  10:main.c        **** #include "read_csv.h"
+  10:main.c        **** //#include "read_csv.h"
   11:main.c        **** #include "simpleserial.h"
   12:main.c        **** #include "hal.h"
   13:main.c        **** 
@@ -173,16 +173,30 @@
   23:main.c        **** //     return 0;
   24:main.c        **** // }
   25:main.c        **** 
-  26:main.c        **** uint8_t  mlp(uint8_t arg1, uint8_t arg2, uint8_t arg3, uint8_t *arg4) {
-  87              		.loc 1 26 71 view -0
+  26:main.c        **** uint8_t mlp(uint8_t cmd, uint8_t scmd, uint8_t len, uint8_t *in) {
+  87              		.loc 1 26 66 view -0
   88              		.cfi_startproc
-  89              		@ args = 0, pretend = 0, frame = 2760
+  89              		@ args = 0, pretend = 0, frame = 960
   90              		@ frame_needed = 0, uses_anonymous_args = 0
-  27:main.c        ****     //put some so we can check if we enter the function
-  28:main.c        ****     simpleserial_put('r', 1, (uint8_t *)0);
-  91              		.loc 1 28 5 view .LVU1
-  26:main.c        ****     //put some so we can check if we enter the function
-  92              		.loc 1 26 71 is_stmt 0 view .LVU2
+  27:main.c        ****     /* Device reset detected */
+  28:main.c        ****     //putch('r');
+  29:main.c        ****     //printf("Device reset detected\n");
+  30:main.c        ****     // putch('R');
+  31:main.c        ****     // putch('E');
+  32:main.c        ****     // putch('S');
+  33:main.c        ****     // putch('E');
+  34:main.c        ****     // putch('T');
+  35:main.c        ****     // putch(' ');
+  36:main.c        ****     // putch(' ');
+  37:main.c        ****     // putch(' ');
+  38:main.c        ****     // putch('\n');
+  39:main.c        **** 
+  40:main.c        **** 
+  41:main.c        ****     //HARDCODED VALS
+  42:main.c        ****     char *hardcoded_args[] = {
+  91              		.loc 1 42 5 view .LVU1
+  26:main.c        ****     /* Device reset detected */
+  92              		.loc 1 26 66 is_stmt 0 view .LVU2
   93 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
   94              	.LCFI0:
   95              		.cfi_def_cfa_offset 36
@@ -195,2292 +209,1776 @@
  102              		.cfi_offset 10, -12
  103              		.cfi_offset 11, -8
  104              		.cfi_offset 14, -4
-  29:main.c        **** 
-  30:main.c        **** 
-  31:main.c        ****     /* Device reset detected */
-  32:main.c        ****     //putch('r');
-  33:main.c        ****     //printf("Device reset detected\n");
-  34:main.c        ****     // putch('R');
-  35:main.c        ****     // putch('E');
-  36:main.c        ****     // putch('S');
-  37:main.c        ****     // putch('E');
-  38:main.c        ****     // putch('T');
-  39:main.c        ****     // putch(' ');
-  40:main.c        ****     // putch(' ');
-  41:main.c        ****     // putch(' ');
-  42:main.c        ****     // putch('\n');
-  43:main.c        **** 
-  44:main.c        **** 
-  45:main.c        ****     //HARDCODED VALS
-  46:main.c        ****     char *hardcoded_args[] = {
- 105              		.loc 1 46 11 view .LVU3
- 106 0004 AF4D     		ldr	r5, .L53
-  26:main.c        ****     //put some so we can check if we enter the function
- 107              		.loc 1 26 71 view .LVU4
- 108 0006 ADF6CC2D 		subw	sp, sp, #2764
- 109              	.LCFI1:
- 110              		.cfi_def_cfa_offset 2800
-  28:main.c        **** 
- 111              		.loc 1 28 5 view .LVU5
- 112 000a 0022     		movs	r2, #0
- 113              	.LVL1:
-  28:main.c        **** 
- 114              		.loc 1 28 5 view .LVU6
- 115 000c 0121     		movs	r1, #1
- 116              	.LVL2:
-  28:main.c        **** 
- 117              		.loc 1 28 5 view .LVU7
- 118 000e 7220     		movs	r0, #114
- 119              	.LVL3:
-  28:main.c        **** 
- 120              		.loc 1 28 5 view .LVU8
- 121 0010 FFF7FEFF 		bl	simpleserial_put
- 122              	.LVL4:
- 123              		.loc 1 46 5 is_stmt 1 view .LVU9
- 124              		.loc 1 46 11 is_stmt 0 view .LVU10
- 125 0014 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
- 126 0016 05AC     		add	r4, sp, #20
- 127 0018 0FC4     		stmia	r4!, {r0, r1, r2, r3}
- 128 001a 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
- 129 001c 0FC4     		stmia	r4!, {r0, r1, r2, r3}
- 130 001e 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
- 131 0020 0FC4     		stmia	r4!, {r0, r1, r2, r3}
- 132 0022 95E80700 		ldm	r5, {r0, r1, r2}
- 133 0026 84E80700 		stm	r4, {r0, r1, r2}
-  47:main.c        ****         "executable_name", // new_argv[0] is typically the program name
-  48:main.c        ****         "3",                // Number of hidden layers
-  49:main.c        ****         "4,5,5",            // Size of each hidden layer
-  50:main.c        ****         "softmax,relu,tanh",
-  51:main.c        ****         "1",           
-  52:main.c        ****         "sigmoid",         
-  53:main.c        ****         "0.01",              
-  54:main.c        ****         "10000 ",     
-  55:main.c        ****         "data/data_train.csv", 
-  56:main.c        ****         "1096",             
-  57:main.c        ****         "5",               
-  58:main.c        ****         "data/data_test.csv",
-  59:main.c        ****         "275",              
-  60:main.c        ****         "5",                
-  61:main.c        ****         NULL                // Sentinel to mark the end of the array
-  62:main.c        ****     };
-  63:main.c        **** 
-  64:main.c        ****     int new_argc = sizeof(hardcoded_args) / sizeof(char *) - 1; // Exclude the NULL sentinel
- 134              		.loc 1 64 5 is_stmt 1 view .LVU11
- 135              	.LVL5:
-  65:main.c        **** 
-  66:main.c        ****     // Allocate memory for the new new_argv
-  67:main.c        ****     char **new_argv = (char **)malloc(new_argc * sizeof(char *));
- 136              		.loc 1 67 5 view .LVU12
- 137              		.loc 1 67 32 is_stmt 0 view .LVU13
- 138 002a 3820     		movs	r0, #56
- 139 002c FFF7FEFF 		bl	malloc
- 140              	.LVL6:
- 141 0030 05AC     		add	r4, sp, #20
- 142 0032 0546     		mov	r5, r0
- 143              	.LVL7:
-  68:main.c        **** 
-  69:main.c        ****     // Copy the hardcoded strings to the new new_argv
-  70:main.c        ****     for (int i = 0; i < new_argc; i++) {
- 144              		.loc 1 70 5 is_stmt 1 view .LVU14
- 145              	.LBB2:
- 146              		.loc 1 70 10 view .LVU15
- 147              		.loc 1 70 21 view .LVU16
- 148 0034 061F     		subs	r6, r0, #4
- 149 0036 00F13408 		add	r8, r0, #52
- 150              	.LVL8:
- 151              	.L2:
-  71:main.c        ****         new_argv[i] = (char *)malloc((strlen(hardcoded_args[i]) + 1) * sizeof(char));
- 152              		.loc 1 71 9 discriminator 3 view .LVU17
- 153              		.loc 1 71 60 is_stmt 0 discriminator 3 view .LVU18
- 154 003a 54F8047B 		ldr	r7, [r4], #4
- 155              		.loc 1 71 39 discriminator 3 view .LVU19
- 156 003e 3846     		mov	r0, r7
- 157 0040 FFF7FEFF 		bl	strlen
- 158              	.LVL9:
- 159              		.loc 1 71 31 discriminator 3 view .LVU20
- 160 0044 0130     		adds	r0, r0, #1
- 161 0046 FFF7FEFF 		bl	malloc
- 162              	.LVL10:
- 163              		.loc 1 71 21 discriminator 3 view .LVU21
- 164 004a 46F8040F 		str	r0, [r6, #4]!
-  72:main.c        ****         strcpy(new_argv[i], hardcoded_args[i]);
- 165              		.loc 1 72 9 is_stmt 1 discriminator 3 view .LVU22
- 166 004e 3946     		mov	r1, r7
- 167 0050 FFF7FEFF 		bl	strcpy
- 168              	.LVL11:
-  70:main.c        ****         new_argv[i] = (char *)malloc((strlen(hardcoded_args[i]) + 1) * sizeof(char));
- 169              		.loc 1 70 35 discriminator 3 view .LVU23
-  70:main.c        ****         new_argv[i] = (char *)malloc((strlen(hardcoded_args[i]) + 1) * sizeof(char));
- 170              		.loc 1 70 21 discriminator 3 view .LVU24
-  70:main.c        ****         new_argv[i] = (char *)malloc((strlen(hardcoded_args[i]) + 1) * sizeof(char));
- 171              		.loc 1 70 5 is_stmt 0 discriminator 3 view .LVU25
- 172 0054 4645     		cmp	r6, r8
- 173 0056 F0D1     		bne	.L2
- 174              	.LBE2:
-  73:main.c        ****     }
-  74:main.c        **** 
-  75:main.c        ****     /*
-  76:main.c        ****     new_argv[0]: Executable file name Ex: a.out
-  77:main.c        ****     new_argv[1]: Number of hidden layers Ex: 3
-  78:main.c        ****     new_argv[2]: Size of each hidden layer separated by comma Ex: 4,5,5
-  79:main.c        ****     new_argv[3]: Hidden activation functions (identity - 1, sigmoid - 2, tanh - 3, relu - 4, softma
-  80:main.c        ****     new_argv[4]: Alpha (L2 Regularization parameter value)
-  81:main.c        ****     new_argv[5]: Maximum number of iterations
-  82:main.c        ****     new_argv[6]: Number of units in output layer
-  83:main.c        ****     new_argv[7]: Output activation function (identity - 1, sigmoid - 2, tanh - 3, relu - 4, softmax
-  84:main.c        ****     new_argv[8]: Name of the csv file containing the train dataset
-  85:main.c        ****     new_argv[9]: Number of rows or samples in the train dataset
-  86:main.c        ****     new_argv[10]: Number of features including the output variable in the train dataset
-  87:main.c        ****     new_argv[11]: Name of the csv file containing the test dataset
-  88:main.c        ****     new_argv[12]: Number of rows or samples in the test dataset
-  89:main.c        ****     new_argv[13]: Number of features including the output variable in the test dataset
-  90:main.c        ****     */
-  91:main.c        **** 
-  92:main.c        ****     // Sanity check of command line arguments
-  93:main.c        ****     // if (argc != 14) {
-  94:main.c        ****     //     // Print help for execution syntax
-  95:main.c        ****     //     printf("\nExecution syntax:\n");
-  96:main.c        ****     //     printf("-----------------\n");
-  97:main.c        ****     //     printf("Argument 0: Executable file name Ex: ./MLP \n");
-  98:main.c        ****     //     printf("Argument 1: Number of hidden layers Ex: 3 \n");
-  99:main.c        ****     //     printf("Argument 2: Number of units in each hidden layer from left to right separated by
- 100:main.c        ****     //     printf("Argument 3: Activation function of each hidden layer from left to right separate
- 101:main.c        ****     //     printf("Argument 4: Number of units in output layer (Specify 1 for binary classification
- 102:main.c        ****     //     printf("Argument 5: Output activation function Ex: sigmoid \n");
- 103:main.c        ****     //     printf("Argument 6: Learning rate parameter Ex: 0.01 \n");
- 104:main.c        ****     //     printf("Argument 7: Maximum number of iterations to run during training Ex: 10000 \n");
- 105:main.c        ****     //     printf("Argument 8: Path of the csv file containing the train dataset Ex: data/data_trai
- 106:main.c        ****     //     printf("Argument 9: Number of rows in the train dataset (Number of samples) Ex: 1096 \n"
- 107:main.c        ****     //     printf("Argument 10: Number of columns in the train dataset (Number of input features + 
- 108:main.c        ****     //     printf("Argument 11: Path of the csv file containing the test dataset Ex: data/data_test
- 109:main.c        ****     //     printf("Argument 12: Number of rows in the test dataset (Number of samples) Ex: 275 \n")
- 110:main.c        ****     //     printf("Argument 13: Number of columns in the test dataset (Number of input features + 1
- 111:main.c        ****     //     printf("Example:\n--------\n~$ ./MLP 3 4,5,5 softmax,relu,tanh 1 sigmoid 0.01 10000 data
+ 105              		.loc 1 42 11 view .LVU3
+ 106 0004 AC4D     		ldr	r5, .L53
+ 107 0006 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
+ 108              	.LVL1:
+  26:main.c        ****     /* Device reset detected */
+ 109              		.loc 1 26 66 view .LVU4
+ 110 0008 ADF5717D 		sub	sp, sp, #964
+ 111              	.LCFI1:
+ 112              		.cfi_def_cfa_offset 1000
+ 113              		.loc 1 42 11 view .LVU5
+ 114 000c 05AC     		add	r4, sp, #20
+ 115 000e 0FC4     		stmia	r4!, {r0, r1, r2, r3}
+ 116 0010 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
+ 117 0012 0FC4     		stmia	r4!, {r0, r1, r2, r3}
+ 118 0014 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
+ 119 0016 0FC4     		stmia	r4!, {r0, r1, r2, r3}
+ 120 0018 95E80700 		ldm	r5, {r0, r1, r2}
+ 121 001c 84E80700 		stm	r4, {r0, r1, r2}
+  43:main.c        ****         "executable_name", // new_argv[0] is typically the program name
+  44:main.c        ****         "3",                // Number of hidden layers
+  45:main.c        ****         "4,5,5",            // Size of each hidden layer
+  46:main.c        ****         "softmax,relu,tanh",
+  47:main.c        ****         "1",           
+  48:main.c        ****         "sigmoid",         
+  49:main.c        ****         "0.01",              
+  50:main.c        ****         "10000 ",     
+  51:main.c        ****         "data/data_train.csv", 
+  52:main.c        ****         "1096",             
+  53:main.c        ****         "5",               
+  54:main.c        ****         "data/data_test.csv",
+  55:main.c        ****         "275",              
+  56:main.c        ****         "5",                
+  57:main.c        ****         NULL                // Sentinel to mark the end of the array
+  58:main.c        ****     };
+  59:main.c        **** 
+  60:main.c        ****     int new_argc = sizeof(hardcoded_args) / sizeof(char *) - 1; // Exclude the NULL sentinel
+ 122              		.loc 1 60 5 is_stmt 1 view .LVU6
+ 123              	.LVL2:
+  61:main.c        **** 
+  62:main.c        ****     // Allocate memory for the new new_argv
+  63:main.c        ****     char **new_argv = (char **)malloc(new_argc * sizeof(char *));
+ 124              		.loc 1 63 5 view .LVU7
+ 125              		.loc 1 63 32 is_stmt 0 view .LVU8
+ 126 0020 3820     		movs	r0, #56
+ 127 0022 FFF7FEFF 		bl	malloc
+ 128              	.LVL3:
+ 129 0026 05AC     		add	r4, sp, #20
+ 130 0028 0546     		mov	r5, r0
+ 131              	.LVL4:
+  64:main.c        **** 
+  65:main.c        ****     // Copy the hardcoded strings to the new new_argv
+  66:main.c        ****     for (int i = 0; i < new_argc; i++) {
+ 132              		.loc 1 66 5 is_stmt 1 view .LVU9
+ 133              	.LBB2:
+ 134              		.loc 1 66 10 view .LVU10
+ 135              		.loc 1 66 21 view .LVU11
+ 136 002a 061F     		subs	r6, r0, #4
+ 137 002c 00F13408 		add	r8, r0, #52
+ 138              	.LVL5:
+ 139              	.L2:
+  67:main.c        ****         new_argv[i] = (char *)malloc((strlen(hardcoded_args[i]) + 1) * sizeof(char));
+ 140              		.loc 1 67 9 discriminator 3 view .LVU12
+ 141              		.loc 1 67 60 is_stmt 0 discriminator 3 view .LVU13
+ 142 0030 54F8047B 		ldr	r7, [r4], #4
+ 143              		.loc 1 67 39 discriminator 3 view .LVU14
+ 144 0034 3846     		mov	r0, r7
+ 145 0036 FFF7FEFF 		bl	strlen
+ 146              	.LVL6:
+ 147              		.loc 1 67 31 discriminator 3 view .LVU15
+ 148 003a 0130     		adds	r0, r0, #1
+ 149 003c FFF7FEFF 		bl	malloc
+ 150              	.LVL7:
+ 151              		.loc 1 67 21 discriminator 3 view .LVU16
+ 152 0040 46F8040F 		str	r0, [r6, #4]!
+  68:main.c        ****         strcpy(new_argv[i], hardcoded_args[i]);
+ 153              		.loc 1 68 9 is_stmt 1 discriminator 3 view .LVU17
+ 154 0044 3946     		mov	r1, r7
+ 155 0046 FFF7FEFF 		bl	strcpy
+ 156              	.LVL8:
+  66:main.c        ****         new_argv[i] = (char *)malloc((strlen(hardcoded_args[i]) + 1) * sizeof(char));
+ 157              		.loc 1 66 35 discriminator 3 view .LVU18
+  66:main.c        ****         new_argv[i] = (char *)malloc((strlen(hardcoded_args[i]) + 1) * sizeof(char));
+ 158              		.loc 1 66 21 discriminator 3 view .LVU19
+  66:main.c        ****         new_argv[i] = (char *)malloc((strlen(hardcoded_args[i]) + 1) * sizeof(char));
+ 159              		.loc 1 66 5 is_stmt 0 discriminator 3 view .LVU20
+ 160 004a 4645     		cmp	r6, r8
+ 161 004c F0D1     		bne	.L2
+ 162              	.LBE2:
+  69:main.c        ****     }
+  70:main.c        **** 
+  71:main.c        ****     /*
+  72:main.c        ****     new_argv[0]: Executable file name Ex: a.out
+  73:main.c        ****     new_argv[1]: Number of hidden layers Ex: 3
+  74:main.c        ****     new_argv[2]: Size of each hidden layer separated by comma Ex: 4,5,5
+  75:main.c        ****     new_argv[3]: Hidden activation functions (identity - 1, sigmoid - 2, tanh - 3, relu - 4, softma
+  76:main.c        ****     new_argv[4]: Alpha (L2 Regularization parameter value)
+  77:main.c        ****     new_argv[5]: Maximum number of iterations
+  78:main.c        ****     new_argv[6]: Number of units in output layer
+  79:main.c        ****     new_argv[7]: Output activation function (identity - 1, sigmoid - 2, tanh - 3, relu - 4, softmax
+  80:main.c        ****     new_argv[8]: Name of the csv file containing the train dataset
+  81:main.c        ****     new_argv[9]: Number of rows or samples in the train dataset
+  82:main.c        ****     new_argv[10]: Number of features including the output variable in the train dataset
+  83:main.c        ****     new_argv[11]: Name of the csv file containing the test dataset
+  84:main.c        ****     new_argv[12]: Number of rows or samples in the test dataset
+  85:main.c        ****     new_argv[13]: Number of features including the output variable in the test dataset
+  86:main.c        ****     */
+  87:main.c        **** 
+  88:main.c        ****     // Sanity check of command line arguments
+  89:main.c        ****     // if (argc != 14) {
+  90:main.c        ****     //     // Print help for execution syntax
+  91:main.c        ****     //     printf("\nExecution syntax:\n");
+  92:main.c        ****     //     printf("-----------------\n");
+  93:main.c        ****     //     printf("Argument 0: Executable file name Ex: ./MLP \n");
+  94:main.c        ****     //     printf("Argument 1: Number of hidden layers Ex: 3 \n");
+  95:main.c        ****     //     printf("Argument 2: Number of units in each hidden layer from left to right separated by
+  96:main.c        ****     //     printf("Argument 3: Activation function of each hidden layer from left to right separate
+  97:main.c        ****     //     printf("Argument 4: Number of units in output layer (Specify 1 for binary classification
+  98:main.c        ****     //     printf("Argument 5: Output activation function Ex: sigmoid \n");
+  99:main.c        ****     //     printf("Argument 6: Learning rate parameter Ex: 0.01 \n");
+ 100:main.c        ****     //     printf("Argument 7: Maximum number of iterations to run during training Ex: 10000 \n");
+ 101:main.c        ****     //     printf("Argument 8: Path of the csv file containing the train dataset Ex: data/data_trai
+ 102:main.c        ****     //     printf("Argument 9: Number of rows in the train dataset (Number of samples) Ex: 1096 \n"
+ 103:main.c        ****     //     printf("Argument 10: Number of columns in the train dataset (Number of input features + 
+ 104:main.c        ****     //     printf("Argument 11: Path of the csv file containing the test dataset Ex: data/data_test
+ 105:main.c        ****     //     printf("Argument 12: Number of rows in the test dataset (Number of samples) Ex: 275 \n")
+ 106:main.c        ****     //     printf("Argument 13: Number of columns in the test dataset (Number of input features + 1
+ 107:main.c        ****     //     printf("Example:\n--------\n~$ ./MLP 3 4,5,5 softmax,relu,tanh 1 sigmoid 0.01 10000 data
+ 108:main.c        **** 
+ 109:main.c        ****     //     exit(0);
+ 110:main.c        ****     // }
+ 111:main.c        **** 
  112:main.c        **** 
- 113:main.c        ****     //     exit(0);
- 114:main.c        ****     // }
+ 113:main.c        ****     // Create memory for training parameters struct
+ 114:main.c        ****     param = (parameters*)malloc(sizeof(parameters));
+ 163              		.loc 1 114 5 is_stmt 1 view .LVU21
+ 164              		.loc 1 114 26 is_stmt 0 view .LVU22
+ 165 004e 4020     		movs	r0, #64
+ 166 0050 FFF7FEFF 		bl	malloc
+ 167              	.LVL9:
+ 168              		.loc 1 114 11 view .LVU23
+ 169 0054 994C     		ldr	r4, .L53+4
+ 170              		.loc 1 114 26 view .LVU24
+ 171 0056 0646     		mov	r6, r0
+ 172              		.loc 1 114 11 view .LVU25
+ 173 0058 2060     		str	r0, [r4]
  115:main.c        **** 
- 116:main.c        **** 
- 117:main.c        ****     // Create memory for training parameters struct
- 118:main.c        ****     param = (parameters*)malloc(sizeof(parameters));
- 175              		.loc 1 118 5 is_stmt 1 view .LVU26
- 176              		.loc 1 118 26 is_stmt 0 view .LVU27
- 177 0058 4020     		movs	r0, #64
- 178 005a FFF7FEFF 		bl	malloc
- 179              	.LVL12:
- 180              		.loc 1 118 11 view .LVU28
- 181 005e 9A4C     		ldr	r4, .L53+4
- 182              		.loc 1 118 26 view .LVU29
- 183 0060 0646     		mov	r6, r0
- 184              		.loc 1 118 11 view .LVU30
- 185 0062 2060     		str	r0, [r4]
- 119:main.c        **** 
- 120:main.c        ****     // Number of hidden layers
- 121:main.c        ****     param->n_hidden = atoi(new_argv[1]);
- 186              		.loc 1 121 5 is_stmt 1 view .LVU31
- 187              		.loc 1 121 23 is_stmt 0 view .LVU32
- 188 0064 6868     		ldr	r0, [r5, #4]
- 189 0066 FFF7FEFF 		bl	atoi
- 190              	.LVL13:
- 191              		.loc 1 121 21 view .LVU33
- 192 006a 3060     		str	r0, [r6]
- 122:main.c        ****     // Sanity check of number of hidden layers
- 123:main.c        ****     if (param->n_hidden < 0) {
- 193              		.loc 1 123 5 is_stmt 1 view .LVU34
- 194              		.loc 1 123 14 is_stmt 0 view .LVU35
- 195 006c 2668     		ldr	r6, [r4]
- 196 006e 3068     		ldr	r0, [r6]
- 197              		.loc 1 123 8 view .LVU36
- 198 0070 0028     		cmp	r0, #0
- 199 0072 05DA     		bge	.L3
- 124:main.c        ****         printf("Error: Number of hidden layers should be >= 0\n");
- 200              		.loc 1 124 9 is_stmt 1 view .LVU37
- 201 0074 9548     		ldr	r0, .L53+8
- 202              	.LVL14:
- 203              	.L52:
- 125:main.c        ****         exit(0);
- 126:main.c        ****     }
- 127:main.c        **** 
- 128:main.c        ****     // Size of each hidden layer
- 129:main.c        ****     param->hidden_layers_size = (int*)malloc(param->n_hidden * sizeof(int));
- 130:main.c        ****     int i;
- 131:main.c        ****     char* tok;
- 132:main.c        ****     for (i = 0, tok = strtok(new_argv[2], ","); i < param->n_hidden; i++) {
- 133:main.c        ****         param->hidden_layers_size[i] = atoi(tok);
- 134:main.c        ****         // Sanity check of size of hidden layer
- 135:main.c        ****         if (param->hidden_layers_size[i] <= 0) {
- 136:main.c        ****             printf("Error: Hidden layer sizes should be positive\n");
- 204              		.loc 1 136 13 is_stmt 0 view .LVU38
- 205 0076 FFF7FEFF 		bl	puts
- 206              	.LVL15:
- 137:main.c        ****             exit(0);
- 207              		.loc 1 137 13 is_stmt 1 view .LVU39
- 208 007a 0020     		movs	r0, #0
- 209 007c FFF7FEFF 		bl	exit
- 210              	.LVL16:
- 211              	.L3:
- 129:main.c        ****     int i;
- 212              		.loc 1 129 5 view .LVU40
- 129:main.c        ****     int i;
- 213              		.loc 1 129 39 is_stmt 0 view .LVU41
- 214 0080 8000     		lsls	r0, r0, #2
- 215 0082 FFF7FEFF 		bl	malloc
- 216              	.LVL17:
- 132:main.c        ****         param->hidden_layers_size[i] = atoi(tok);
- 217              		.loc 1 132 23 view .LVU42
- 218 0086 9249     		ldr	r1, .L53+12
- 129:main.c        ****     int i;
- 219              		.loc 1 129 31 view .LVU43
- 220 0088 7060     		str	r0, [r6, #4]
- 130:main.c        ****     char* tok;
- 221              		.loc 1 130 5 is_stmt 1 view .LVU44
- 131:main.c        ****     for (i = 0, tok = strtok(new_argv[2], ","); i < param->n_hidden; i++) {
- 222              		.loc 1 131 5 view .LVU45
- 132:main.c        ****         param->hidden_layers_size[i] = atoi(tok);
- 223              		.loc 1 132 5 view .LVU46
- 224              	.LVL18:
- 132:main.c        ****         param->hidden_layers_size[i] = atoi(tok);
- 225              		.loc 1 132 23 is_stmt 0 view .LVU47
- 226 008a A868     		ldr	r0, [r5, #8]
- 138:main.c        ****         }
- 139:main.c        ****         tok = strtok(NULL, ",");
- 227              		.loc 1 139 15 view .LVU48
- 228 008c DFF84082 		ldr	r8, .L53+12
- 132:main.c        ****         param->hidden_layers_size[i] = atoi(tok);
- 229              		.loc 1 132 23 view .LVU49
- 230 0090 FFF7FEFF 		bl	strtok
- 231              	.LVL19:
- 132:main.c        ****         param->hidden_layers_size[i] = atoi(tok);
- 232              		.loc 1 132 12 view .LVU50
- 233 0094 0026     		movs	r6, #0
- 234              	.LVL20:
- 235              	.L4:
- 132:main.c        ****         param->hidden_layers_size[i] = atoi(tok);
- 236              		.loc 1 132 49 is_stmt 1 discriminator 1 view .LVU51
- 132:main.c        ****         param->hidden_layers_size[i] = atoi(tok);
- 237              		.loc 1 132 58 is_stmt 0 discriminator 1 view .LVU52
- 238 0096 2768     		ldr	r7, [r4]
- 239 0098 3B68     		ldr	r3, [r7]
- 132:main.c        ****         param->hidden_layers_size[i] = atoi(tok);
- 240              		.loc 1 132 5 discriminator 1 view .LVU53
- 241 009a B342     		cmp	r3, r6
- 242 009c 1CDC     		bgt	.L6
- 140:main.c        ****     }
- 141:main.c        **** 
- 142:main.c        ****     // Hidden activation functions - Activation functions for each hidden layer
- 143:main.c        ****     param->hidden_activation_functions = (int*)malloc(param->n_hidden * sizeof(int));
- 243              		.loc 1 143 5 is_stmt 1 view .LVU54
- 244              		.loc 1 143 48 is_stmt 0 view .LVU55
- 245 009e 9800     		lsls	r0, r3, #2
- 246 00a0 FFF7FEFF 		bl	malloc
- 247              	.LVL21:
- 144:main.c        ****     for (i = 0, tok = strtok(new_argv[3], ","); i < param->n_hidden; i++) {
- 248              		.loc 1 144 23 view .LVU56
- 249 00a4 8A49     		ldr	r1, .L53+12
- 143:main.c        ****     for (i = 0, tok = strtok(new_argv[3], ","); i < param->n_hidden; i++) {
- 250              		.loc 1 143 40 view .LVU57
- 251 00a6 B860     		str	r0, [r7, #8]
- 252              		.loc 1 144 5 is_stmt 1 view .LVU58
- 253              	.LVL22:
- 254              		.loc 1 144 23 is_stmt 0 view .LVU59
- 255 00a8 E868     		ldr	r0, [r5, #12]
- 145:main.c        ****         if (strcmp(tok, "identity") == 0) {
- 146:main.c        ****             param->hidden_activation_functions[i] = 1;
- 147:main.c        ****         }
- 148:main.c        ****         else if (strcmp(tok, "sigmoid") == 0) {
- 256              		.loc 1 148 18 view .LVU60
- 257 00aa DFF828A2 		ldr	r10, .L53+16
- 149:main.c        ****             param->hidden_activation_functions[i] = 2;
- 150:main.c        ****         }
- 151:main.c        ****         else if (strcmp(tok, "tanh") == 0) {
- 258              		.loc 1 151 18 view .LVU61
- 259 00ae DFF828B2 		ldr	fp, .L53+20
- 144:main.c        ****         if (strcmp(tok, "identity") == 0) {
- 260              		.loc 1 144 23 view .LVU62
- 261 00b2 FFF7FEFF 		bl	strtok
- 262              	.LVL23:
- 144:main.c        ****         if (strcmp(tok, "identity") == 0) {
- 263              		.loc 1 144 5 view .LVU63
- 264 00b6 0026     		movs	r6, #0
- 144:main.c        ****         if (strcmp(tok, "identity") == 0) {
- 265              		.loc 1 144 23 view .LVU64
- 266 00b8 8146     		mov	r9, r0
- 267              	.LVL24:
- 144:main.c        ****         if (strcmp(tok, "identity") == 0) {
- 268              		.loc 1 144 12 view .LVU65
- 269 00ba B046     		mov	r8, r6
- 270              	.LVL25:
- 271              	.L7:
- 144:main.c        ****         if (strcmp(tok, "identity") == 0) {
- 272              		.loc 1 144 49 is_stmt 1 discriminator 1 view .LVU66
- 144:main.c        ****         if (strcmp(tok, "identity") == 0) {
- 273              		.loc 1 144 58 is_stmt 0 discriminator 1 view .LVU67
- 274 00bc 2768     		ldr	r7, [r4]
- 144:main.c        ****         if (strcmp(tok, "identity") == 0) {
- 275              		.loc 1 144 5 discriminator 1 view .LVU68
- 276 00be 3A68     		ldr	r2, [r7]
- 277 00c0 4245     		cmp	r2, r8
- 278 00c2 1CDC     		bgt	.L14
- 152:main.c        ****             param->hidden_activation_functions[i] = 3;
- 153:main.c        ****         }
- 154:main.c        ****         else if (strcmp(tok, "relu") == 0) {
- 155:main.c        ****             param->hidden_activation_functions[i] = 4;
- 156:main.c        ****         }
- 157:main.c        ****         else if (strcmp(tok, "softmax") == 0) {
- 158:main.c        ****             param->hidden_activation_functions[i] = 5;
- 159:main.c        ****         }
- 160:main.c        ****         else {
- 161:main.c        ****             printf("Error: Invalid value for hidden activation function\n");
- 162:main.c        ****             printf("Input either identity or sigmoid or tanh or relu or softmax for hidden activati
- 163:main.c        ****             exit(0);
- 164:main.c        ****         }
- 165:main.c        **** 
- 166:main.c        ****         tok = strtok(NULL, ",");
- 167:main.c        ****     }
- 168:main.c        **** 
- 169:main.c        ****     // Output layer size
- 170:main.c        ****     param->output_layer_size = atoi(new_argv[4]);
- 279              		.loc 1 170 5 is_stmt 1 view .LVU69
- 280              		.loc 1 170 32 is_stmt 0 view .LVU70
- 281 00c4 2869     		ldr	r0, [r5, #16]
- 282              	.LVL26:
- 283              		.loc 1 170 32 view .LVU71
- 284 00c6 FFF7FEFF 		bl	atoi
- 285              	.LVL27:
- 171:main.c        ****     if (param->output_layer_size <= 0) {
- 286              		.loc 1 171 14 view .LVU72
- 287 00ca 2668     		ldr	r6, [r4]
- 170:main.c        ****     if (param->output_layer_size <= 0) {
- 288              		.loc 1 170 30 view .LVU73
- 289 00cc 3862     		str	r0, [r7, #32]
- 290              		.loc 1 171 5 is_stmt 1 view .LVU74
- 291              		.loc 1 171 8 is_stmt 0 view .LVU75
- 292 00ce 336A     		ldr	r3, [r6, #32]
- 293 00d0 002B     		cmp	r3, #0
- 294 00d2 4ADC     		bgt	.L15
- 172:main.c        ****         printf("Output layer size should be positive\n");
- 295              		.loc 1 172 9 is_stmt 1 view .LVU76
- 296 00d4 8148     		ldr	r0, .L53+24
- 297 00d6 CEE7     		b	.L52
- 298              	.LVL28:
- 299              	.L6:
- 133:main.c        ****         // Sanity check of size of hidden layer
- 300              		.loc 1 133 9 view .LVU77
- 133:main.c        ****         // Sanity check of size of hidden layer
- 301              		.loc 1 133 34 is_stmt 0 view .LVU78
- 302 00d8 7F68     		ldr	r7, [r7, #4]
- 133:main.c        ****         // Sanity check of size of hidden layer
- 303              		.loc 1 133 40 view .LVU79
- 304 00da FFF7FEFF 		bl	atoi
- 305              	.LVL29:
- 135:main.c        ****             printf("Error: Hidden layer sizes should be positive\n");
- 306              		.loc 1 135 18 view .LVU80
- 307 00de 2368     		ldr	r3, [r4]
- 133:main.c        ****         // Sanity check of size of hidden layer
- 308              		.loc 1 133 38 view .LVU81
- 309 00e0 47F82600 		str	r0, [r7, r6, lsl #2]
- 135:main.c        ****             printf("Error: Hidden layer sizes should be positive\n");
- 310              		.loc 1 135 9 is_stmt 1 view .LVU82
- 135:main.c        ****             printf("Error: Hidden layer sizes should be positive\n");
- 311              		.loc 1 135 38 is_stmt 0 view .LVU83
- 312 00e4 5B68     		ldr	r3, [r3, #4]
- 135:main.c        ****             printf("Error: Hidden layer sizes should be positive\n");
- 313              		.loc 1 135 12 view .LVU84
- 314 00e6 53F82630 		ldr	r3, [r3, r6, lsl #2]
- 315 00ea 002B     		cmp	r3, #0
- 316 00ec 01DC     		bgt	.L5
- 136:main.c        ****             exit(0);
- 317              		.loc 1 136 13 is_stmt 1 view .LVU85
- 318 00ee 7C48     		ldr	r0, .L53+28
- 319 00f0 C1E7     		b	.L52
- 320              	.L5:
- 139:main.c        ****     }
- 321              		.loc 1 139 9 discriminator 2 view .LVU86
- 139:main.c        ****     }
- 322              		.loc 1 139 15 is_stmt 0 discriminator 2 view .LVU87
- 323 00f2 4146     		mov	r1, r8
- 324 00f4 0020     		movs	r0, #0
- 325 00f6 FFF7FEFF 		bl	strtok
- 326              	.LVL30:
- 132:main.c        ****         param->hidden_layers_size[i] = atoi(tok);
- 327              		.loc 1 132 70 is_stmt 1 discriminator 2 view .LVU88
- 132:main.c        ****         param->hidden_layers_size[i] = atoi(tok);
- 328              		.loc 1 132 71 is_stmt 0 discriminator 2 view .LVU89
- 329 00fa 0136     		adds	r6, r6, #1
+ 116:main.c        ****     // Number of hidden layers
+ 117:main.c        ****     param->n_hidden = atoi(new_argv[1]);
+ 174              		.loc 1 117 5 is_stmt 1 view .LVU26
+ 175              		.loc 1 117 23 is_stmt 0 view .LVU27
+ 176 005a 6868     		ldr	r0, [r5, #4]
+ 177 005c FFF7FEFF 		bl	atoi
+ 178              	.LVL10:
+ 179              		.loc 1 117 21 view .LVU28
+ 180 0060 3060     		str	r0, [r6]
+ 118:main.c        ****     // Sanity check of number of hidden layers
+ 119:main.c        ****     if (param->n_hidden < 0) {
+ 181              		.loc 1 119 5 is_stmt 1 view .LVU29
+ 182              		.loc 1 119 14 is_stmt 0 view .LVU30
+ 183 0062 2668     		ldr	r6, [r4]
+ 184 0064 3068     		ldr	r0, [r6]
+ 185              		.loc 1 119 8 view .LVU31
+ 186 0066 0028     		cmp	r0, #0
+ 187 0068 05DA     		bge	.L3
+ 120:main.c        ****         printf("Error: Number of hidden layers should be >= 0\n");
+ 188              		.loc 1 120 9 is_stmt 1 view .LVU32
+ 189 006a 9548     		ldr	r0, .L53+8
+ 190              	.LVL11:
+ 191              	.L52:
+ 121:main.c        ****         exit(0);
+ 122:main.c        ****     }
+ 123:main.c        **** 
+ 124:main.c        ****     // Size of each hidden layer
+ 125:main.c        ****     param->hidden_layers_size = (int*)malloc(param->n_hidden * sizeof(int));
+ 126:main.c        ****     int i;
+ 127:main.c        ****     char* tok;
+ 128:main.c        ****     for (i = 0, tok = strtok(new_argv[2], ","); i < param->n_hidden; i++) {
+ 129:main.c        ****         param->hidden_layers_size[i] = atoi(tok);
+ 130:main.c        ****         // Sanity check of size of hidden layer
+ 131:main.c        ****         if (param->hidden_layers_size[i] <= 0) {
+ 132:main.c        ****             printf("Error: Hidden layer sizes should be positive\n");
+ 192              		.loc 1 132 13 is_stmt 0 view .LVU33
+ 193 006c FFF7FEFF 		bl	puts
+ 194              	.LVL12:
+ 133:main.c        ****             exit(0);
+ 195              		.loc 1 133 13 is_stmt 1 view .LVU34
+ 196 0070 0020     		movs	r0, #0
+ 197 0072 FFF7FEFF 		bl	exit
+ 198              	.LVL13:
+ 199              	.L3:
+ 125:main.c        ****     int i;
+ 200              		.loc 1 125 5 view .LVU35
+ 125:main.c        ****     int i;
+ 201              		.loc 1 125 39 is_stmt 0 view .LVU36
+ 202 0076 8000     		lsls	r0, r0, #2
+ 203 0078 FFF7FEFF 		bl	malloc
+ 204              	.LVL14:
+ 128:main.c        ****         param->hidden_layers_size[i] = atoi(tok);
+ 205              		.loc 1 128 23 view .LVU37
+ 206 007c 9149     		ldr	r1, .L53+12
+ 125:main.c        ****     int i;
+ 207              		.loc 1 125 31 view .LVU38
+ 208 007e 7060     		str	r0, [r6, #4]
+ 126:main.c        ****     char* tok;
+ 209              		.loc 1 126 5 is_stmt 1 view .LVU39
+ 127:main.c        ****     for (i = 0, tok = strtok(new_argv[2], ","); i < param->n_hidden; i++) {
+ 210              		.loc 1 127 5 view .LVU40
+ 128:main.c        ****         param->hidden_layers_size[i] = atoi(tok);
+ 211              		.loc 1 128 5 view .LVU41
+ 212              	.LVL15:
+ 128:main.c        ****         param->hidden_layers_size[i] = atoi(tok);
+ 213              		.loc 1 128 23 is_stmt 0 view .LVU42
+ 214 0080 A868     		ldr	r0, [r5, #8]
+ 134:main.c        ****         }
+ 135:main.c        ****         tok = strtok(NULL, ",");
+ 215              		.loc 1 135 15 view .LVU43
+ 216 0082 DFF84082 		ldr	r8, .L53+12
+ 128:main.c        ****         param->hidden_layers_size[i] = atoi(tok);
+ 217              		.loc 1 128 23 view .LVU44
+ 218 0086 FFF7FEFF 		bl	strtok
+ 219              	.LVL16:
+ 128:main.c        ****         param->hidden_layers_size[i] = atoi(tok);
+ 220              		.loc 1 128 12 view .LVU45
+ 221 008a 0026     		movs	r6, #0
+ 222              	.LVL17:
+ 223              	.L4:
+ 128:main.c        ****         param->hidden_layers_size[i] = atoi(tok);
+ 224              		.loc 1 128 49 is_stmt 1 discriminator 1 view .LVU46
+ 128:main.c        ****         param->hidden_layers_size[i] = atoi(tok);
+ 225              		.loc 1 128 58 is_stmt 0 discriminator 1 view .LVU47
+ 226 008c 2768     		ldr	r7, [r4]
+ 227 008e 3B68     		ldr	r3, [r7]
+ 128:main.c        ****         param->hidden_layers_size[i] = atoi(tok);
+ 228              		.loc 1 128 5 discriminator 1 view .LVU48
+ 229 0090 B342     		cmp	r3, r6
+ 230 0092 1CDC     		bgt	.L6
+ 136:main.c        ****     }
+ 137:main.c        **** 
+ 138:main.c        ****     // Hidden activation functions - Activation functions for each hidden layer
+ 139:main.c        ****     param->hidden_activation_functions = (int*)malloc(param->n_hidden * sizeof(int));
+ 231              		.loc 1 139 5 is_stmt 1 view .LVU49
+ 232              		.loc 1 139 48 is_stmt 0 view .LVU50
+ 233 0094 9800     		lsls	r0, r3, #2
+ 234 0096 FFF7FEFF 		bl	malloc
+ 235              	.LVL18:
+ 140:main.c        ****     for (i = 0, tok = strtok(new_argv[3], ","); i < param->n_hidden; i++) {
+ 236              		.loc 1 140 23 view .LVU51
+ 237 009a 8A49     		ldr	r1, .L53+12
+ 139:main.c        ****     for (i = 0, tok = strtok(new_argv[3], ","); i < param->n_hidden; i++) {
+ 238              		.loc 1 139 40 view .LVU52
+ 239 009c B860     		str	r0, [r7, #8]
+ 240              		.loc 1 140 5 is_stmt 1 view .LVU53
+ 241              	.LVL19:
+ 242              		.loc 1 140 23 is_stmt 0 view .LVU54
+ 243 009e E868     		ldr	r0, [r5, #12]
+ 141:main.c        ****         if (strcmp(tok, "identity") == 0) {
+ 142:main.c        ****             param->hidden_activation_functions[i] = 1;
+ 143:main.c        ****         }
+ 144:main.c        ****         else if (strcmp(tok, "sigmoid") == 0) {
+ 244              		.loc 1 144 18 view .LVU55
+ 245 00a0 DFF824A2 		ldr	r10, .L53+16
+ 145:main.c        ****             param->hidden_activation_functions[i] = 2;
+ 146:main.c        ****         }
+ 147:main.c        ****         else if (strcmp(tok, "tanh") == 0) {
+ 246              		.loc 1 147 18 view .LVU56
+ 247 00a4 DFF824B2 		ldr	fp, .L53+20
+ 140:main.c        ****         if (strcmp(tok, "identity") == 0) {
+ 248              		.loc 1 140 23 view .LVU57
+ 249 00a8 FFF7FEFF 		bl	strtok
+ 250              	.LVL20:
+ 140:main.c        ****         if (strcmp(tok, "identity") == 0) {
+ 251              		.loc 1 140 5 view .LVU58
+ 252 00ac 0026     		movs	r6, #0
+ 140:main.c        ****         if (strcmp(tok, "identity") == 0) {
+ 253              		.loc 1 140 23 view .LVU59
+ 254 00ae 8146     		mov	r9, r0
+ 255              	.LVL21:
+ 140:main.c        ****         if (strcmp(tok, "identity") == 0) {
+ 256              		.loc 1 140 12 view .LVU60
+ 257 00b0 B046     		mov	r8, r6
+ 258              	.LVL22:
+ 259              	.L7:
+ 140:main.c        ****         if (strcmp(tok, "identity") == 0) {
+ 260              		.loc 1 140 49 is_stmt 1 discriminator 1 view .LVU61
+ 140:main.c        ****         if (strcmp(tok, "identity") == 0) {
+ 261              		.loc 1 140 58 is_stmt 0 discriminator 1 view .LVU62
+ 262 00b2 2768     		ldr	r7, [r4]
+ 140:main.c        ****         if (strcmp(tok, "identity") == 0) {
+ 263              		.loc 1 140 5 discriminator 1 view .LVU63
+ 264 00b4 3A68     		ldr	r2, [r7]
+ 265 00b6 4245     		cmp	r2, r8
+ 266 00b8 1CDC     		bgt	.L14
+ 148:main.c        ****             param->hidden_activation_functions[i] = 3;
+ 149:main.c        ****         }
+ 150:main.c        ****         else if (strcmp(tok, "relu") == 0) {
+ 151:main.c        ****             param->hidden_activation_functions[i] = 4;
+ 152:main.c        ****         }
+ 153:main.c        ****         else if (strcmp(tok, "softmax") == 0) {
+ 154:main.c        ****             param->hidden_activation_functions[i] = 5;
+ 155:main.c        ****         }
+ 156:main.c        ****         else {
+ 157:main.c        ****             printf("Error: Invalid value for hidden activation function\n");
+ 158:main.c        ****             printf("Input either identity or sigmoid or tanh or relu or softmax for hidden activati
+ 159:main.c        ****             exit(0);
+ 160:main.c        ****         }
+ 161:main.c        **** 
+ 162:main.c        ****         tok = strtok(NULL, ",");
+ 163:main.c        ****     }
+ 164:main.c        **** 
+ 165:main.c        ****     // Output layer size
+ 166:main.c        ****     param->output_layer_size = atoi(new_argv[4]);
+ 267              		.loc 1 166 5 is_stmt 1 view .LVU64
+ 268              		.loc 1 166 32 is_stmt 0 view .LVU65
+ 269 00ba 2869     		ldr	r0, [r5, #16]
+ 270              	.LVL23:
+ 271              		.loc 1 166 32 view .LVU66
+ 272 00bc FFF7FEFF 		bl	atoi
+ 273              	.LVL24:
+ 167:main.c        ****     if (param->output_layer_size <= 0) {
+ 274              		.loc 1 167 14 view .LVU67
+ 275 00c0 2668     		ldr	r6, [r4]
+ 166:main.c        ****     if (param->output_layer_size <= 0) {
+ 276              		.loc 1 166 30 view .LVU68
+ 277 00c2 3862     		str	r0, [r7, #32]
+ 278              		.loc 1 167 5 is_stmt 1 view .LVU69
+ 279              		.loc 1 167 8 is_stmt 0 view .LVU70
+ 280 00c4 336A     		ldr	r3, [r6, #32]
+ 281 00c6 002B     		cmp	r3, #0
+ 282 00c8 4ADC     		bgt	.L15
+ 168:main.c        ****         printf("Output layer size should be positive\n");
+ 283              		.loc 1 168 9 is_stmt 1 view .LVU71
+ 284 00ca 8148     		ldr	r0, .L53+24
+ 285 00cc CEE7     		b	.L52
+ 286              	.LVL25:
+ 287              	.L6:
+ 129:main.c        ****         // Sanity check of size of hidden layer
+ 288              		.loc 1 129 9 view .LVU72
+ 129:main.c        ****         // Sanity check of size of hidden layer
+ 289              		.loc 1 129 34 is_stmt 0 view .LVU73
+ 290 00ce 7F68     		ldr	r7, [r7, #4]
+ 129:main.c        ****         // Sanity check of size of hidden layer
+ 291              		.loc 1 129 40 view .LVU74
+ 292 00d0 FFF7FEFF 		bl	atoi
+ 293              	.LVL26:
+ 131:main.c        ****             printf("Error: Hidden layer sizes should be positive\n");
+ 294              		.loc 1 131 18 view .LVU75
+ 295 00d4 2368     		ldr	r3, [r4]
+ 129:main.c        ****         // Sanity check of size of hidden layer
+ 296              		.loc 1 129 38 view .LVU76
+ 297 00d6 47F82600 		str	r0, [r7, r6, lsl #2]
+ 131:main.c        ****             printf("Error: Hidden layer sizes should be positive\n");
+ 298              		.loc 1 131 9 is_stmt 1 view .LVU77
+ 131:main.c        ****             printf("Error: Hidden layer sizes should be positive\n");
+ 299              		.loc 1 131 38 is_stmt 0 view .LVU78
+ 300 00da 5B68     		ldr	r3, [r3, #4]
+ 131:main.c        ****             printf("Error: Hidden layer sizes should be positive\n");
+ 301              		.loc 1 131 12 view .LVU79
+ 302 00dc 53F82630 		ldr	r3, [r3, r6, lsl #2]
+ 303 00e0 002B     		cmp	r3, #0
+ 304 00e2 01DC     		bgt	.L5
+ 132:main.c        ****             exit(0);
+ 305              		.loc 1 132 13 is_stmt 1 view .LVU80
+ 306 00e4 7B48     		ldr	r0, .L53+28
+ 307 00e6 C1E7     		b	.L52
+ 308              	.L5:
+ 135:main.c        ****     }
+ 309              		.loc 1 135 9 discriminator 2 view .LVU81
+ 135:main.c        ****     }
+ 310              		.loc 1 135 15 is_stmt 0 discriminator 2 view .LVU82
+ 311 00e8 4146     		mov	r1, r8
+ 312 00ea 0020     		movs	r0, #0
+ 313 00ec FFF7FEFF 		bl	strtok
+ 314              	.LVL27:
+ 128:main.c        ****         param->hidden_layers_size[i] = atoi(tok);
+ 315              		.loc 1 128 70 is_stmt 1 discriminator 2 view .LVU83
+ 128:main.c        ****         param->hidden_layers_size[i] = atoi(tok);
+ 316              		.loc 1 128 71 is_stmt 0 discriminator 2 view .LVU84
+ 317 00f0 0136     		adds	r6, r6, #1
+ 318              	.LVL28:
+ 128:main.c        ****         param->hidden_layers_size[i] = atoi(tok);
+ 319              		.loc 1 128 71 discriminator 2 view .LVU85
+ 320 00f2 CBE7     		b	.L4
+ 321              	.LVL29:
+ 322              	.L14:
+ 141:main.c        ****             param->hidden_activation_functions[i] = 1;
+ 323              		.loc 1 141 9 is_stmt 1 view .LVU86
+ 141:main.c        ****             param->hidden_activation_functions[i] = 1;
+ 324              		.loc 1 141 13 is_stmt 0 view .LVU87
+ 325 00f4 7849     		ldr	r1, .L53+32
+ 326 00f6 4846     		mov	r0, r9
+ 327              	.LVL30:
+ 141:main.c        ****             param->hidden_activation_functions[i] = 1;
+ 328              		.loc 1 141 13 view .LVU88
+ 329 00f8 FFF7FEFF 		bl	strcmp
  330              	.LVL31:
- 132:main.c        ****         param->hidden_layers_size[i] = atoi(tok);
- 331              		.loc 1 132 71 discriminator 2 view .LVU90
- 332 00fc CBE7     		b	.L4
- 333              	.LVL32:
- 334              	.L14:
- 145:main.c        ****             param->hidden_activation_functions[i] = 1;
- 335              		.loc 1 145 9 is_stmt 1 view .LVU91
- 145:main.c        ****             param->hidden_activation_functions[i] = 1;
- 336              		.loc 1 145 13 is_stmt 0 view .LVU92
- 337 00fe 7949     		ldr	r1, .L53+32
- 338 0100 4846     		mov	r0, r9
- 339              	.LVL33:
- 145:main.c        ****             param->hidden_activation_functions[i] = 1;
- 340              		.loc 1 145 13 view .LVU93
- 341 0102 FFF7FEFF 		bl	strcmp
- 342              	.LVL34:
- 145:main.c        ****             param->hidden_activation_functions[i] = 1;
- 343              		.loc 1 145 12 view .LVU94
- 344 0106 58B9     		cbnz	r0, .L8
- 146:main.c        ****         }
- 345              		.loc 1 146 13 is_stmt 1 view .LVU95
- 146:main.c        ****         }
- 346              		.loc 1 146 51 is_stmt 0 view .LVU96
- 347 0108 BB68     		ldr	r3, [r7, #8]
- 348 010a 0122     		movs	r2, #1
- 349              	.L50:
- 158:main.c        ****         }
- 350              		.loc 1 158 51 view .LVU97
- 351 010c 9A51     		str	r2, [r3, r6]
- 166:main.c        ****     }
- 352              		.loc 1 166 9 is_stmt 1 view .LVU98
- 166:main.c        ****     }
- 353              		.loc 1 166 15 is_stmt 0 view .LVU99
- 354 010e 7049     		ldr	r1, .L53+12
- 355 0110 0020     		movs	r0, #0
- 356 0112 FFF7FEFF 		bl	strtok
- 357              	.LVL35:
- 144:main.c        ****         if (strcmp(tok, "identity") == 0) {
- 358              		.loc 1 144 71 view .LVU100
- 359 0116 08F10108 		add	r8, r8, #1
- 360              	.LVL36:
- 166:main.c        ****     }
- 361              		.loc 1 166 15 view .LVU101
- 362 011a 8146     		mov	r9, r0
- 363              	.LVL37:
- 144:main.c        ****         if (strcmp(tok, "identity") == 0) {
- 364              		.loc 1 144 70 is_stmt 1 view .LVU102
- 144:main.c        ****         if (strcmp(tok, "identity") == 0) {
- 365              		.loc 1 144 70 is_stmt 0 view .LVU103
- 366 011c 0436     		adds	r6, r6, #4
- 367 011e CDE7     		b	.L7
- 368              	.LVL38:
- 369              	.L8:
- 148:main.c        ****             param->hidden_activation_functions[i] = 2;
- 370              		.loc 1 148 14 is_stmt 1 view .LVU104
- 148:main.c        ****             param->hidden_activation_functions[i] = 2;
- 371              		.loc 1 148 18 is_stmt 0 view .LVU105
- 372 0120 5146     		mov	r1, r10
- 373 0122 4846     		mov	r0, r9
- 374 0124 FFF7FEFF 		bl	strcmp
- 375              	.LVL39:
- 148:main.c        ****             param->hidden_activation_functions[i] = 2;
- 376              		.loc 1 148 17 view .LVU106
- 377 0128 10B9     		cbnz	r0, .L10
- 149:main.c        ****         }
- 378              		.loc 1 149 13 is_stmt 1 view .LVU107
- 149:main.c        ****         }
- 379              		.loc 1 149 51 is_stmt 0 view .LVU108
- 380 012a BB68     		ldr	r3, [r7, #8]
- 381 012c 0222     		movs	r2, #2
- 382 012e EDE7     		b	.L50
- 383              	.L10:
- 151:main.c        ****             param->hidden_activation_functions[i] = 3;
- 384              		.loc 1 151 14 is_stmt 1 view .LVU109
- 151:main.c        ****             param->hidden_activation_functions[i] = 3;
- 385              		.loc 1 151 18 is_stmt 0 view .LVU110
- 386 0130 5946     		mov	r1, fp
- 387 0132 4846     		mov	r0, r9
- 388 0134 FFF7FEFF 		bl	strcmp
- 389              	.LVL40:
- 151:main.c        ****             param->hidden_activation_functions[i] = 3;
- 390              		.loc 1 151 17 view .LVU111
- 391 0138 10B9     		cbnz	r0, .L11
- 152:main.c        ****         }
- 392              		.loc 1 152 13 is_stmt 1 view .LVU112
- 152:main.c        ****         }
- 393              		.loc 1 152 51 is_stmt 0 view .LVU113
- 394 013a BB68     		ldr	r3, [r7, #8]
- 395 013c 0322     		movs	r2, #3
- 396 013e E5E7     		b	.L50
- 397              	.L11:
- 154:main.c        ****             param->hidden_activation_functions[i] = 4;
- 398              		.loc 1 154 14 is_stmt 1 view .LVU114
- 154:main.c        ****             param->hidden_activation_functions[i] = 4;
- 399              		.loc 1 154 18 is_stmt 0 view .LVU115
- 400 0140 6949     		ldr	r1, .L53+36
- 401 0142 4846     		mov	r0, r9
- 402 0144 FFF7FEFF 		bl	strcmp
- 403              	.LVL41:
- 154:main.c        ****             param->hidden_activation_functions[i] = 4;
- 404              		.loc 1 154 17 view .LVU116
- 405 0148 10B9     		cbnz	r0, .L12
- 155:main.c        ****         }
- 406              		.loc 1 155 13 is_stmt 1 view .LVU117
- 155:main.c        ****         }
- 407              		.loc 1 155 51 is_stmt 0 view .LVU118
- 408 014a BB68     		ldr	r3, [r7, #8]
- 409 014c 0422     		movs	r2, #4
- 410 014e DDE7     		b	.L50
- 411              	.L12:
- 157:main.c        ****             param->hidden_activation_functions[i] = 5;
- 412              		.loc 1 157 14 is_stmt 1 view .LVU119
- 157:main.c        ****             param->hidden_activation_functions[i] = 5;
- 413              		.loc 1 157 18 is_stmt 0 view .LVU120
- 414 0150 6649     		ldr	r1, .L53+40
- 415 0152 4846     		mov	r0, r9
- 416 0154 FFF7FEFF 		bl	strcmp
- 417              	.LVL42:
- 157:main.c        ****             param->hidden_activation_functions[i] = 5;
- 418              		.loc 1 157 17 view .LVU121
- 419 0158 10B9     		cbnz	r0, .L13
- 158:main.c        ****         }
- 420              		.loc 1 158 13 is_stmt 1 view .LVU122
- 158:main.c        ****         }
- 421              		.loc 1 158 51 is_stmt 0 view .LVU123
- 422 015a BB68     		ldr	r3, [r7, #8]
- 423 015c 0522     		movs	r2, #5
- 424 015e D5E7     		b	.L50
- 425              	.L13:
- 161:main.c        ****             printf("Input either identity or sigmoid or tanh or relu or softmax for hidden activati
- 426              		.loc 1 161 13 is_stmt 1 view .LVU124
- 427 0160 6348     		ldr	r0, .L53+44
- 428 0162 FFF7FEFF 		bl	puts
- 429              	.LVL43:
- 162:main.c        ****             exit(0);
- 430              		.loc 1 162 13 view .LVU125
- 431 0166 6348     		ldr	r0, .L53+48
- 432 0168 85E7     		b	.L52
- 433              	.L15:
- 173:main.c        ****         exit(0);
- 174:main.c        ****     }
- 175:main.c        **** 
- 176:main.c        ****     // Output activation function
- 177:main.c        ****     if (strcmp(new_argv[5], "identity") == 0) {
- 434              		.loc 1 177 5 view .LVU126
- 435              		.loc 1 177 9 is_stmt 0 view .LVU127
- 436 016a 6F69     		ldr	r7, [r5, #20]
- 437 016c 5D49     		ldr	r1, .L53+32
- 438 016e 3846     		mov	r0, r7
- 439 0170 FFF7FEFF 		bl	strcmp
- 440              	.LVL44:
- 441              		.loc 1 177 8 view .LVU128
- 442 0174 98B9     		cbnz	r0, .L16
- 178:main.c        ****         param->output_activation_function = 1;
- 443              		.loc 1 178 9 is_stmt 1 view .LVU129
- 444              		.loc 1 178 43 is_stmt 0 view .LVU130
- 445 0176 0123     		movs	r3, #1
- 446              	.L51:
- 179:main.c        ****     }
- 180:main.c        ****     else if (strcmp(new_argv[5], "sigmoid") == 0) {
- 181:main.c        ****         param->output_activation_function = 2;
- 182:main.c        ****     }
- 183:main.c        ****     else if (strcmp(new_argv[5], "tanh") == 0) {
- 184:main.c        ****         param->output_activation_function = 3;
- 185:main.c        ****     }
- 186:main.c        ****     else if (strcmp(new_argv[5], "relu") == 0) {
- 187:main.c        ****         param->output_activation_function = 4;
- 188:main.c        ****     }
- 189:main.c        ****     else if (strcmp(new_argv[5], "softmax") == 0) {
- 190:main.c        ****         param->output_activation_function = 5;
- 447              		.loc 1 190 43 view .LVU131
- 448 0178 7362     		str	r3, [r6, #36]
- 191:main.c        ****     }
- 192:main.c        ****     else {
- 193:main.c        ****         printf("Error: Invalid value for output activation function\n");
- 194:main.c        ****         printf("Input either identity or sigmoid or tanh or relu or softmax for output activation f
- 195:main.c        ****         exit(0);
- 196:main.c        ****     }
+ 141:main.c        ****             param->hidden_activation_functions[i] = 1;
+ 331              		.loc 1 141 12 view .LVU89
+ 332 00fc 58B9     		cbnz	r0, .L8
+ 142:main.c        ****         }
+ 333              		.loc 1 142 13 is_stmt 1 view .LVU90
+ 142:main.c        ****         }
+ 334              		.loc 1 142 51 is_stmt 0 view .LVU91
+ 335 00fe BB68     		ldr	r3, [r7, #8]
+ 336 0100 0122     		movs	r2, #1
+ 337              	.L50:
+ 154:main.c        ****         }
+ 338              		.loc 1 154 51 view .LVU92
+ 339 0102 9A51     		str	r2, [r3, r6]
+ 162:main.c        ****     }
+ 340              		.loc 1 162 9 is_stmt 1 view .LVU93
+ 162:main.c        ****     }
+ 341              		.loc 1 162 15 is_stmt 0 view .LVU94
+ 342 0104 6F49     		ldr	r1, .L53+12
+ 343 0106 0020     		movs	r0, #0
+ 344 0108 FFF7FEFF 		bl	strtok
+ 345              	.LVL32:
+ 140:main.c        ****         if (strcmp(tok, "identity") == 0) {
+ 346              		.loc 1 140 71 view .LVU95
+ 347 010c 08F10108 		add	r8, r8, #1
+ 348              	.LVL33:
+ 162:main.c        ****     }
+ 349              		.loc 1 162 15 view .LVU96
+ 350 0110 8146     		mov	r9, r0
+ 351              	.LVL34:
+ 140:main.c        ****         if (strcmp(tok, "identity") == 0) {
+ 352              		.loc 1 140 70 is_stmt 1 view .LVU97
+ 140:main.c        ****         if (strcmp(tok, "identity") == 0) {
+ 353              		.loc 1 140 70 is_stmt 0 view .LVU98
+ 354 0112 0436     		adds	r6, r6, #4
+ 355 0114 CDE7     		b	.L7
+ 356              	.LVL35:
+ 357              	.L8:
+ 144:main.c        ****             param->hidden_activation_functions[i] = 2;
+ 358              		.loc 1 144 14 is_stmt 1 view .LVU99
+ 144:main.c        ****             param->hidden_activation_functions[i] = 2;
+ 359              		.loc 1 144 18 is_stmt 0 view .LVU100
+ 360 0116 5146     		mov	r1, r10
+ 361 0118 4846     		mov	r0, r9
+ 362 011a FFF7FEFF 		bl	strcmp
+ 363              	.LVL36:
+ 144:main.c        ****             param->hidden_activation_functions[i] = 2;
+ 364              		.loc 1 144 17 view .LVU101
+ 365 011e 10B9     		cbnz	r0, .L10
+ 145:main.c        ****         }
+ 366              		.loc 1 145 13 is_stmt 1 view .LVU102
+ 145:main.c        ****         }
+ 367              		.loc 1 145 51 is_stmt 0 view .LVU103
+ 368 0120 BB68     		ldr	r3, [r7, #8]
+ 369 0122 0222     		movs	r2, #2
+ 370 0124 EDE7     		b	.L50
+ 371              	.L10:
+ 147:main.c        ****             param->hidden_activation_functions[i] = 3;
+ 372              		.loc 1 147 14 is_stmt 1 view .LVU104
+ 147:main.c        ****             param->hidden_activation_functions[i] = 3;
+ 373              		.loc 1 147 18 is_stmt 0 view .LVU105
+ 374 0126 5946     		mov	r1, fp
+ 375 0128 4846     		mov	r0, r9
+ 376 012a FFF7FEFF 		bl	strcmp
+ 377              	.LVL37:
+ 147:main.c        ****             param->hidden_activation_functions[i] = 3;
+ 378              		.loc 1 147 17 view .LVU106
+ 379 012e 10B9     		cbnz	r0, .L11
+ 148:main.c        ****         }
+ 380              		.loc 1 148 13 is_stmt 1 view .LVU107
+ 148:main.c        ****         }
+ 381              		.loc 1 148 51 is_stmt 0 view .LVU108
+ 382 0130 BB68     		ldr	r3, [r7, #8]
+ 383 0132 0322     		movs	r2, #3
+ 384 0134 E5E7     		b	.L50
+ 385              	.L11:
+ 150:main.c        ****             param->hidden_activation_functions[i] = 4;
+ 386              		.loc 1 150 14 is_stmt 1 view .LVU109
+ 150:main.c        ****             param->hidden_activation_functions[i] = 4;
+ 387              		.loc 1 150 18 is_stmt 0 view .LVU110
+ 388 0136 6949     		ldr	r1, .L53+36
+ 389 0138 4846     		mov	r0, r9
+ 390 013a FFF7FEFF 		bl	strcmp
+ 391              	.LVL38:
+ 150:main.c        ****             param->hidden_activation_functions[i] = 4;
+ 392              		.loc 1 150 17 view .LVU111
+ 393 013e 10B9     		cbnz	r0, .L12
+ 151:main.c        ****         }
+ 394              		.loc 1 151 13 is_stmt 1 view .LVU112
+ 151:main.c        ****         }
+ 395              		.loc 1 151 51 is_stmt 0 view .LVU113
+ 396 0140 BB68     		ldr	r3, [r7, #8]
+ 397 0142 0422     		movs	r2, #4
+ 398 0144 DDE7     		b	.L50
+ 399              	.L12:
+ 153:main.c        ****             param->hidden_activation_functions[i] = 5;
+ 400              		.loc 1 153 14 is_stmt 1 view .LVU114
+ 153:main.c        ****             param->hidden_activation_functions[i] = 5;
+ 401              		.loc 1 153 18 is_stmt 0 view .LVU115
+ 402 0146 6649     		ldr	r1, .L53+40
+ 403 0148 4846     		mov	r0, r9
+ 404 014a FFF7FEFF 		bl	strcmp
+ 405              	.LVL39:
+ 153:main.c        ****             param->hidden_activation_functions[i] = 5;
+ 406              		.loc 1 153 17 view .LVU116
+ 407 014e 10B9     		cbnz	r0, .L13
+ 154:main.c        ****         }
+ 408              		.loc 1 154 13 is_stmt 1 view .LVU117
+ 154:main.c        ****         }
+ 409              		.loc 1 154 51 is_stmt 0 view .LVU118
+ 410 0150 BB68     		ldr	r3, [r7, #8]
+ 411 0152 0522     		movs	r2, #5
+ 412 0154 D5E7     		b	.L50
+ 413              	.L13:
+ 157:main.c        ****             printf("Input either identity or sigmoid or tanh or relu or softmax for hidden activati
+ 414              		.loc 1 157 13 is_stmt 1 view .LVU119
+ 415 0156 6348     		ldr	r0, .L53+44
+ 416 0158 FFF7FEFF 		bl	puts
+ 417              	.LVL40:
+ 158:main.c        ****             exit(0);
+ 418              		.loc 1 158 13 view .LVU120
+ 419 015c 6248     		ldr	r0, .L53+48
+ 420 015e 85E7     		b	.L52
+ 421              	.L15:
+ 169:main.c        ****         exit(0);
+ 170:main.c        ****     }
+ 171:main.c        **** 
+ 172:main.c        ****     // Output activation function
+ 173:main.c        ****     if (strcmp(new_argv[5], "identity") == 0) {
+ 422              		.loc 1 173 5 view .LVU121
+ 423              		.loc 1 173 9 is_stmt 0 view .LVU122
+ 424 0160 6F69     		ldr	r7, [r5, #20]
+ 425 0162 5D49     		ldr	r1, .L53+32
+ 426 0164 3846     		mov	r0, r7
+ 427 0166 FFF7FEFF 		bl	strcmp
+ 428              	.LVL41:
+ 429              		.loc 1 173 8 view .LVU123
+ 430 016a 98B9     		cbnz	r0, .L16
+ 174:main.c        ****         param->output_activation_function = 1;
+ 431              		.loc 1 174 9 is_stmt 1 view .LVU124
+ 432              		.loc 1 174 43 is_stmt 0 view .LVU125
+ 433 016c 0123     		movs	r3, #1
+ 434              	.L51:
+ 175:main.c        ****     }
+ 176:main.c        ****     else if (strcmp(new_argv[5], "sigmoid") == 0) {
+ 177:main.c        ****         param->output_activation_function = 2;
+ 178:main.c        ****     }
+ 179:main.c        ****     else if (strcmp(new_argv[5], "tanh") == 0) {
+ 180:main.c        ****         param->output_activation_function = 3;
+ 181:main.c        ****     }
+ 182:main.c        ****     else if (strcmp(new_argv[5], "relu") == 0) {
+ 183:main.c        ****         param->output_activation_function = 4;
+ 184:main.c        ****     }
+ 185:main.c        ****     else if (strcmp(new_argv[5], "softmax") == 0) {
+ 186:main.c        ****         param->output_activation_function = 5;
+ 435              		.loc 1 186 43 view .LVU126
+ 436 016e 7362     		str	r3, [r6, #36]
+ 187:main.c        ****     }
+ 188:main.c        ****     else {
+ 189:main.c        ****         printf("Error: Invalid value for output activation function\n");
+ 190:main.c        ****         printf("Input either identity or sigmoid or tanh or relu or softmax for output activation f
+ 191:main.c        ****         exit(0);
+ 192:main.c        ****     }
+ 193:main.c        **** 
+ 194:main.c        **** 
+ 195:main.c        ****     // L2 Regularization parameter
+ 196:main.c        ****     param->learning_rate = atoi(new_argv[6]);
+ 437              		.loc 1 196 5 is_stmt 1 view .LVU127
+ 438              		.loc 1 196 28 is_stmt 0 view .LVU128
+ 439 0170 A869     		ldr	r0, [r5, #24]
+ 440 0172 FFF7FEFF 		bl	atoi
+ 441              	.LVL42:
+ 442              		.loc 1 196 26 view .LVU129
+ 443 0176 FFF7FEFF 		bl	__aeabi_i2d
+ 444              	.LVL43:
+ 445              		.loc 1 196 10 view .LVU130
+ 446 017a 2668     		ldr	r6, [r4]
+ 447              		.loc 1 196 26 view .LVU131
+ 448 017c C6E90401 		strd	r0, [r6, #16]
  197:main.c        **** 
- 198:main.c        **** 
- 199:main.c        ****     // L2 Regularization parameter
- 200:main.c        ****     param->learning_rate = atoi(new_argv[6]);
- 449              		.loc 1 200 5 is_stmt 1 view .LVU132
- 450              		.loc 1 200 28 is_stmt 0 view .LVU133
- 451 017a A869     		ldr	r0, [r5, #24]
- 452 017c FFF7FEFF 		bl	atoi
- 453              	.LVL45:
- 454              		.loc 1 200 26 view .LVU134
- 455 0180 FFF7FEFF 		bl	__aeabi_i2d
- 456              	.LVL46:
- 457              		.loc 1 200 10 view .LVU135
- 458 0184 2668     		ldr	r6, [r4]
- 459              		.loc 1 200 26 view .LVU136
- 460 0186 C6E90401 		strd	r0, [r6, #16]
- 201:main.c        **** 
- 202:main.c        ****     // Max. number of iterations
- 203:main.c        ****     param->n_iterations_max = atoi(new_argv[7]);
- 461              		.loc 1 203 5 is_stmt 1 view .LVU137
- 462              		.loc 1 203 31 is_stmt 0 view .LVU138
- 463 018a E869     		ldr	r0, [r5, #28]
- 464 018c FFF7FEFF 		bl	atoi
- 465              	.LVL47:
- 204:main.c        ****     if (param->n_iterations_max <= 0) {
- 466              		.loc 1 204 14 view .LVU139
- 467 0190 2568     		ldr	r5, [r4]
- 468              	.LVL48:
- 203:main.c        ****     if (param->n_iterations_max <= 0) {
- 469              		.loc 1 203 29 view .LVU140
- 470 0192 B061     		str	r0, [r6, #24]
- 471              		.loc 1 204 5 is_stmt 1 view .LVU141
- 472              		.loc 1 204 8 is_stmt 0 view .LVU142
- 473 0194 AB69     		ldr	r3, [r5, #24]
- 474 0196 002B     		cmp	r3, #0
- 475 0198 22DC     		bgt	.L22
- 205:main.c        ****         printf("Max. number of iterations value should be positive\n");
- 476              		.loc 1 205 9 is_stmt 1 view .LVU143
- 477 019a 5748     		ldr	r0, .L53+52
- 478 019c 6BE7     		b	.L52
- 479              	.LVL49:
- 480              	.L16:
- 180:main.c        ****         param->output_activation_function = 2;
- 481              		.loc 1 180 10 view .LVU144
- 180:main.c        ****         param->output_activation_function = 2;
- 482              		.loc 1 180 14 is_stmt 0 view .LVU145
- 483 019e 4D49     		ldr	r1, .L53+16
- 484 01a0 3846     		mov	r0, r7
- 485 01a2 FFF7FEFF 		bl	strcmp
- 486              	.LVL50:
- 180:main.c        ****         param->output_activation_function = 2;
- 487              		.loc 1 180 13 view .LVU146
- 488 01a6 08B9     		cbnz	r0, .L18
- 181:main.c        ****     }
- 489              		.loc 1 181 9 is_stmt 1 view .LVU147
- 181:main.c        ****     }
- 490              		.loc 1 181 43 is_stmt 0 view .LVU148
- 491 01a8 0223     		movs	r3, #2
- 492 01aa E5E7     		b	.L51
- 493              	.L18:
- 183:main.c        ****         param->output_activation_function = 3;
- 494              		.loc 1 183 10 is_stmt 1 view .LVU149
- 183:main.c        ****         param->output_activation_function = 3;
- 495              		.loc 1 183 14 is_stmt 0 view .LVU150
- 496 01ac 4A49     		ldr	r1, .L53+20
- 497 01ae 3846     		mov	r0, r7
- 498 01b0 FFF7FEFF 		bl	strcmp
- 499              	.LVL51:
- 183:main.c        ****         param->output_activation_function = 3;
- 500              		.loc 1 183 13 view .LVU151
- 501 01b4 08B9     		cbnz	r0, .L19
- 184:main.c        ****     }
- 502              		.loc 1 184 9 is_stmt 1 view .LVU152
- 184:main.c        ****     }
- 503              		.loc 1 184 43 is_stmt 0 view .LVU153
- 504 01b6 0323     		movs	r3, #3
- 505 01b8 DEE7     		b	.L51
- 506              	.L19:
- 186:main.c        ****         param->output_activation_function = 4;
- 507              		.loc 1 186 10 is_stmt 1 view .LVU154
- 186:main.c        ****         param->output_activation_function = 4;
- 508              		.loc 1 186 14 is_stmt 0 view .LVU155
- 509 01ba 4B49     		ldr	r1, .L53+36
- 510 01bc 3846     		mov	r0, r7
- 511 01be FFF7FEFF 		bl	strcmp
- 512              	.LVL52:
- 186:main.c        ****         param->output_activation_function = 4;
- 513              		.loc 1 186 13 view .LVU156
- 514 01c2 08B9     		cbnz	r0, .L20
- 187:main.c        ****     }
- 515              		.loc 1 187 9 is_stmt 1 view .LVU157
- 187:main.c        ****     }
- 516              		.loc 1 187 43 is_stmt 0 view .LVU158
- 517 01c4 0423     		movs	r3, #4
- 518 01c6 D7E7     		b	.L51
- 519              	.L20:
- 189:main.c        ****         param->output_activation_function = 5;
- 520              		.loc 1 189 10 is_stmt 1 view .LVU159
- 189:main.c        ****         param->output_activation_function = 5;
- 521              		.loc 1 189 14 is_stmt 0 view .LVU160
- 522 01c8 4849     		ldr	r1, .L53+40
- 523 01ca 3846     		mov	r0, r7
- 524 01cc FFF7FEFF 		bl	strcmp
- 525              	.LVL53:
- 189:main.c        ****         param->output_activation_function = 5;
- 526              		.loc 1 189 13 view .LVU161
- 527 01d0 08B9     		cbnz	r0, .L21
- 190:main.c        ****     }
- 528              		.loc 1 190 9 is_stmt 1 view .LVU162
- 190:main.c        ****     }
- 529              		.loc 1 190 43 is_stmt 0 view .LVU163
- 530 01d2 0523     		movs	r3, #5
- 531 01d4 D0E7     		b	.L51
- 532              	.L21:
- 193:main.c        ****         printf("Input either identity or sigmoid or tanh or relu or softmax for output activation f
- 533              		.loc 1 193 9 is_stmt 1 view .LVU164
- 534 01d6 4948     		ldr	r0, .L53+56
- 535 01d8 FFF7FEFF 		bl	puts
- 536              	.LVL54:
- 194:main.c        ****         exit(0);
- 537              		.loc 1 194 9 view .LVU165
- 538 01dc 4848     		ldr	r0, .L53+60
- 539 01de 4AE7     		b	.L52
- 540              	.LVL55:
- 541              	.L22:
- 206:main.c        ****         exit(0);
- 207:main.c        ****     }
- 208:main.c        **** 
- 209:main.c        ****     // Momentum
- 210:main.c        ****     //param->momentum = atoi(new_argv[6]);
- 211:main.c        **** 
- 212:main.c        ****     // Get the parameters of the train dataset
- 213:main.c        ****     //char* train_filename = new_argv[8];
- 214:main.c        ****     //param->train_sample_size = atoi(new_argv[9]);
- 215:main.c        ****     // Feature size = Number of input features + 1 output feature
- 216:main.c        ****     //param->feature_size = atoi(new_argv[10]);
- 217:main.c        **** 
- 218:main.c        ****     // Create 2D array memory for the dataset
- 219:main.c        ****     //param->data_train = (double**)malloc(param->train_sample_size * sizeof(double*));
- 220:main.c        ****     //for (i = 0; i < param->train_sample_size; i++)
- 221:main.c        ****     //    param->data_train[i] = (double*)malloc(param->feature_size * sizeof(double));
- 222:main.c        **** 
- 223:main.c        ****     // Read the train dataset from the csv into the 2D array
- 224:main.c        ****     //read_csv(train_filename, param->train_sample_size, param->feature_size, param->data_train);
- 225:main.c        ****     
- 226:main.c        ****     double test_lines[][5] = {
- 542              		.loc 1 226 5 view .LVU166
- 543              		.loc 1 226 12 is_stmt 0 view .LVU167
- 544 01e0 4849     		ldr	r1, .L53+64
- 545 01e2 4FF4FA62 		mov	r2, #2000
- 546 01e6 BEA8     		add	r0, sp, #760
- 547 01e8 FFF7FEFF 		bl	memcpy
- 548              	.LVL56:
- 227:main.c        ****         {1.602, 6.1251, 0.5292399999999999, 0.4788600000000001, 0},
- 228:main.c        ****         {-2.2918, -7.2570000000000014, 7.9597, 0.9211, 1},
- 229:main.c        ****         {-0.6907800000000001, -0.5007699999999999, -0.35417, 0.47498, 1},
- 230:main.c        ****         {1.6408, 4.2503, -4.9023, -2.6621, 1},
- 231:main.c        ****         {3.577, 2.4004, 1.8908, 0.73231, 0},
- 232:main.c        ****         {-2.9915, -6.6258, 8.6521, 1.8198, 1},
- 233:main.c        ****         {-0.45062, -1.3678, 7.0858, -0.40303, 0},
- 234:main.c        ****         {2.4486, -6.3175, 7.9632, 0.20602, 0},
- 235:main.c        ****         {-3.0193, 1.7775, 0.73745, -0.45346, 1},
- 236:main.c        ****         {-2.3361, 11.9604, 3.0835, -5.4435, 0},
- 237:main.c        ****         {0.11805999999999997, 0.39108, -0.98223, 0.42843, 1},
- 238:main.c        ****         {1.7425, 3.6833, -4.0129, -1.7207, 1},
- 239:main.c        ****         {-1.3, 10.2678, -2.9530000000000003, -5.8638, 0},
- 240:main.c        ****         {0.86736, 5.5643, 1.6765, -0.16769, 0},
- 241:main.c        ****         {0.93584, 8.8855, -1.6831, -1.6599, 0},
- 242:main.c        ****         {-1.8969, -6.7893, 5.2761, -0.32544, 1},
- 243:main.c        ****         {2.6104, 8.0081, -0.23592, -1.7608, 0},
- 244:main.c        ****         {-3.5681, -8.213, 10.083, 0.96765, 1},
- 245:main.c        ****         {-0.98193, 2.7956, -1.2341, -1.5668, 1},
- 246:main.c        ****         {3.5438, 1.2395, 1.997, 2.1547, 0},
- 247:main.c        ****         {-1.1391, 1.8127, 6.9144, 0.70127, 0},
- 248:main.c        ****         {-0.12196, 8.8068, 0.94566, -4.2267, 0},
- 249:main.c        ****         {-4.244, -13.0634, 17.1116, -2.8017, 1},
- 250:main.c        ****         {-0.82601, 2.9611, -1.2864, -1.4647, 1},
- 251:main.c        ****         {-1.6514, -8.4985, 9.1122, 1.2379, 1},
- 252:main.c        ****         {-1.2244, 1.7485, -1.4801, -1.4181, 1},
- 253:main.c        ****         {0.045304, 6.7334, 1.0708, -0.9332, 0},
- 254:main.c        ****         {2.6946, 6.7976, -0.40301, 0.44912, 0},
- 255:main.c        ****         {-1.3946, 2.3134, -0.44499, -1.4905, 1},
- 256:main.c        ****         {5.6084, 10.3009, -4.8003, -4.3534, 0},
- 257:main.c        ****         {-2.4554, -9.0407, 8.862, -0.8698299999999999, 1},
- 258:main.c        ****         {4.6562, 7.6398, -2.4243, -1.2384, 0},
- 259:main.c        ****         {-2.1786, -6.4479, 6.0344, -0.20777, 1},
- 260:main.c        ****         {2.6648, 10.754, -3.3994, -4.1685, 0},
- 261:main.c        ****         {-3.6085, 3.3253, -0.51954, -3.5737, 1},
- 262:main.c        ****         {1.4884, 3.6274, 3.3080000000000003, 0.48921, 0},
- 263:main.c        ****         {2.1265, 6.8783, 0.44784, -2.2224, 0},
- 264:main.c        ****         {5.8782, 5.9409, -2.8544, -0.60863, 0},
- 265:main.c        ****         {1.296, 4.2855, -4.8457, -2.9013, 1},
- 266:main.c        ****         {-6.2815, 6.6651, 0.52581, -7.0107, 1},
- 267:main.c        ****         {2.7744, 6.8576, -1.0671, 0.075416, 0},
- 268:main.c        ****         {0.87256, 9.2931, -0.7843, -2.1978, 0},
- 269:main.c        ****         {-1.9551, -6.9756, 5.5383, -0.12889, 1},
- 270:main.c        ****         {0.94732, -0.57113, 7.1903, -0.67587, 0},
- 271:main.c        ****         {-0.47465, -4.3496, 1.9901, 0.7517, 1},
- 272:main.c        ****         {-2.0962, -7.1059, 6.6188, -0.33708, 1},
- 273:main.c        ****         {-2.564, -1.7051, 1.5026, 0.32757, 1},
- 274:main.c        ****         {2.2526, 9.9636, -3.1749, -2.9944, 0},
- 275:main.c        ****         {1.0987, 0.6394, 5.989, -0.58277, 0},
- 276:main.c        ****         {0.94225, 5.8561, 1.8762, -0.32544, 0}
- 277:main.c        ****     };
- 278:main.c        **** 
- 279:main.c        ****     int test_sample_size = sizeof(test_lines) / sizeof(test_lines[0]);
- 549              		.loc 1 279 5 is_stmt 1 view .LVU168
- 280:main.c        ****     int feature_size = sizeof(test_lines[0]) / sizeof(double);
- 550              		.loc 1 280 5 view .LVU169
- 281:main.c        **** 
- 282:main.c        ****     // Get the parameters of the test dataset
- 283:main.c        ****     //char* test_filename = new_argv[11];
- 284:main.c        ****     //param->test_sample_size = atoi(new_argv[12]);
- 285:main.c        ****     // Feature size = Number of input features + 1 output feature
- 286:main.c        ****     //param->feature_size = atoi(new_argv[13]);
- 287:main.c        **** 
- 288:main.c        ****    // Create 2D array memory for the test data
- 289:main.c        ****     param->data_test = (double **)malloc(test_sample_size * sizeof(double *));
- 551              		.loc 1 289 5 view .LVU170
- 552              		.loc 1 289 35 is_stmt 0 view .LVU171
- 553 01ec C820     		movs	r0, #200
- 554 01ee FFF7FEFF 		bl	malloc
- 555              	.LVL57:
- 556 01f2 0DF53E78 		add	r8, sp, #760
- 557              	.LVL58:
- 558              		.loc 1 289 22 view .LVU172
- 559 01f6 E862     		str	r0, [r5, #44]
- 290:main.c        ****     for (int i = 0; i < test_sample_size; i++) {
- 560              		.loc 1 290 5 is_stmt 1 view .LVU173
- 561              	.LBB3:
- 562              		.loc 1 290 10 view .LVU174
- 563              	.LVL59:
- 564              		.loc 1 290 21 view .LVU175
- 565              	.LBE3:
- 289:main.c        ****     for (int i = 0; i < test_sample_size; i++) {
- 566              		.loc 1 289 22 is_stmt 0 view .LVU176
- 567 01f8 4FF00009 		mov	r9, #0
- 568              	.LVL60:
- 569              	.L23:
- 570              	.LBB4:
- 291:main.c        ****         param->data_test[i] = (double *)malloc(feature_size * sizeof(double));
- 571              		.loc 1 291 9 is_stmt 1 discriminator 3 view .LVU177
- 572              		.loc 1 291 41 is_stmt 0 discriminator 3 view .LVU178
- 573 01fc 2820     		movs	r0, #40
- 574              		.loc 1 291 25 discriminator 3 view .LVU179
- 575 01fe EF6A     		ldr	r7, [r5, #44]
- 576              		.loc 1 291 41 discriminator 3 view .LVU180
- 577 0200 FFF7FEFF 		bl	malloc
- 578              	.LVL61:
- 579              		.loc 1 291 29 discriminator 3 view .LVU181
- 580 0204 47F80900 		str	r0, [r7, r9]
- 292:main.c        ****         memcpy(param->data_test[i], test_lines[i], feature_size * sizeof(double));
- 581              		.loc 1 292 9 is_stmt 1 discriminator 3 view .LVU182
- 582 0208 4746     		mov	r7, r8
- 291:main.c        ****         param->data_test[i] = (double *)malloc(feature_size * sizeof(double));
- 583              		.loc 1 291 41 is_stmt 0 discriminator 3 view .LVU183
- 584 020a 0646     		mov	r6, r0
- 585              		.loc 1 292 9 discriminator 3 view .LVU184
- 586 020c 0FCF     		ldmia	r7!, {r0, r1, r2, r3}
- 587 020e 0FC6     		stmia	r6!, {r0, r1, r2, r3}
- 588 0210 0FCF     		ldmia	r7!, {r0, r1, r2, r3}
- 589 0212 0FC6     		stmia	r6!, {r0, r1, r2, r3}
- 590 0214 97E80300 		ldm	r7, {r0, r1}
- 290:main.c        ****         param->data_test[i] = (double *)malloc(feature_size * sizeof(double));
- 591              		.loc 1 290 5 discriminator 3 view .LVU185
- 592 0218 09F10409 		add	r9, r9, #4
- 593 021c B9F1C80F 		cmp	r9, #200
- 594              		.loc 1 292 9 discriminator 3 view .LVU186
- 595 0220 86E80300 		stm	r6, {r0, r1}
- 290:main.c        ****         param->data_test[i] = (double *)malloc(feature_size * sizeof(double));
- 596              		.loc 1 290 43 is_stmt 1 discriminator 3 view .LVU187
- 290:main.c        ****         param->data_test[i] = (double *)malloc(feature_size * sizeof(double));
- 597              		.loc 1 290 21 discriminator 3 view .LVU188
- 290:main.c        ****         param->data_test[i] = (double *)malloc(feature_size * sizeof(double));
- 598              		.loc 1 290 5 is_stmt 0 discriminator 3 view .LVU189
- 599 0224 08F12808 		add	r8, r8, #40
- 600 0228 E8D1     		bne	.L23
- 601              	.LBE4:
+ 198:main.c        ****     // Max. number of iterations
+ 199:main.c        ****     param->n_iterations_max = atoi(new_argv[7]);
+ 449              		.loc 1 199 5 is_stmt 1 view .LVU132
+ 450              		.loc 1 199 31 is_stmt 0 view .LVU133
+ 451 0180 E869     		ldr	r0, [r5, #28]
+ 452 0182 FFF7FEFF 		bl	atoi
+ 453              	.LVL44:
+ 200:main.c        ****     if (param->n_iterations_max <= 0) {
+ 454              		.loc 1 200 14 view .LVU134
+ 455 0186 2568     		ldr	r5, [r4]
+ 456              	.LVL45:
+ 199:main.c        ****     if (param->n_iterations_max <= 0) {
+ 457              		.loc 1 199 29 view .LVU135
+ 458 0188 B061     		str	r0, [r6, #24]
+ 459              		.loc 1 200 5 is_stmt 1 view .LVU136
+ 460              		.loc 1 200 8 is_stmt 0 view .LVU137
+ 461 018a AB69     		ldr	r3, [r5, #24]
+ 462 018c 002B     		cmp	r3, #0
+ 463 018e 22DC     		bgt	.L22
+ 201:main.c        ****         printf("Max. number of iterations value should be positive\n");
+ 464              		.loc 1 201 9 is_stmt 1 view .LVU138
+ 465 0190 5648     		ldr	r0, .L53+52
+ 466 0192 6BE7     		b	.L52
+ 467              	.LVL46:
+ 468              	.L16:
+ 176:main.c        ****         param->output_activation_function = 2;
+ 469              		.loc 1 176 10 view .LVU139
+ 176:main.c        ****         param->output_activation_function = 2;
+ 470              		.loc 1 176 14 is_stmt 0 view .LVU140
+ 471 0194 4C49     		ldr	r1, .L53+16
+ 472 0196 3846     		mov	r0, r7
+ 473 0198 FFF7FEFF 		bl	strcmp
+ 474              	.LVL47:
+ 176:main.c        ****         param->output_activation_function = 2;
+ 475              		.loc 1 176 13 view .LVU141
+ 476 019c 08B9     		cbnz	r0, .L18
+ 177:main.c        ****     }
+ 477              		.loc 1 177 9 is_stmt 1 view .LVU142
+ 177:main.c        ****     }
+ 478              		.loc 1 177 43 is_stmt 0 view .LVU143
+ 479 019e 0223     		movs	r3, #2
+ 480 01a0 E5E7     		b	.L51
+ 481              	.L18:
+ 179:main.c        ****         param->output_activation_function = 3;
+ 482              		.loc 1 179 10 is_stmt 1 view .LVU144
+ 179:main.c        ****         param->output_activation_function = 3;
+ 483              		.loc 1 179 14 is_stmt 0 view .LVU145
+ 484 01a2 4A49     		ldr	r1, .L53+20
+ 485 01a4 3846     		mov	r0, r7
+ 486 01a6 FFF7FEFF 		bl	strcmp
+ 487              	.LVL48:
+ 179:main.c        ****         param->output_activation_function = 3;
+ 488              		.loc 1 179 13 view .LVU146
+ 489 01aa 08B9     		cbnz	r0, .L19
+ 180:main.c        ****     }
+ 490              		.loc 1 180 9 is_stmt 1 view .LVU147
+ 180:main.c        ****     }
+ 491              		.loc 1 180 43 is_stmt 0 view .LVU148
+ 492 01ac 0323     		movs	r3, #3
+ 493 01ae DEE7     		b	.L51
+ 494              	.L19:
+ 182:main.c        ****         param->output_activation_function = 4;
+ 495              		.loc 1 182 10 is_stmt 1 view .LVU149
+ 182:main.c        ****         param->output_activation_function = 4;
+ 496              		.loc 1 182 14 is_stmt 0 view .LVU150
+ 497 01b0 4A49     		ldr	r1, .L53+36
+ 498 01b2 3846     		mov	r0, r7
+ 499 01b4 FFF7FEFF 		bl	strcmp
+ 500              	.LVL49:
+ 182:main.c        ****         param->output_activation_function = 4;
+ 501              		.loc 1 182 13 view .LVU151
+ 502 01b8 08B9     		cbnz	r0, .L20
+ 183:main.c        ****     }
+ 503              		.loc 1 183 9 is_stmt 1 view .LVU152
+ 183:main.c        ****     }
+ 504              		.loc 1 183 43 is_stmt 0 view .LVU153
+ 505 01ba 0423     		movs	r3, #4
+ 506 01bc D7E7     		b	.L51
+ 507              	.L20:
+ 185:main.c        ****         param->output_activation_function = 5;
+ 508              		.loc 1 185 10 is_stmt 1 view .LVU154
+ 185:main.c        ****         param->output_activation_function = 5;
+ 509              		.loc 1 185 14 is_stmt 0 view .LVU155
+ 510 01be 4849     		ldr	r1, .L53+40
+ 511 01c0 3846     		mov	r0, r7
+ 512 01c2 FFF7FEFF 		bl	strcmp
+ 513              	.LVL50:
+ 185:main.c        ****         param->output_activation_function = 5;
+ 514              		.loc 1 185 13 view .LVU156
+ 515 01c6 08B9     		cbnz	r0, .L21
+ 186:main.c        ****     }
+ 516              		.loc 1 186 9 is_stmt 1 view .LVU157
+ 186:main.c        ****     }
+ 517              		.loc 1 186 43 is_stmt 0 view .LVU158
+ 518 01c8 0523     		movs	r3, #5
+ 519 01ca D0E7     		b	.L51
+ 520              	.L21:
+ 189:main.c        ****         printf("Input either identity or sigmoid or tanh or relu or softmax for output activation f
+ 521              		.loc 1 189 9 is_stmt 1 view .LVU159
+ 522 01cc 4848     		ldr	r0, .L53+56
+ 523 01ce FFF7FEFF 		bl	puts
+ 524              	.LVL51:
+ 190:main.c        ****         exit(0);
+ 525              		.loc 1 190 9 view .LVU160
+ 526 01d2 4848     		ldr	r0, .L53+60
+ 527 01d4 4AE7     		b	.L52
+ 528              	.LVL52:
+ 529              	.L22:
+ 202:main.c        ****         exit(0);
+ 203:main.c        ****     }
+ 204:main.c        **** 
+ 205:main.c        ****     // Momentum
+ 206:main.c        ****     //param->momentum = atoi(new_argv[6]);
+ 207:main.c        **** 
+ 208:main.c        ****     // Get the parameters of the train dataset
+ 209:main.c        ****     //char* train_filename = new_argv[8];
+ 210:main.c        ****     //param->train_sample_size = atoi(new_argv[9]);
+ 211:main.c        ****     // Feature size = Number of input features + 1 output feature
+ 212:main.c        ****     //param->feature_size = atoi(new_argv[10]);
+ 213:main.c        **** 
+ 214:main.c        ****     // Create 2D array memory for the dataset
+ 215:main.c        ****     //param->data_train = (double**)malloc(param->train_sample_size * sizeof(double*));
+ 216:main.c        ****     //for (i = 0; i < param->train_sample_size; i++)
+ 217:main.c        ****     //    param->data_train[i] = (double*)malloc(param->feature_size * sizeof(double));
+ 218:main.c        **** 
+ 219:main.c        ****     // Read the train dataset from the csv into the 2D array
+ 220:main.c        ****     //read_csv(train_filename, param->train_sample_size, param->feature_size, param->data_train);
+ 221:main.c        ****     
+ 222:main.c        ****     double test_lines[][5] = {
+ 530              		.loc 1 222 5 view .LVU161
+ 531              		.loc 1 222 12 is_stmt 0 view .LVU162
+ 532 01d6 4849     		ldr	r1, .L53+64
+ 533 01d8 C822     		movs	r2, #200
+ 534 01da 14A8     		add	r0, sp, #80
+ 535 01dc FFF7FEFF 		bl	memcpy
+ 536              	.LVL53:
+ 223:main.c        ****         {1.602, 6.1251, 0.5292399999999999, 0.4788600000000001, 0},
+ 224:main.c        ****         {-2.2918, -7.2570000000000014, 7.9597, 0.9211, 1},
+ 225:main.c        ****         {-0.6907800000000001, -0.5007699999999999, -0.35417, 0.47498, 1},
+ 226:main.c        ****         {1.6408, 4.2503, -4.9023, -2.6621, 1},
+ 227:main.c        ****         {3.577, 2.4004, 1.8908, 0.73231, 0},
+ 228:main.c        ****     };
+ 229:main.c        **** 
+ 230:main.c        ****     int test_sample_size = sizeof(test_lines) / sizeof(test_lines[0]);
+ 537              		.loc 1 230 5 is_stmt 1 view .LVU163
+ 231:main.c        ****     int feature_size = sizeof(test_lines[0]) / sizeof(double);
+ 538              		.loc 1 231 5 view .LVU164
+ 232:main.c        **** 
+ 233:main.c        ****     // Get the parameters of the test dataset
+ 234:main.c        ****     //char* test_filename = new_argv[11];
+ 235:main.c        ****     //param->test_sample_size = atoi(new_argv[12]);
+ 236:main.c        ****     // Feature size = Number of input features + 1 output feature
+ 237:main.c        ****     //param->feature_size = atoi(new_argv[13]);
+ 238:main.c        **** 
+ 239:main.c        ****    // Create 2D array memory for the test data
+ 240:main.c        ****     param->data_test = (double **)malloc(test_sample_size * sizeof(double *));
+ 539              		.loc 1 240 5 view .LVU165
+ 540              		.loc 1 240 35 is_stmt 0 view .LVU166
+ 541 01e0 1420     		movs	r0, #20
+ 542 01e2 FFF7FEFF 		bl	malloc
+ 543              	.LVL54:
+ 544 01e6 0DF15008 		add	r8, sp, #80
+ 545              	.LVL55:
+ 546              		.loc 1 240 22 view .LVU167
+ 547 01ea E862     		str	r0, [r5, #44]
+ 241:main.c        ****     for (int i = 0; i < test_sample_size; i++) {
+ 548              		.loc 1 241 5 is_stmt 1 view .LVU168
+ 549              	.LBB3:
+ 550              		.loc 1 241 10 view .LVU169
+ 551              	.LVL56:
+ 552              		.loc 1 241 21 view .LVU170
+ 553              	.LBE3:
+ 240:main.c        ****     for (int i = 0; i < test_sample_size; i++) {
+ 554              		.loc 1 240 22 is_stmt 0 view .LVU171
+ 555 01ec 4FF00009 		mov	r9, #0
+ 556              	.LVL57:
+ 557              	.L23:
+ 558              	.LBB4:
+ 242:main.c        ****         param->data_test[i] = (double *)malloc(feature_size * sizeof(double));
+ 559              		.loc 1 242 9 is_stmt 1 discriminator 3 view .LVU172
+ 560              		.loc 1 242 41 is_stmt 0 discriminator 3 view .LVU173
+ 561 01f0 2820     		movs	r0, #40
+ 562              		.loc 1 242 25 discriminator 3 view .LVU174
+ 563 01f2 EF6A     		ldr	r7, [r5, #44]
+ 564              		.loc 1 242 41 discriminator 3 view .LVU175
+ 565 01f4 FFF7FEFF 		bl	malloc
+ 566              	.LVL58:
+ 567              		.loc 1 242 29 discriminator 3 view .LVU176
+ 568 01f8 47F80900 		str	r0, [r7, r9]
+ 243:main.c        ****         memcpy(param->data_test[i], test_lines[i], feature_size * sizeof(double));
+ 569              		.loc 1 243 9 is_stmt 1 discriminator 3 view .LVU177
+ 570 01fc 4746     		mov	r7, r8
+ 242:main.c        ****         param->data_test[i] = (double *)malloc(feature_size * sizeof(double));
+ 571              		.loc 1 242 41 is_stmt 0 discriminator 3 view .LVU178
+ 572 01fe 0646     		mov	r6, r0
+ 573              		.loc 1 243 9 discriminator 3 view .LVU179
+ 574 0200 0FCF     		ldmia	r7!, {r0, r1, r2, r3}
+ 575 0202 0FC6     		stmia	r6!, {r0, r1, r2, r3}
+ 576 0204 0FCF     		ldmia	r7!, {r0, r1, r2, r3}
+ 577 0206 0FC6     		stmia	r6!, {r0, r1, r2, r3}
+ 578 0208 97E80300 		ldm	r7, {r0, r1}
+ 241:main.c        ****         param->data_test[i] = (double *)malloc(feature_size * sizeof(double));
+ 579              		.loc 1 241 5 discriminator 3 view .LVU180
+ 580 020c 09F10409 		add	r9, r9, #4
+ 581 0210 B9F1140F 		cmp	r9, #20
+ 582              		.loc 1 243 9 discriminator 3 view .LVU181
+ 583 0214 86E80300 		stm	r6, {r0, r1}
+ 241:main.c        ****         param->data_test[i] = (double *)malloc(feature_size * sizeof(double));
+ 584              		.loc 1 241 43 is_stmt 1 discriminator 3 view .LVU182
+ 241:main.c        ****         param->data_test[i] = (double *)malloc(feature_size * sizeof(double));
+ 585              		.loc 1 241 21 discriminator 3 view .LVU183
+ 241:main.c        ****         param->data_test[i] = (double *)malloc(feature_size * sizeof(double));
+ 586              		.loc 1 241 5 is_stmt 0 discriminator 3 view .LVU184
+ 587 0218 08F12808 		add	r8, r8, #40
+ 588 021c E8D1     		bne	.L23
+ 589              	.LBE4:
+ 244:main.c        ****     }
+ 245:main.c        **** 
+ 246:main.c        ****     param->test_sample_size = test_sample_size;
+ 590              		.loc 1 246 5 is_stmt 1 view .LVU185
+ 247:main.c        ****     param->feature_size = feature_size;
+ 248:main.c        **** 
+ 249:main.c        ****     // Read the test dataset from the csv into the 2D array
+ 250:main.c        ****     //read_csv(test_filename, param->test_sample_size, param->feature_size, param->data_test);
+ 251:main.c        **** 
+ 252:main.c        ****     // Total number of layers
+ 253:main.c        ****     int n_layers = param->n_hidden + 2;
+ 591              		.loc 1 253 25 is_stmt 0 view .LVU186
+ 592 021e 2F68     		ldr	r7, [r5]
+ 246:main.c        ****     param->feature_size = feature_size;
+ 593              		.loc 1 246 29 view .LVU187
+ 594 0220 0523     		movs	r3, #5
+ 595 0222 AB63     		str	r3, [r5, #56]
+ 247:main.c        ****     param->feature_size = feature_size;
+ 596              		.loc 1 247 5 is_stmt 1 view .LVU188
+ 247:main.c        ****     param->feature_size = feature_size;
+ 597              		.loc 1 247 25 is_stmt 0 view .LVU189
+ 598 0224 2B63     		str	r3, [r5, #48]
+ 599              		.loc 1 253 5 is_stmt 1 view .LVU190
+ 600              	.LVL59:
+ 254:main.c        **** 
+ 255:main.c        ****     // Save the sizes of layers in an array
+ 256:main.c        ****     layer_sizes = (int*)calloc(n_layers, sizeof(int));
+ 601              		.loc 1 256 5 view .LVU191
+ 602              		.loc 1 256 25 is_stmt 0 view .LVU192
+ 603 0226 0421     		movs	r1, #4
+ 604 0228 B81C     		adds	r0, r7, #2
+ 605              	.LVL60:
+ 606              		.loc 1 256 25 view .LVU193
+ 607 022a FFF7FEFF 		bl	calloc
+ 608              	.LVL61:
+ 257:main.c        **** 
+ 258:main.c        ****     layer_sizes[0] = param->feature_size - 1;
+ 609              		.loc 1 258 20 view .LVU194
+ 610 022e 0423     		movs	r3, #4
+ 611 0230 0360     		str	r3, [r0]
+ 259:main.c        ****     layer_sizes[n_layers-1] = param->output_layer_size;
+ 612              		.loc 1 259 16 view .LVU195
+ 613 0232 07F18043 		add	r3, r7, #1073741824
+ 614 0236 0133     		adds	r3, r3, #1
+ 615              		.loc 1 259 36 view .LVU196
+ 616 0238 2A6A     		ldr	r2, [r5, #32]
+ 617              		.loc 1 259 29 view .LVU197
+ 618 023a 40F82320 		str	r2, [r0, r3, lsl #2]
+ 256:main.c        **** 
+ 619              		.loc 1 256 25 view .LVU198
+ 620 023e 0646     		mov	r6, r0
+ 256:main.c        **** 
+ 621              		.loc 1 256 17 view .LVU199
+ 622 0240 6060     		str	r0, [r4, #4]
+ 258:main.c        ****     layer_sizes[n_layers-1] = param->output_layer_size;
+ 623              		.loc 1 258 5 is_stmt 1 view .LVU200
+ 624              		.loc 1 259 5 view .LVU201
+ 260:main.c        **** 
+ 261:main.c        ****     for (i = 1; i < n_layers-1 ; i++)
+ 625              		.loc 1 261 5 view .LVU202
+ 626              	.LVL62:
+ 627              		.loc 1 261 12 is_stmt 0 view .LVU203
+ 628 0242 0123     		movs	r3, #1
+ 629              	.LVL63:
+ 630              	.L24:
+ 631              		.loc 1 261 17 is_stmt 1 discriminator 1 view .LVU204
+ 632              		.loc 1 261 5 is_stmt 0 discriminator 1 view .LVU205
+ 633 0244 9F42     		cmp	r7, r3
+ 634 0246 22DA     		bge	.L25
+ 262:main.c        ****         layer_sizes[i] = param->hidden_layers_size[i-1];
+ 263:main.c        **** 
+ 264:main.c        ****     // Create memory for the weight matrices between layers
+ 265:main.c        ****     // weight is a pointer to the array of 2D arrays between the layers
+ 266:main.c        ****     param->weight = (double***)calloc(n_layers - 1, sizeof(double**));
+ 635              		.loc 1 266 5 is_stmt 1 view .LVU206
+ 636              		.loc 1 266 32 is_stmt 0 view .LVU207
+ 637 0248 0421     		movs	r1, #4
+ 638 024a 781C     		adds	r0, r7, #1
+ 639 024c FFF7FEFF 		bl	calloc
+ 640              	.LVL64:
+ 267:main.c        **** 
+ 268:main.c        ****     // Each 2D array between two layers i and i+1 is of size ((layer_size[i]+1) x layer_size[i+1])
+ 269:main.c        ****     // The weight matrix includes weights for the bias terms too
+ 270:main.c        ****     for (i = 0; i < n_layers-1; i++)
+ 641              		.loc 1 270 12 view .LVU208
+ 642 0250 4FF00009 		mov	r9, #0
+ 266:main.c        **** 
+ 643              		.loc 1 266 32 view .LVU209
+ 644 0254 8046     		mov	r8, r0
+ 266:main.c        **** 
+ 645              		.loc 1 266 19 view .LVU210
+ 646 0256 E863     		str	r0, [r5, #60]
+ 647              		.loc 1 270 5 is_stmt 1 view .LVU211
+ 648              	.LVL65:
+ 649              	.L26:
+ 650              		.loc 1 270 17 discriminator 1 view .LVU212
+ 651              		.loc 1 270 5 is_stmt 0 discriminator 1 view .LVU213
+ 652 0258 4F45     		cmp	r7, r9
+ 653 025a 21DA     		bge	.L27
+ 654 025c B146     		mov	r9, r6
+ 655              	.LVL66:
+ 656              		.loc 1 270 5 view .LVU214
+ 657 025e B346     		mov	fp, r6
+ 271:main.c        ****         param->weight[i] = (double**)calloc(layer_sizes[i]+1, sizeof(double*));
+ 272:main.c        **** 
+ 273:main.c        ****     int j;
+ 274:main.c        ****     for (i = 0; i < n_layers-1; i++)
+ 658              		.loc 1 274 12 view .LVU215
+ 659 0260 4FF0000A 		mov	r10, #0
+ 660              	.L28:
+ 661              	.LVL67:
+ 662              		.loc 1 274 17 is_stmt 1 discriminator 1 view .LVU216
+ 663              		.loc 1 274 5 is_stmt 0 discriminator 1 view .LVU217
+ 664 0264 5745     		cmp	r7, r10
+ 665 0266 62DA     		bge	.L46
+ 275:main.c        ****         for (j = 0; j < layer_sizes[i]+1; j++)
+ 276:main.c        ****             param->weight[i][j] = (double*)calloc(layer_sizes[i+1], sizeof(double));
+ 277:main.c        **** 
+ 278:main.c        ****     double weights[] = {
+ 666              		.loc 1 278 5 is_stmt 1 view .LVU218
+ 667              		.loc 1 278 12 is_stmt 0 view .LVU219
+ 668 0268 0DF58C7A 		add	r10, sp, #280
+ 669              	.LVL68:
+ 670              		.loc 1 278 12 view .LVU220
+ 671 026c 2349     		ldr	r1, .L53+68
+ 672 026e 4FF42A72 		mov	r2, #680
+ 673 0272 5046     		mov	r0, r10
+ 674 0274 FFF7FEFF 		bl	memcpy
+ 675              	.LVL69:
+ 279:main.c        ****     0.725865, 0.441536, -0.799100, 0.009719, 0.445643, -0.595062, -0.250179, 0.208894, 0.276722, 0.
+ 280:main.c        ****     0.011293, 0.240472, 0.452365, 0.149054, -0.471252, 0.584530, -0.208878, -0.344829, 0.160482, 0.
+ 281:main.c        ****     -0.797066, -0.544316, 0.332514, -0.195160, -0.127443, 0.405487, -0.276599, -0.739743, 0.706677,
+ 282:main.c        ****     0.661625, -0.322602, -0.528113, -0.431437, -0.429017, -0.452627, -0.327129, -0.325360, 0.160116
+ 283:main.c        ****     0.099907, -0.994370, 0.701389, -0.158393, -0.674160
+ 284:main.c        ****     };
+ 285:main.c        **** 
+ 286:main.c        ****     int weightIndex = 0;
+ 676              		.loc 1 286 5 is_stmt 1 view .LVU221
+ 287:main.c        ****     for (int i = 0; i < n_layers - 1; i++) {
+ 677              		.loc 1 287 5 view .LVU222
+ 678              	.LBB5:
+ 679              		.loc 1 287 10 view .LVU223
+ 680              		.loc 1 287 14 is_stmt 0 view .LVU224
+ 681 0278 0023     		movs	r3, #0
+ 682              	.LBE5:
+ 286:main.c        ****     for (int i = 0; i < n_layers - 1; i++) {
+ 683              		.loc 1 286 9 view .LVU225
+ 684 027a 9C46     		mov	ip, r3
+ 685 027c CDF80CA0 		str	r10, [sp, #12]
+ 686              	.LVL70:
+ 687              	.L31:
+ 688              	.LBB10:
+ 689              		.loc 1 287 21 is_stmt 1 discriminator 1 view .LVU226
+ 690              		.loc 1 287 5 is_stmt 0 discriminator 1 view .LVU227
+ 691 0280 9F42     		cmp	r7, r3
+ 692 0282 7ADB     		blt	.L35
+ 693              	.LBB6:
+ 288:main.c        ****         for (int j = 0; j < layer_sizes[i] + 1; j++) {
+ 694              		.loc 1 288 27 view .LVU228
+ 695 0284 59F8042B 		ldr	r2, [r9], #4
+ 696 0288 0292     		str	r2, [sp, #8]
+ 697              		.loc 1 288 18 view .LVU229
+ 698 028a 0022     		movs	r2, #0
+ 699 028c 65E0     		b	.L36
+ 700              	.LVL71:
+ 701              	.L25:
+ 702              		.loc 1 288 18 view .LVU230
+ 703              	.LBE6:
+ 704              	.LBE10:
+ 262:main.c        **** 
+ 705              		.loc 1 262 9 is_stmt 1 discriminator 3 view .LVU231
+ 262:main.c        **** 
+ 706              		.loc 1 262 51 is_stmt 0 discriminator 3 view .LVU232
+ 707 028e 6A68     		ldr	r2, [r5, #4]
+ 708 0290 02EB8302 		add	r2, r2, r3, lsl #2
+ 709 0294 52F8042C 		ldr	r2, [r2, #-4]
+ 262:main.c        **** 
+ 710              		.loc 1 262 24 discriminator 3 view .LVU233
+ 711 0298 46F82320 		str	r2, [r6, r3, lsl #2]
+ 261:main.c        ****         layer_sizes[i] = param->hidden_layers_size[i-1];
+ 712              		.loc 1 261 34 is_stmt 1 discriminator 3 view .LVU234
+ 261:main.c        ****         layer_sizes[i] = param->hidden_layers_size[i-1];
+ 713              		.loc 1 261 35 is_stmt 0 discriminator 3 view .LVU235
+ 714 029c 0133     		adds	r3, r3, #1
+ 715              	.LVL72:
+ 261:main.c        ****         layer_sizes[i] = param->hidden_layers_size[i-1];
+ 716              		.loc 1 261 35 discriminator 3 view .LVU236
+ 717 029e D1E7     		b	.L24
+ 718              	.LVL73:
+ 719              	.L27:
+ 271:main.c        **** 
+ 720              		.loc 1 271 9 is_stmt 1 discriminator 3 view .LVU237
+ 271:main.c        **** 
+ 721              		.loc 1 271 59 is_stmt 0 discriminator 3 view .LVU238
+ 722 02a0 56F82900 		ldr	r0, [r6, r9, lsl #2]
+ 271:main.c        **** 
+ 723              		.loc 1 271 38 discriminator 3 view .LVU239
+ 724 02a4 0421     		movs	r1, #4
+ 725 02a6 0130     		adds	r0, r0, #1
+ 726 02a8 FFF7FEFF 		bl	calloc
+ 727              	.LVL74:
+ 271:main.c        **** 
+ 728              		.loc 1 271 26 discriminator 3 view .LVU240
+ 729 02ac 48F82900 		str	r0, [r8, r9, lsl #2]
+ 270:main.c        ****         param->weight[i] = (double**)calloc(layer_sizes[i]+1, sizeof(double*));
+ 730              		.loc 1 270 33 is_stmt 1 discriminator 3 view .LVU241
+ 270:main.c        ****         param->weight[i] = (double**)calloc(layer_sizes[i]+1, sizeof(double*));
+ 731              		.loc 1 270 34 is_stmt 0 discriminator 3 view .LVU242
+ 732 02b0 09F10109 		add	r9, r9, #1
+ 733              	.LVL75:
+ 270:main.c        ****         param->weight[i] = (double**)calloc(layer_sizes[i]+1, sizeof(double*));
+ 734              		.loc 1 270 34 discriminator 3 view .LVU243
+ 735 02b4 D0E7     		b	.L26
+ 736              	.L54:
+ 737 02b6 00BF     		.align	2
+ 738              	.L53:
+ 739 02b8 00000000 		.word	.LANCHOR0
+ 740 02bc 00000000 		.word	.LANCHOR1
+ 741 02c0 72000000 		.word	.LC17
+ 742 02c4 A0000000 		.word	.LC18
+ 743 02c8 2C000000 		.word	.LC5
+ 744 02cc D8000000 		.word	.LC21
+ 745 02d0 79010000 		.word	.LC26
+ 746 02d4 A2000000 		.word	.LC19
+ 747 02d8 CF000000 		.word	.LC20
+ 748 02dc DD000000 		.word	.LC22
+ 749 02e0 E2000000 		.word	.LC23
+ 750 02e4 EA000000 		.word	.LC24
+ 751 02e8 1E010000 		.word	.LC25
+ 752 02ec 2D020000 		.word	.LC29
+ 753 02f0 9E010000 		.word	.LC27
+ 754 02f4 D2010000 		.word	.LC28
+ 755 02f8 40000000 		.word	.LANCHOR0+64
+ 756 02fc 08010000 		.word	.LANCHOR0+264
+ 757              	.LVL76:
+ 758              	.L29:
+ 276:main.c        **** 
+ 759              		.loc 1 276 29 discriminator 3 view .LVU244
+ 760 0300 58F82A20 		ldr	r2, [r8, r10, lsl #2]
+ 276:main.c        **** 
+ 761              		.loc 1 276 44 discriminator 3 view .LVU245
+ 762 0304 DBF80400 		ldr	r0, [fp, #4]
+ 763 0308 0193     		str	r3, [sp, #4]
+ 276:main.c        **** 
+ 764              		.loc 1 276 13 is_stmt 1 discriminator 3 view .LVU246
+ 276:main.c        **** 
+ 765              		.loc 1 276 44 is_stmt 0 discriminator 3 view .LVU247
+ 766 030a 0821     		movs	r1, #8
+ 276:main.c        **** 
+ 767              		.loc 1 276 29 discriminator 3 view .LVU248
+ 768 030c 0092     		str	r2, [sp]
+ 276:main.c        **** 
+ 769              		.loc 1 276 44 discriminator 3 view .LVU249
+ 770 030e FFF7FEFF 		bl	calloc
+ 771              	.LVL77:
+ 276:main.c        **** 
+ 772              		.loc 1 276 33 discriminator 3 view .LVU250
+ 773 0312 DDE90023 		ldrd	r2, r3, [sp]
+ 774 0316 42F82300 		str	r0, [r2, r3, lsl #2]
+ 275:main.c        ****             param->weight[i][j] = (double*)calloc(layer_sizes[i+1], sizeof(double));
+ 775              		.loc 1 275 43 is_stmt 1 discriminator 3 view .LVU251
+ 275:main.c        ****             param->weight[i][j] = (double*)calloc(layer_sizes[i+1], sizeof(double));
+ 776              		.loc 1 275 44 is_stmt 0 discriminator 3 view .LVU252
+ 777 031a 0133     		adds	r3, r3, #1
+ 778              	.LVL78:
+ 779              	.L30:
+ 275:main.c        ****             param->weight[i][j] = (double*)calloc(layer_sizes[i+1], sizeof(double));
+ 780              		.loc 1 275 21 is_stmt 1 discriminator 1 view .LVU253
+ 275:main.c        ****             param->weight[i][j] = (double*)calloc(layer_sizes[i+1], sizeof(double));
+ 781              		.loc 1 275 9 is_stmt 0 discriminator 1 view .LVU254
+ 782 031c DBF80020 		ldr	r2, [fp]
+ 783 0320 9A42     		cmp	r2, r3
+ 784 0322 EDDA     		bge	.L29
+ 274:main.c        ****         for (j = 0; j < layer_sizes[i]+1; j++)
+ 785              		.loc 1 274 33 is_stmt 1 discriminator 2 view .LVU255
+ 274:main.c        ****         for (j = 0; j < layer_sizes[i]+1; j++)
+ 786              		.loc 1 274 34 is_stmt 0 discriminator 2 view .LVU256
+ 787 0324 0AF1010A 		add	r10, r10, #1
+ 788              	.LVL79:
+ 274:main.c        ****         for (j = 0; j < layer_sizes[i]+1; j++)
+ 789              		.loc 1 274 34 discriminator 2 view .LVU257
+ 790 0328 0BF1040B 		add	fp, fp, #4
+ 791 032c 9AE7     		b	.L28
+ 792              	.LVL80:
+ 793              	.L46:
+ 275:main.c        ****             param->weight[i][j] = (double*)calloc(layer_sizes[i+1], sizeof(double));
+ 794              		.loc 1 275 16 view .LVU258
+ 795 032e 0023     		movs	r3, #0
+ 796 0330 F4E7     		b	.L30
+ 797              	.LVL81:
+ 798              	.L32:
+ 799              	.LBB11:
+ 800              	.LBB9:
+ 801              	.LBB7:
+ 289:main.c        ****             for (int k = 0; k < layer_sizes[i + 1]; k++) {
+ 290:main.c        ****                 param->weight[i][j][k] = weights[weightIndex++];
+ 802              		.loc 1 290 17 is_stmt 1 discriminator 3 view .LVU259
+ 803              		.loc 1 290 49 is_stmt 0 discriminator 3 view .LVU260
+ 804 0332 0199     		ldr	r1, [sp, #4]
+ 805 0334 F1E802AB 		ldrd	r10, [r1], #8
+ 806 0338 0191     		str	r1, [sp, #4]
+ 807              		.loc 1 290 33 discriminator 3 view .LVU261
+ 808 033a 58F82310 		ldr	r1, [r8, r3, lsl #2]
+ 809              		.loc 1 290 40 discriminator 3 view .LVU262
+ 810 033e 51F80E10 		ldr	r1, [r1, lr]
+ 811 0342 01EBC001 		add	r1, r1, r0, lsl #3
+ 812 0346 C1E900AB 		strd	r10, [r1]
+ 289:main.c        ****             for (int k = 0; k < layer_sizes[i + 1]; k++) {
+ 813              		.loc 1 289 53 is_stmt 1 discriminator 3 view .LVU263
+ 289:main.c        ****             for (int k = 0; k < layer_sizes[i + 1]; k++) {
+ 814              		.loc 1 289 54 is_stmt 0 discriminator 3 view .LVU264
+ 815 034a 0130     		adds	r0, r0, #1
+ 816              	.LVL82:
+ 817              	.L34:
+ 289:main.c        ****             for (int k = 0; k < layer_sizes[i + 1]; k++) {
+ 818              		.loc 1 289 29 is_stmt 1 discriminator 1 view .LVU265
+ 289:main.c        ****             for (int k = 0; k < layer_sizes[i + 1]; k++) {
+ 819              		.loc 1 289 13 is_stmt 0 discriminator 1 view .LVU266
+ 820 034c 0099     		ldr	r1, [sp]
+ 821 034e 8142     		cmp	r1, r0
+ 822 0350 EFDC     		bgt	.L32
+ 823 0352 0029     		cmp	r1, #0
+ 824 0354 A8BF     		it	ge
+ 825 0356 8C44     		addge	ip, ip, r1
+ 826              	.LBE7:
+ 288:main.c        ****             for (int k = 0; k < layer_sizes[i + 1]; k++) {
+ 827              		.loc 1 288 49 is_stmt 1 discriminator 2 view .LVU267
+ 288:main.c        ****             for (int k = 0; k < layer_sizes[i + 1]; k++) {
+ 828              		.loc 1 288 50 is_stmt 0 discriminator 2 view .LVU268
+ 829 0358 0132     		adds	r2, r2, #1
+ 830              	.LVL83:
+ 831              	.L36:
+ 288:main.c        ****             for (int k = 0; k < layer_sizes[i + 1]; k++) {
+ 832              		.loc 1 288 25 is_stmt 1 discriminator 1 view .LVU269
+ 288:main.c        ****             for (int k = 0; k < layer_sizes[i + 1]; k++) {
+ 833              		.loc 1 288 9 is_stmt 0 discriminator 1 view .LVU270
+ 834 035a 0299     		ldr	r1, [sp, #8]
+ 835 035c 9142     		cmp	r1, r2
+ 836 035e 0ADB     		blt	.L33
+ 837              	.LBB8:
+ 289:main.c        ****             for (int k = 0; k < layer_sizes[i + 1]; k++) {
+ 838              		.loc 1 289 44 view .LVU271
+ 839 0360 D9F80010 		ldr	r1, [r9]
+ 840 0364 0091     		str	r1, [sp]
+ 841 0366 9100     		lsls	r1, r2, #2
+ 842 0368 8E46     		mov	lr, r1
+ 843 036a 0399     		ldr	r1, [sp, #12]
+ 844 036c 01EBCC01 		add	r1, r1, ip, lsl #3
+ 845 0370 0191     		str	r1, [sp, #4]
+ 289:main.c        ****             for (int k = 0; k < layer_sizes[i + 1]; k++) {
+ 846              		.loc 1 289 22 view .LVU272
+ 847 0372 0020     		movs	r0, #0
+ 848 0374 EAE7     		b	.L34
+ 849              	.L33:
+ 850              	.LBE8:
+ 851              	.LBE9:
+ 287:main.c        ****         for (int j = 0; j < layer_sizes[i] + 1; j++) {
+ 852              		.loc 1 287 39 is_stmt 1 discriminator 2 view .LVU273
+ 287:main.c        ****         for (int j = 0; j < layer_sizes[i] + 1; j++) {
+ 853              		.loc 1 287 40 is_stmt 0 discriminator 2 view .LVU274
+ 854 0376 0133     		adds	r3, r3, #1
+ 855              	.LVL84:
+ 287:main.c        ****         for (int j = 0; j < layer_sizes[i] + 1; j++) {
+ 856              		.loc 1 287 40 discriminator 2 view .LVU275
+ 857 0378 82E7     		b	.L31
+ 858              	.LVL85:
+ 859              	.L35:
+ 287:main.c        ****         for (int j = 0; j < layer_sizes[i] + 1; j++) {
+ 860              		.loc 1 287 40 discriminator 2 view .LVU276
+ 861              	.LBE11:
+ 291:main.c        ****             }
+ 292:main.c        ****         }
  293:main.c        ****     }
  294:main.c        **** 
- 295:main.c        ****     param->test_sample_size = test_sample_size;
- 602              		.loc 1 295 5 is_stmt 1 view .LVU190
- 296:main.c        ****     param->feature_size = feature_size;
- 297:main.c        **** 
- 298:main.c        ****     // Read the test dataset from the csv into the 2D array
- 299:main.c        ****     //read_csv(test_filename, param->test_sample_size, param->feature_size, param->data_test);
+ 295:main.c        ****     // Train the neural network on the train data
+ 296:main.c        ****     // printf("Training:\n");
+ 297:main.c        ****     // printf("---------\n");
+ 298:main.c        ****     // mlp_trainer(param, layer_sizes);
+ 299:main.c        ****     // printf("\nDone.\n\n");
  300:main.c        **** 
- 301:main.c        ****     // Total number of layers
- 302:main.c        ****     int n_layers = param->n_hidden + 2;
- 603              		.loc 1 302 25 is_stmt 0 view .LVU191
- 604 022a 2F68     		ldr	r7, [r5]
- 295:main.c        ****     param->feature_size = feature_size;
- 605              		.loc 1 295 29 view .LVU192
- 606 022c 3223     		movs	r3, #50
- 607 022e AB63     		str	r3, [r5, #56]
- 296:main.c        ****     param->feature_size = feature_size;
- 608              		.loc 1 296 5 is_stmt 1 view .LVU193
- 296:main.c        ****     param->feature_size = feature_size;
- 609              		.loc 1 296 25 is_stmt 0 view .LVU194
- 610 0230 0523     		movs	r3, #5
- 611 0232 2B63     		str	r3, [r5, #48]
- 612              		.loc 1 302 5 is_stmt 1 view .LVU195
- 613              	.LVL62:
- 303:main.c        **** 
- 304:main.c        ****     // Save the sizes of layers in an array
- 305:main.c        ****     layer_sizes = (int*)calloc(n_layers, sizeof(int));
- 614              		.loc 1 305 5 view .LVU196
- 615              		.loc 1 305 25 is_stmt 0 view .LVU197
- 616 0234 0421     		movs	r1, #4
- 617 0236 B81C     		adds	r0, r7, #2
- 618              	.LVL63:
- 619              		.loc 1 305 25 view .LVU198
- 620 0238 FFF7FEFF 		bl	calloc
- 621              	.LVL64:
- 306:main.c        **** 
- 307:main.c        ****     layer_sizes[0] = param->feature_size - 1;
- 622              		.loc 1 307 20 view .LVU199
- 623 023c 0423     		movs	r3, #4
- 624 023e 0360     		str	r3, [r0]
- 308:main.c        ****     layer_sizes[n_layers-1] = param->output_layer_size;
- 625              		.loc 1 308 16 view .LVU200
- 626 0240 07F18043 		add	r3, r7, #1073741824
- 627 0244 0133     		adds	r3, r3, #1
- 628              		.loc 1 308 36 view .LVU201
- 629 0246 2A6A     		ldr	r2, [r5, #32]
- 630              		.loc 1 308 29 view .LVU202
- 631 0248 40F82320 		str	r2, [r0, r3, lsl #2]
- 305:main.c        **** 
- 632              		.loc 1 305 25 view .LVU203
- 633 024c 0646     		mov	r6, r0
- 305:main.c        **** 
- 634              		.loc 1 305 17 view .LVU204
- 635 024e 6060     		str	r0, [r4, #4]
- 307:main.c        ****     layer_sizes[n_layers-1] = param->output_layer_size;
- 636              		.loc 1 307 5 is_stmt 1 view .LVU205
- 637              		.loc 1 308 5 view .LVU206
- 309:main.c        **** 
- 310:main.c        ****     for (i = 1; i < n_layers-1 ; i++)
- 638              		.loc 1 310 5 view .LVU207
- 639              	.LVL65:
- 640              		.loc 1 310 12 is_stmt 0 view .LVU208
- 641 0250 0123     		movs	r3, #1
- 642              	.LVL66:
- 643              	.L24:
- 644              		.loc 1 310 17 is_stmt 1 discriminator 1 view .LVU209
- 645              		.loc 1 310 5 is_stmt 0 discriminator 1 view .LVU210
- 646 0252 9F42     		cmp	r7, r3
- 647 0254 22DA     		bge	.L25
- 311:main.c        ****         layer_sizes[i] = param->hidden_layers_size[i-1];
- 312:main.c        **** 
- 313:main.c        ****     // Create memory for the weight matrices between layers
- 314:main.c        ****     // weight is a pointer to the array of 2D arrays between the layers
- 315:main.c        ****     param->weight = (double***)calloc(n_layers - 1, sizeof(double**));
- 648              		.loc 1 315 5 is_stmt 1 view .LVU211
- 649              		.loc 1 315 32 is_stmt 0 view .LVU212
- 650 0256 0421     		movs	r1, #4
- 651 0258 781C     		adds	r0, r7, #1
- 652 025a FFF7FEFF 		bl	calloc
- 653              	.LVL67:
- 316:main.c        **** 
- 317:main.c        ****     // Each 2D array between two layers i and i+1 is of size ((layer_size[i]+1) x layer_size[i+1])
- 318:main.c        ****     // The weight matrix includes weights for the bias terms too
- 319:main.c        ****     for (i = 0; i < n_layers-1; i++)
- 654              		.loc 1 319 12 view .LVU213
- 655 025e 4FF00009 		mov	r9, #0
- 315:main.c        **** 
- 656              		.loc 1 315 32 view .LVU214
- 657 0262 8046     		mov	r8, r0
- 315:main.c        **** 
- 658              		.loc 1 315 19 view .LVU215
- 659 0264 E863     		str	r0, [r5, #60]
- 660              		.loc 1 319 5 is_stmt 1 view .LVU216
- 661              	.LVL68:
- 662              	.L26:
- 663              		.loc 1 319 17 discriminator 1 view .LVU217
- 664              		.loc 1 319 5 is_stmt 0 discriminator 1 view .LVU218
- 665 0266 4F45     		cmp	r7, r9
- 666 0268 21DA     		bge	.L27
- 667 026a B146     		mov	r9, r6
- 668              	.LVL69:
- 669              		.loc 1 319 5 view .LVU219
- 670 026c B346     		mov	fp, r6
- 320:main.c        ****         param->weight[i] = (double**)calloc(layer_sizes[i]+1, sizeof(double*));
+ 301:main.c        ****     //save the trained weights to a file
+ 302:main.c        ****     // FILE *fp = fopen("weights.txt", "w");
+ 303:main.c        ****     // for (i = 0; i < n_layers-1; i++) {
+ 304:main.c        ****     //     for (j = 0; j < layer_sizes[i]+1; j++) {
+ 305:main.c        ****     //         for (int k = 0; k < layer_sizes[i+1]; k++) {
+ 306:main.c        ****     //             fprintf(fp, "%lf ", param->weight[i][j][k]);
+ 307:main.c        ****     //         }
+ 308:main.c        ****     //         fprintf(fp, "\n");
+ 309:main.c        ****     //     }
+ 310:main.c        ****     //     fprintf(fp, "\n");
+ 311:main.c        ****     // }
+ 312:main.c        ****     // fclose(fp);
+ 313:main.c        **** 
+ 314:main.c        ****     // Classify the test data using the trained parameter weights
+ 315:main.c        ****     //printf("Classifying:\n");
+ 316:main.c        ****     //printf("------------\n");
+ 317:main.c        ****     mlp_classifier(param, layer_sizes);
+ 862              		.loc 1 317 5 is_stmt 1 view .LVU277
+ 863 037a 3146     		mov	r1, r6
+ 864 037c 2846     		mov	r0, r5
+ 865 037e FFF7FEFF 		bl	mlp_classifier
+ 866              	.LVL86:
+ 318:main.c        ****     //while(1)
+ 319:main.c        ****         //simpleserial_get();
+ 320:main.c        ****     //printf("\nDone.\nOutput file generated\n");
  321:main.c        **** 
- 322:main.c        ****     int j;
+ 322:main.c        ****     // Free the memory allocated in Heap
  323:main.c        ****     for (i = 0; i < n_layers-1; i++)
- 671              		.loc 1 323 12 view .LVU220
- 672 026e 4FF0000A 		mov	r10, #0
- 673              	.L28:
- 674              	.LVL70:
- 675              		.loc 1 323 17 is_stmt 1 discriminator 1 view .LVU221
- 676              		.loc 1 323 5 is_stmt 0 discriminator 1 view .LVU222
- 677 0272 5745     		cmp	r7, r10
- 678 0274 61DA     		bge	.L46
+ 867              		.loc 1 323 5 view .LVU278
+ 868              		.loc 1 323 12 is_stmt 0 view .LVU279
+ 869 0382 0026     		movs	r6, #0
+ 870              	.LVL87:
+ 871              	.L37:
+ 872              		.loc 1 323 17 is_stmt 1 discriminator 1 view .LVU280
+ 873              		.loc 1 323 5 is_stmt 0 discriminator 1 view .LVU281
+ 874 0384 B742     		cmp	r7, r6
+ 875 0386 42DB     		blt	.L47
+ 876 0388 4FEA8608 		lsl	r8, r6, #2
  324:main.c        ****         for (j = 0; j < layer_sizes[i]+1; j++)
- 325:main.c        ****             param->weight[i][j] = (double*)calloc(layer_sizes[i+1], sizeof(double));
+ 877              		.loc 1 324 16 view .LVU282
+ 878 038c 0025     		movs	r5, #0
+ 879 038e 06E0     		b	.L40
+ 880              	.LVL88:
+ 881              	.L38:
+ 325:main.c        ****             free(param->weight[i][j]);
+ 882              		.loc 1 325 13 is_stmt 1 discriminator 3 view .LVU283
+ 883 0390 52F80830 		ldr	r3, [r2, r8]
+ 884 0394 53F82500 		ldr	r0, [r3, r5, lsl #2]
+ 885 0398 FFF7FEFF 		bl	free
+ 886              	.LVL89:
+ 324:main.c        ****         for (j = 0; j < layer_sizes[i]+1; j++)
+ 887              		.loc 1 324 43 discriminator 3 view .LVU284
+ 324:main.c        ****         for (j = 0; j < layer_sizes[i]+1; j++)
+ 888              		.loc 1 324 44 is_stmt 0 discriminator 3 view .LVU285
+ 889 039c 0135     		adds	r5, r5, #1
+ 890              	.LVL90:
+ 891              	.L40:
+ 324:main.c        ****         for (j = 0; j < layer_sizes[i]+1; j++)
+ 892              		.loc 1 324 21 is_stmt 1 discriminator 1 view .LVU286
+ 893              		.loc 1 325 23 is_stmt 0 discriminator 1 view .LVU287
+ 894 039e 2368     		ldr	r3, [r4]
+ 895 03a0 DA6B     		ldr	r2, [r3, #60]
+ 324:main.c        ****         for (j = 0; j < layer_sizes[i]+1; j++)
+ 896              		.loc 1 324 23 discriminator 1 view .LVU288
+ 897 03a2 6368     		ldr	r3, [r4, #4]
+ 324:main.c        ****         for (j = 0; j < layer_sizes[i]+1; j++)
+ 898              		.loc 1 324 9 discriminator 1 view .LVU289
+ 899 03a4 53F80830 		ldr	r3, [r3, r8]
+ 900 03a8 AB42     		cmp	r3, r5
+ 901 03aa F1DA     		bge	.L38
+ 323:main.c        ****         for (j = 0; j < layer_sizes[i]+1; j++)
+ 902              		.loc 1 323 33 is_stmt 1 discriminator 2 view .LVU290
+ 323:main.c        ****         for (j = 0; j < layer_sizes[i]+1; j++)
+ 903              		.loc 1 323 34 is_stmt 0 discriminator 2 view .LVU291
+ 904 03ac 0136     		adds	r6, r6, #1
+ 905              	.LVL91:
+ 323:main.c        ****         for (j = 0; j < layer_sizes[i]+1; j++)
+ 906              		.loc 1 323 34 discriminator 2 view .LVU292
+ 907 03ae E9E7     		b	.L37
+ 908              	.LVL92:
+ 909              	.L41:
  326:main.c        **** 
- 327:main.c        ****     double weights[] = {
- 679              		.loc 1 327 5 is_stmt 1 view .LVU223
- 680              		.loc 1 327 12 is_stmt 0 view .LVU224
- 681 0276 0DF1500A 		add	r10, sp, #80
- 682              	.LVL71:
- 683              		.loc 1 327 12 view .LVU225
- 684 027a 2349     		ldr	r1, .L53+68
- 685 027c 4FF42A72 		mov	r2, #680
- 686 0280 5046     		mov	r0, r10
- 687 0282 FFF7FEFF 		bl	memcpy
- 688              	.LVL72:
- 328:main.c        ****     0.725865, 0.441536, -0.799100, 0.009719, 0.445643, -0.595062, -0.250179, 0.208894, 0.276722, 0.
- 329:main.c        ****     0.011293, 0.240472, 0.452365, 0.149054, -0.471252, 0.584530, -0.208878, -0.344829, 0.160482, 0.
- 330:main.c        ****     -0.797066, -0.544316, 0.332514, -0.195160, -0.127443, 0.405487, -0.276599, -0.739743, 0.706677,
- 331:main.c        ****     0.661625, -0.322602, -0.528113, -0.431437, -0.429017, -0.452627, -0.327129, -0.325360, 0.160116
- 332:main.c        ****     0.099907, -0.994370, 0.701389, -0.158393, -0.674160
- 333:main.c        ****     };
- 334:main.c        **** 
- 335:main.c        ****     int weightIndex = 0;
- 689              		.loc 1 335 5 is_stmt 1 view .LVU226
- 336:main.c        ****     for (int i = 0; i < n_layers - 1; i++) {
- 690              		.loc 1 336 5 view .LVU227
- 691              	.LBB5:
- 692              		.loc 1 336 10 view .LVU228
- 693              		.loc 1 336 14 is_stmt 0 view .LVU229
- 694 0286 0023     		movs	r3, #0
- 695              	.LBE5:
- 335:main.c        ****     for (int i = 0; i < n_layers - 1; i++) {
- 696              		.loc 1 335 9 view .LVU230
- 697 0288 9C46     		mov	ip, r3
- 698 028a CDF80CA0 		str	r10, [sp, #12]
- 699              	.LVL73:
- 700              	.L31:
- 701              	.LBB10:
- 702              		.loc 1 336 21 is_stmt 1 discriminator 1 view .LVU231
- 703              		.loc 1 336 5 is_stmt 0 discriminator 1 view .LVU232
- 704 028e 9F42     		cmp	r7, r3
- 705 0290 79DB     		blt	.L35
- 706              	.LBB6:
- 337:main.c        ****         for (int j = 0; j < layer_sizes[i] + 1; j++) {
- 707              		.loc 1 337 27 view .LVU233
- 708 0292 59F8042B 		ldr	r2, [r9], #4
- 709 0296 0292     		str	r2, [sp, #8]
- 710              		.loc 1 337 18 view .LVU234
- 711 0298 0022     		movs	r2, #0
- 712 029a 64E0     		b	.L36
- 713              	.LVL74:
- 714              	.L25:
- 715              		.loc 1 337 18 view .LVU235
- 716              	.LBE6:
- 717              	.LBE10:
- 311:main.c        **** 
- 718              		.loc 1 311 9 is_stmt 1 discriminator 3 view .LVU236
- 311:main.c        **** 
- 719              		.loc 1 311 51 is_stmt 0 discriminator 3 view .LVU237
- 720 029c 6A68     		ldr	r2, [r5, #4]
- 721 029e 02EB8302 		add	r2, r2, r3, lsl #2
- 722 02a2 52F8042C 		ldr	r2, [r2, #-4]
- 311:main.c        **** 
- 723              		.loc 1 311 24 discriminator 3 view .LVU238
- 724 02a6 46F82320 		str	r2, [r6, r3, lsl #2]
- 310:main.c        ****         layer_sizes[i] = param->hidden_layers_size[i-1];
- 725              		.loc 1 310 34 is_stmt 1 discriminator 3 view .LVU239
- 310:main.c        ****         layer_sizes[i] = param->hidden_layers_size[i-1];
- 726              		.loc 1 310 35 is_stmt 0 discriminator 3 view .LVU240
- 727 02aa 0133     		adds	r3, r3, #1
- 728              	.LVL75:
- 310:main.c        ****         layer_sizes[i] = param->hidden_layers_size[i-1];
- 729              		.loc 1 310 35 discriminator 3 view .LVU241
- 730 02ac D1E7     		b	.L24
- 731              	.LVL76:
- 732              	.L27:
- 320:main.c        **** 
- 733              		.loc 1 320 9 is_stmt 1 discriminator 3 view .LVU242
- 320:main.c        **** 
- 734              		.loc 1 320 59 is_stmt 0 discriminator 3 view .LVU243
- 735 02ae 56F82900 		ldr	r0, [r6, r9, lsl #2]
- 320:main.c        **** 
- 736              		.loc 1 320 38 discriminator 3 view .LVU244
- 737 02b2 0421     		movs	r1, #4
- 738 02b4 0130     		adds	r0, r0, #1
- 739 02b6 FFF7FEFF 		bl	calloc
- 740              	.LVL77:
- 320:main.c        **** 
- 741              		.loc 1 320 26 discriminator 3 view .LVU245
- 742 02ba 48F82900 		str	r0, [r8, r9, lsl #2]
- 319:main.c        ****         param->weight[i] = (double**)calloc(layer_sizes[i]+1, sizeof(double*));
- 743              		.loc 1 319 33 is_stmt 1 discriminator 3 view .LVU246
- 319:main.c        ****         param->weight[i] = (double**)calloc(layer_sizes[i]+1, sizeof(double*));
- 744              		.loc 1 319 34 is_stmt 0 discriminator 3 view .LVU247
- 745 02be 09F10109 		add	r9, r9, #1
- 746              	.LVL78:
- 319:main.c        ****         param->weight[i] = (double**)calloc(layer_sizes[i]+1, sizeof(double*));
- 747              		.loc 1 319 34 discriminator 3 view .LVU248
- 748 02c2 D0E7     		b	.L26
- 749              	.L54:
- 750              		.align	2
- 751              	.L53:
- 752 02c4 00000000 		.word	.LANCHOR0
- 753 02c8 00000000 		.word	.LANCHOR1
- 754 02cc 72000000 		.word	.LC17
- 755 02d0 A0000000 		.word	.LC18
- 756 02d4 2C000000 		.word	.LC5
- 757 02d8 D8000000 		.word	.LC21
- 758 02dc 79010000 		.word	.LC26
- 759 02e0 A2000000 		.word	.LC19
- 760 02e4 CF000000 		.word	.LC20
- 761 02e8 DD000000 		.word	.LC22
- 762 02ec E2000000 		.word	.LC23
- 763 02f0 EA000000 		.word	.LC24
- 764 02f4 1E010000 		.word	.LC25
- 765 02f8 2D020000 		.word	.LC29
- 766 02fc 9E010000 		.word	.LC27
- 767 0300 D2010000 		.word	.LC28
- 768 0304 40000000 		.word	.LANCHOR0+64
- 769 0308 10080000 		.word	.LANCHOR0+2064
- 770              	.LVL79:
- 771              	.L29:
- 325:main.c        **** 
- 772              		.loc 1 325 29 discriminator 3 view .LVU249
- 773 030c 58F82A20 		ldr	r2, [r8, r10, lsl #2]
- 325:main.c        **** 
- 774              		.loc 1 325 44 discriminator 3 view .LVU250
- 775 0310 DBF80400 		ldr	r0, [fp, #4]
- 776 0314 0193     		str	r3, [sp, #4]
- 325:main.c        **** 
- 777              		.loc 1 325 13 is_stmt 1 discriminator 3 view .LVU251
- 325:main.c        **** 
- 778              		.loc 1 325 44 is_stmt 0 discriminator 3 view .LVU252
- 779 0316 0821     		movs	r1, #8
- 325:main.c        **** 
- 780              		.loc 1 325 29 discriminator 3 view .LVU253
- 781 0318 0092     		str	r2, [sp]
- 325:main.c        **** 
- 782              		.loc 1 325 44 discriminator 3 view .LVU254
- 783 031a FFF7FEFF 		bl	calloc
- 784              	.LVL80:
- 325:main.c        **** 
- 785              		.loc 1 325 33 discriminator 3 view .LVU255
- 786 031e DDE90023 		ldrd	r2, r3, [sp]
- 787 0322 42F82300 		str	r0, [r2, r3, lsl #2]
- 324:main.c        ****             param->weight[i][j] = (double*)calloc(layer_sizes[i+1], sizeof(double));
- 788              		.loc 1 324 43 is_stmt 1 discriminator 3 view .LVU256
- 324:main.c        ****             param->weight[i][j] = (double*)calloc(layer_sizes[i+1], sizeof(double));
- 789              		.loc 1 324 44 is_stmt 0 discriminator 3 view .LVU257
- 790 0326 0133     		adds	r3, r3, #1
- 791              	.LVL81:
- 792              	.L30:
- 324:main.c        ****             param->weight[i][j] = (double*)calloc(layer_sizes[i+1], sizeof(double));
- 793              		.loc 1 324 21 is_stmt 1 discriminator 1 view .LVU258
- 324:main.c        ****             param->weight[i][j] = (double*)calloc(layer_sizes[i+1], sizeof(double));
- 794              		.loc 1 324 9 is_stmt 0 discriminator 1 view .LVU259
- 795 0328 DBF80020 		ldr	r2, [fp]
- 796 032c 9A42     		cmp	r2, r3
- 797 032e EDDA     		bge	.L29
- 323:main.c        ****         for (j = 0; j < layer_sizes[i]+1; j++)
- 798              		.loc 1 323 33 is_stmt 1 discriminator 2 view .LVU260
- 323:main.c        ****         for (j = 0; j < layer_sizes[i]+1; j++)
- 799              		.loc 1 323 34 is_stmt 0 discriminator 2 view .LVU261
- 800 0330 0AF1010A 		add	r10, r10, #1
- 801              	.LVL82:
- 323:main.c        ****         for (j = 0; j < layer_sizes[i]+1; j++)
- 802              		.loc 1 323 34 discriminator 2 view .LVU262
- 803 0334 0BF1040B 		add	fp, fp, #4
- 804 0338 9BE7     		b	.L28
- 805              	.LVL83:
- 806              	.L46:
- 324:main.c        ****             param->weight[i][j] = (double*)calloc(layer_sizes[i+1], sizeof(double));
- 807              		.loc 1 324 16 view .LVU263
- 808 033a 0023     		movs	r3, #0
- 809 033c F4E7     		b	.L30
- 810              	.LVL84:
- 811              	.L32:
- 812              	.LBB11:
- 813              	.LBB9:
- 814              	.LBB7:
- 338:main.c        ****             for (int k = 0; k < layer_sizes[i + 1]; k++) {
- 339:main.c        ****                 param->weight[i][j][k] = weights[weightIndex++];
- 815              		.loc 1 339 17 is_stmt 1 discriminator 3 view .LVU264
- 816              		.loc 1 339 49 is_stmt 0 discriminator 3 view .LVU265
- 817 033e 0199     		ldr	r1, [sp, #4]
- 818 0340 F1E802AB 		ldrd	r10, [r1], #8
- 819 0344 0191     		str	r1, [sp, #4]
- 820              		.loc 1 339 33 discriminator 3 view .LVU266
- 821 0346 58F82310 		ldr	r1, [r8, r3, lsl #2]
- 822              		.loc 1 339 40 discriminator 3 view .LVU267
- 823 034a 51F80E10 		ldr	r1, [r1, lr]
- 824 034e 01EBC001 		add	r1, r1, r0, lsl #3
- 825 0352 C1E900AB 		strd	r10, [r1]
- 338:main.c        ****             for (int k = 0; k < layer_sizes[i + 1]; k++) {
- 826              		.loc 1 338 53 is_stmt 1 discriminator 3 view .LVU268
- 338:main.c        ****             for (int k = 0; k < layer_sizes[i + 1]; k++) {
- 827              		.loc 1 338 54 is_stmt 0 discriminator 3 view .LVU269
- 828 0356 0130     		adds	r0, r0, #1
- 829              	.LVL85:
- 830              	.L34:
- 338:main.c        ****             for (int k = 0; k < layer_sizes[i + 1]; k++) {
- 831              		.loc 1 338 29 is_stmt 1 discriminator 1 view .LVU270
- 338:main.c        ****             for (int k = 0; k < layer_sizes[i + 1]; k++) {
- 832              		.loc 1 338 13 is_stmt 0 discriminator 1 view .LVU271
- 833 0358 0099     		ldr	r1, [sp]
- 834 035a 8142     		cmp	r1, r0
- 835 035c EFDC     		bgt	.L32
- 836 035e 0029     		cmp	r1, #0
- 837 0360 A8BF     		it	ge
- 838 0362 8C44     		addge	ip, ip, r1
- 839              	.LBE7:
- 337:main.c        ****             for (int k = 0; k < layer_sizes[i + 1]; k++) {
- 840              		.loc 1 337 49 is_stmt 1 discriminator 2 view .LVU272
- 337:main.c        ****             for (int k = 0; k < layer_sizes[i + 1]; k++) {
- 841              		.loc 1 337 50 is_stmt 0 discriminator 2 view .LVU273
- 842 0364 0132     		adds	r2, r2, #1
- 843              	.LVL86:
- 844              	.L36:
- 337:main.c        ****             for (int k = 0; k < layer_sizes[i + 1]; k++) {
- 845              		.loc 1 337 25 is_stmt 1 discriminator 1 view .LVU274
- 337:main.c        ****             for (int k = 0; k < layer_sizes[i + 1]; k++) {
- 846              		.loc 1 337 9 is_stmt 0 discriminator 1 view .LVU275
- 847 0366 0299     		ldr	r1, [sp, #8]
- 848 0368 9142     		cmp	r1, r2
- 849 036a 0ADB     		blt	.L33
- 850              	.LBB8:
- 338:main.c        ****             for (int k = 0; k < layer_sizes[i + 1]; k++) {
- 851              		.loc 1 338 44 view .LVU276
- 852 036c D9F80010 		ldr	r1, [r9]
- 853 0370 0091     		str	r1, [sp]
- 854 0372 9100     		lsls	r1, r2, #2
- 855 0374 8E46     		mov	lr, r1
- 856 0376 0399     		ldr	r1, [sp, #12]
- 857 0378 01EBCC01 		add	r1, r1, ip, lsl #3
- 858 037c 0191     		str	r1, [sp, #4]
- 338:main.c        ****             for (int k = 0; k < layer_sizes[i + 1]; k++) {
- 859              		.loc 1 338 22 view .LVU277
- 860 037e 0020     		movs	r0, #0
- 861 0380 EAE7     		b	.L34
- 862              	.L33:
- 863              	.LBE8:
- 864              	.LBE9:
- 336:main.c        ****         for (int j = 0; j < layer_sizes[i] + 1; j++) {
- 865              		.loc 1 336 39 is_stmt 1 discriminator 2 view .LVU278
- 336:main.c        ****         for (int j = 0; j < layer_sizes[i] + 1; j++) {
- 866              		.loc 1 336 40 is_stmt 0 discriminator 2 view .LVU279
- 867 0382 0133     		adds	r3, r3, #1
- 868              	.LVL87:
- 336:main.c        ****         for (int j = 0; j < layer_sizes[i] + 1; j++) {
- 869              		.loc 1 336 40 discriminator 2 view .LVU280
- 870 0384 83E7     		b	.L31
- 871              	.LVL88:
- 872              	.L35:
- 336:main.c        ****         for (int j = 0; j < layer_sizes[i] + 1; j++) {
- 873              		.loc 1 336 40 discriminator 2 view .LVU281
- 874              	.LBE11:
- 340:main.c        ****             }
- 341:main.c        ****         }
- 342:main.c        ****     }
- 343:main.c        **** 
- 344:main.c        ****     // Train the neural network on the train data
- 345:main.c        ****     // printf("Training:\n");
- 346:main.c        ****     // printf("---------\n");
- 347:main.c        ****     // mlp_trainer(param, layer_sizes);
- 348:main.c        ****     // printf("\nDone.\n\n");
- 349:main.c        **** 
- 350:main.c        ****     //save the trained weights to a file
- 351:main.c        ****     // FILE *fp = fopen("weights.txt", "w");
- 352:main.c        ****     // for (i = 0; i < n_layers-1; i++) {
- 353:main.c        ****     //     for (j = 0; j < layer_sizes[i]+1; j++) {
- 354:main.c        ****     //         for (int k = 0; k < layer_sizes[i+1]; k++) {
- 355:main.c        ****     //             fprintf(fp, "%lf ", param->weight[i][j][k]);
- 356:main.c        ****     //         }
- 357:main.c        ****     //         fprintf(fp, "\n");
- 358:main.c        ****     //     }
- 359:main.c        ****     //     fprintf(fp, "\n");
- 360:main.c        ****     // }
- 361:main.c        ****     // fclose(fp);
- 362:main.c        **** 
- 363:main.c        ****     // Classify the test data using the trained parameter weights
- 364:main.c        ****     //printf("Classifying:\n");
- 365:main.c        ****     //printf("------------\n");
- 366:main.c        ****     
- 367:main.c        ****     mlp_classifier(param, layer_sizes);
- 875              		.loc 1 367 5 is_stmt 1 view .LVU282
- 876 0386 3146     		mov	r1, r6
- 877 0388 2846     		mov	r0, r5
- 878 038a FFF7FEFF 		bl	mlp_classifier
- 879              	.LVL89:
- 368:main.c        ****     //while(1)
- 369:main.c        ****         //simpleserial_get();
- 370:main.c        ****     //printf("\nDone.\nOutput file generated\n");
- 371:main.c        **** 
- 372:main.c        ****     // Free the memory allocated in Heap
- 373:main.c        ****     for (i = 0; i < n_layers-1; i++)
- 880              		.loc 1 373 5 view .LVU283
- 881              		.loc 1 373 12 is_stmt 0 view .LVU284
- 882 038e 0026     		movs	r6, #0
- 883              	.LVL90:
- 884              	.L37:
- 885              		.loc 1 373 17 is_stmt 1 discriminator 1 view .LVU285
- 886              		.loc 1 373 5 is_stmt 0 discriminator 1 view .LVU286
- 887 0390 B742     		cmp	r7, r6
- 888 0392 42DB     		blt	.L47
- 889 0394 4FEA8608 		lsl	r8, r6, #2
- 374:main.c        ****         for (j = 0; j < layer_sizes[i]+1; j++)
- 890              		.loc 1 374 16 view .LVU287
- 891 0398 0025     		movs	r5, #0
- 892 039a 06E0     		b	.L40
- 893              	.LVL91:
- 894              	.L38:
- 375:main.c        ****             free(param->weight[i][j]);
- 895              		.loc 1 375 13 is_stmt 1 discriminator 3 view .LVU288
- 896 039c 52F80830 		ldr	r3, [r2, r8]
- 897 03a0 53F82500 		ldr	r0, [r3, r5, lsl #2]
- 898 03a4 FFF7FEFF 		bl	free
- 899              	.LVL92:
- 374:main.c        ****         for (j = 0; j < layer_sizes[i]+1; j++)
- 900              		.loc 1 374 43 discriminator 3 view .LVU289
- 374:main.c        ****         for (j = 0; j < layer_sizes[i]+1; j++)
- 901              		.loc 1 374 44 is_stmt 0 discriminator 3 view .LVU290
- 902 03a8 0135     		adds	r5, r5, #1
- 903              	.LVL93:
- 904              	.L40:
- 374:main.c        ****         for (j = 0; j < layer_sizes[i]+1; j++)
- 905              		.loc 1 374 21 is_stmt 1 discriminator 1 view .LVU291
- 906              		.loc 1 375 23 is_stmt 0 discriminator 1 view .LVU292
- 907 03aa 2368     		ldr	r3, [r4]
- 908 03ac DA6B     		ldr	r2, [r3, #60]
- 374:main.c        ****         for (j = 0; j < layer_sizes[i]+1; j++)
- 909              		.loc 1 374 23 discriminator 1 view .LVU293
- 910 03ae 6368     		ldr	r3, [r4, #4]
- 374:main.c        ****         for (j = 0; j < layer_sizes[i]+1; j++)
- 911              		.loc 1 374 9 discriminator 1 view .LVU294
- 912 03b0 53F80830 		ldr	r3, [r3, r8]
- 913 03b4 AB42     		cmp	r3, r5
- 914 03b6 F1DA     		bge	.L38
- 373:main.c        ****         for (j = 0; j < layer_sizes[i]+1; j++)
- 915              		.loc 1 373 33 is_stmt 1 discriminator 2 view .LVU295
- 373:main.c        ****         for (j = 0; j < layer_sizes[i]+1; j++)
- 916              		.loc 1 373 34 is_stmt 0 discriminator 2 view .LVU296
- 917 03b8 0136     		adds	r6, r6, #1
- 918              	.LVL94:
- 373:main.c        ****         for (j = 0; j < layer_sizes[i]+1; j++)
- 919              		.loc 1 373 34 discriminator 2 view .LVU297
- 920 03ba E9E7     		b	.L37
- 921              	.LVL95:
- 922              	.L41:
- 376:main.c        **** 
- 377:main.c        ****     for (i = 0; i < n_layers-1; i++)
- 378:main.c        ****         free(param->weight[i]);
- 923              		.loc 1 378 9 is_stmt 1 discriminator 3 view .LVU298
- 924 03bc 50F82500 		ldr	r0, [r0, r5, lsl #2]
- 925 03c0 FFF7FEFF 		bl	free
- 926              	.LVL96:
- 377:main.c        ****         free(param->weight[i]);
- 927              		.loc 1 377 33 discriminator 3 view .LVU299
- 377:main.c        ****         free(param->weight[i]);
- 928              		.loc 1 377 34 is_stmt 0 discriminator 3 view .LVU300
- 929 03c4 0135     		adds	r5, r5, #1
- 930              	.LVL97:
- 931              	.L39:
- 377:main.c        ****         free(param->weight[i]);
- 932              		.loc 1 377 17 is_stmt 1 discriminator 1 view .LVU301
- 933              		.loc 1 378 19 is_stmt 0 discriminator 1 view .LVU302
- 934 03c6 2368     		ldr	r3, [r4]
- 377:main.c        ****         free(param->weight[i]);
- 935              		.loc 1 377 5 discriminator 1 view .LVU303
- 936 03c8 AF42     		cmp	r7, r5
- 937              		.loc 1 378 19 discriminator 1 view .LVU304
- 938 03ca D86B     		ldr	r0, [r3, #60]
- 377:main.c        ****         free(param->weight[i]);
- 939              		.loc 1 377 5 discriminator 1 view .LVU305
- 940 03cc F6DA     		bge	.L41
- 379:main.c        **** 
- 380:main.c        ****     free(param->weight);
- 941              		.loc 1 380 5 is_stmt 1 view .LVU306
- 942 03ce FFF7FEFF 		bl	free
- 943              	.LVL98:
- 381:main.c        **** 
- 382:main.c        ****     free(layer_sizes);
- 944              		.loc 1 382 5 view .LVU307
- 945 03d2 6068     		ldr	r0, [r4, #4]
- 946 03d4 FFF7FEFF 		bl	free
- 947              	.LVL99:
- 383:main.c        **** 
- 384:main.c        ****     for (i = 0; i < param->train_sample_size; i++)
- 948              		.loc 1 384 5 view .LVU308
- 949              		.loc 1 384 12 is_stmt 0 view .LVU309
- 950 03d8 0025     		movs	r5, #0
- 951              	.LVL100:
- 952              	.L42:
- 953              		.loc 1 384 17 is_stmt 1 discriminator 1 view .LVU310
- 954              		.loc 1 384 26 is_stmt 0 discriminator 1 view .LVU311
- 955 03da 2368     		ldr	r3, [r4]
- 956              		.loc 1 384 5 discriminator 1 view .LVU312
- 957 03dc 5A6B     		ldr	r2, [r3, #52]
- 958 03de AA42     		cmp	r2, r5
- 959 03e0 1DDC     		bgt	.L43
- 385:main.c        ****         free(param->data_train[i]);
- 386:main.c        **** 
- 387:main.c        ****     for (i = 0; i < param->test_sample_size; i++)
- 960              		.loc 1 387 12 view .LVU313
- 961 03e2 0025     		movs	r5, #0
- 962              	.LVL101:
- 963              	.L44:
- 964              		.loc 1 387 17 is_stmt 1 discriminator 1 view .LVU314
- 965              		.loc 1 387 26 is_stmt 0 discriminator 1 view .LVU315
- 966 03e4 2368     		ldr	r3, [r4]
- 967              		.loc 1 387 5 discriminator 1 view .LVU316
- 968 03e6 9A6B     		ldr	r2, [r3, #56]
- 969 03e8 AA42     		cmp	r2, r5
- 970 03ea 1FDC     		bgt	.L45
- 388:main.c        ****         free(param->data_test[i]);
- 389:main.c        **** 
- 390:main.c        ****     free(param->data_train);
- 971              		.loc 1 390 5 is_stmt 1 view .LVU317
- 972 03ec 986A     		ldr	r0, [r3, #40]
- 973 03ee FFF7FEFF 		bl	free
- 974              	.LVL102:
- 391:main.c        ****     free(param->data_test);
- 975              		.loc 1 391 5 view .LVU318
- 976              		.loc 1 391 15 is_stmt 0 view .LVU319
- 977 03f2 2368     		ldr	r3, [r4]
- 978              		.loc 1 391 5 view .LVU320
- 979 03f4 D86A     		ldr	r0, [r3, #44]
- 980 03f6 FFF7FEFF 		bl	free
- 981              	.LVL103:
- 392:main.c        ****     free(param->hidden_activation_functions);
- 982              		.loc 1 392 5 is_stmt 1 view .LVU321
- 983              		.loc 1 392 15 is_stmt 0 view .LVU322
- 984 03fa 2368     		ldr	r3, [r4]
- 985              		.loc 1 392 5 view .LVU323
- 986 03fc 9868     		ldr	r0, [r3, #8]
- 987 03fe FFF7FEFF 		bl	free
- 988              	.LVL104:
- 393:main.c        ****     free(param->hidden_layers_size);
- 989              		.loc 1 393 5 is_stmt 1 view .LVU324
- 990              		.loc 1 393 15 is_stmt 0 view .LVU325
- 991 0402 2368     		ldr	r3, [r4]
- 992              		.loc 1 393 5 view .LVU326
- 993 0404 5868     		ldr	r0, [r3, #4]
- 994 0406 FFF7FEFF 		bl	free
- 995              	.LVL105:
- 394:main.c        ****     free(param);
- 996              		.loc 1 394 5 is_stmt 1 view .LVU327
- 997 040a 2068     		ldr	r0, [r4]
- 998 040c FFF7FEFF 		bl	free
- 999              	.LVL106:
- 395:main.c        **** 
- 396:main.c        ****     return 0;
- 1000              		.loc 1 396 5 view .LVU328
- 397:main.c        **** }
- 1001              		.loc 1 397 1 is_stmt 0 view .LVU329
- 1002 0410 0020     		movs	r0, #0
- 1003 0412 0DF6CC2D 		addw	sp, sp, #2764
- 1004              	.LCFI2:
- 1005              		.cfi_remember_state
- 1006              		.cfi_def_cfa_offset 36
- 1007              		@ sp needed
- 1008 0416 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
- 1009              	.LVL107:
- 1010              	.L47:
- 1011              	.LCFI3:
- 1012              		.cfi_restore_state
- 377:main.c        ****         free(param->weight[i]);
- 1013              		.loc 1 377 12 view .LVU330
- 1014 041a 0025     		movs	r5, #0
- 1015 041c D3E7     		b	.L39
- 1016              	.LVL108:
- 1017              	.L43:
- 385:main.c        **** 
- 1018              		.loc 1 385 9 is_stmt 1 discriminator 3 view .LVU331
- 1019 041e 9B6A     		ldr	r3, [r3, #40]
- 1020 0420 53F82500 		ldr	r0, [r3, r5, lsl #2]
- 1021 0424 FFF7FEFF 		bl	free
- 1022              	.LVL109:
- 384:main.c        ****         free(param->data_train[i]);
- 1023              		.loc 1 384 47 discriminator 3 view .LVU332
- 384:main.c        ****         free(param->data_train[i]);
- 1024              		.loc 1 384 48 is_stmt 0 discriminator 3 view .LVU333
- 1025 0428 0135     		adds	r5, r5, #1
- 1026              	.LVL110:
- 384:main.c        ****         free(param->data_train[i]);
- 1027              		.loc 1 384 48 discriminator 3 view .LVU334
- 1028 042a D6E7     		b	.L42
- 1029              	.L45:
- 388:main.c        **** 
- 1030              		.loc 1 388 9 is_stmt 1 discriminator 3 view .LVU335
- 1031 042c DB6A     		ldr	r3, [r3, #44]
- 1032 042e 53F82500 		ldr	r0, [r3, r5, lsl #2]
- 1033 0432 FFF7FEFF 		bl	free
- 1034              	.LVL111:
- 387:main.c        ****         free(param->data_test[i]);
- 1035              		.loc 1 387 46 discriminator 3 view .LVU336
- 387:main.c        ****         free(param->data_test[i]);
- 1036              		.loc 1 387 47 is_stmt 0 discriminator 3 view .LVU337
- 1037 0436 0135     		adds	r5, r5, #1
- 1038              	.LVL112:
- 387:main.c        ****         free(param->data_test[i]);
- 1039              		.loc 1 387 47 discriminator 3 view .LVU338
- 1040 0438 D4E7     		b	.L44
- 1041              		.cfi_endproc
- 1042              	.LFE3:
- 1044 043a 00BF     		.section	.text.startup.main,"ax",%progbits
- 1045              		.align	1
- 1046              		.global	main
- 1047              		.syntax unified
- 1048              		.thumb
- 1049              		.thumb_func
- 1050              		.fpu softvfp
- 1052              	main:
- 1053              	.LFB4:
- 398:main.c        **** 
- 399:main.c        **** int main(void) {
- 1054              		.loc 1 399 16 is_stmt 1 view -0
- 1055              		.cfi_startproc
- 1056              		@ Volatile: function does not return.
- 1057              		@ args = 0, pretend = 0, frame = 0
- 1058              		@ frame_needed = 0, uses_anonymous_args = 0
- 400:main.c        ****     // Initialize UART for serial communication
- 401:main.c        ****     platform_init();
- 1059              		.loc 1 401 5 view .LVU340
- 399:main.c        ****     // Initialize UART for serial communication
- 1060              		.loc 1 399 16 is_stmt 0 view .LVU341
- 1061 0000 08B5     		push	{r3, lr}
- 1062              	.LCFI4:
- 1063              		.cfi_def_cfa_offset 8
- 1064              		.cfi_offset 3, -8
- 1065              		.cfi_offset 14, -4
- 1066              		.loc 1 401 5 view .LVU342
- 1067 0002 FFF7FEFF 		bl	platform_init
- 1068              	.LVL113:
- 402:main.c        ****     init_uart();
- 1069              		.loc 1 402 5 is_stmt 1 view .LVU343
- 1070 0006 FFF7FEFF 		bl	init_uart
- 1071              	.LVL114:
- 403:main.c        ****     trigger_setup();
- 1072              		.loc 1 403 5 view .LVU344
- 1073 000a FFF7FEFF 		bl	trigger_setup
- 1074              	.LVL115:
- 404:main.c        ****     simpleserial_init();
- 1075              		.loc 1 404 5 view .LVU345
- 1076 000e FFF7FEFF 		bl	simpleserial_init
- 1077              	.LVL116:
- 405:main.c        **** 
- 406:main.c        ****     // Add a command to the SimpleSerial module
- 407:main.c        ****     simpleserial_addcmd('a', 0, mlp);
- 1078              		.loc 1 407 5 view .LVU346
- 1079 0012 044A     		ldr	r2, .L57
- 1080 0014 0021     		movs	r1, #0
- 1081 0016 6120     		movs	r0, #97
- 1082 0018 FFF7FEFF 		bl	simpleserial_addcmd
- 1083              	.LVL117:
- 1084              	.L56:
- 408:main.c        **** 
- 409:main.c        ****     //put some value so we can verify if we cna read them.
- 410:main.c        ****     while (1){
- 1085              		.loc 1 410 5 discriminator 1 view .LVU347
- 411:main.c        ****         simpleserial_get();
- 1086              		.loc 1 411 9 discriminator 1 view .LVU348
- 1087 001c FFF7FEFF 		bl	simpleserial_get
- 1088              	.LVL118:
- 410:main.c        ****         simpleserial_get();
- 1089              		.loc 1 410 11 discriminator 1 view .LVU349
- 1090 0020 FCE7     		b	.L56
- 1091              	.L58:
- 1092 0022 00BF     		.align	2
- 1093              	.L57:
- 1094 0024 00000000 		.word	mlp
- 1095              		.cfi_endproc
- 1096              	.LFE4:
- 1098              		.global	layer_sizes
- 1099              		.global	param
- 1100              		.section	.rodata
- 1101              		.align	3
- 1102              		.set	.LANCHOR0,. + 0
- 1103              	.LC16:
- 1104 0000 00000000 		.word	.LC0
- 1105 0004 10000000 		.word	.LC1
- 1106 0008 12000000 		.word	.LC2
- 1107 000c 18000000 		.word	.LC3
- 1108 0010 2A000000 		.word	.LC4
- 1109 0014 2C000000 		.word	.LC5
- 1110 0018 34000000 		.word	.LC6
- 1111 001c 39000000 		.word	.LC7
- 1112 0020 40000000 		.word	.LC8
- 1113 0024 54000000 		.word	.LC9
- 1114 0028 59000000 		.word	.LC10
- 1115 002c 5B000000 		.word	.LC11
- 1116 0030 6E000000 		.word	.LC12
- 1117 0034 59000000 		.word	.LC10
- 1118 0038 00000000 		.word	0
- 1119 003c 00000000 		.space	4
- 1120              	.LC14:
- 1121 0040 6F1283C0 		.word	-1065151889
- 1122 0044 CAA1F93F 		.word	1073324490
- 1123 0048 1CEBE236 		.word	920840988
- 1124 004c 1A801840 		.word	1075347482
- 1125 0050 728577B9 		.word	-1183349390
- 1126 0054 88EFE03F 		.word	1071705992
- 1127 0058 3134D769 		.word	1775711281
- 1128 005c A4A5DE3F 		.word	1071556004
- 1129 0060 00000000 		.word	0
- 1130 0064 00000000 		.word	0
- 1131 0068 4BC8073D 		.word	1023920203
- 1132 006c 9B5502C0 		.word	-1073588837
- 1133 0070 BC490C02 		.word	34359740
- 1134 0074 2B071DC0 		.word	-1071839445
- 1135 0078 82E2C798 		.word	-1731730814
- 1136 007c BBD61F40 		.word	1075828411
- 1137 0080 280F0BB5 		.word	-1257566424
- 1138 0084 A679ED3F 		.word	1072527782
- 1139 0088 00000000 		.word	0
- 1140 008c 0000F03F 		.word	1072693248
- 1141 0090 5F6397A8 		.word	-1466473633
- 1142 0094 DE1AE6BF 		.word	-1075438882
- 1143 0098 662C9ACE 		.word	-828756890
- 1144 009c 4E06E0BF 		.word	-1075837362
- 1145 00a0 425BCEA5 		.word	-1513202878
- 1146 00a4 B8AAD6BF 		.word	-1076450632
- 1147 00a8 D9429083 		.word	-2087697703
- 1148 00ac 1266DE3F 		.word	1071539730
- 1149 00b0 00000000 		.word	0
- 1150 00b4 0000F03F 		.word	1072693248
- 1151 00b8 C66D3480 		.word	-2144047674
- 1152 00bc B740FA3F 		.word	1073365175
- 1153 00c0 55C1A8A4 		.word	-1532444331
- 1154 00c4 4E001140 		.word	1074856014
- 1155 00c8 24B9FC87 		.word	-2013480668
- 1156 00cc F49B13C0 		.word	-1072456716
- 1157 00d0 EB73B515 		.word	364213227
- 1158 00d4 FB4B05C0 		.word	-1073394693
- 1159 00d8 00000000 		.word	0
- 1160 00dc 0000F03F 		.word	1072693248
- 1161 00e0 04560E2D 		.word	755914244
- 1162 00e4 B29D0C40 		.word	1074568626
- 1163 00e8 158C4AEA 		.word	-364213227
- 1164 00ec 04340340 		.word	1073951748
- 1165 00f0 C66D3480 		.word	-2144047674
- 1166 00f4 B740FE3F 		.word	1073627319
- 1167 00f8 90149161 		.word	1636897936
- 1168 00fc 156FE73F 		.word	1072131861
- 1169 0100 00000000 		.word	0
- 1170 0104 00000000 		.word	0
- 1171 0108 3BDF4F8D 		.word	-1924145349
- 1172 010c 97EE07C0 		.word	-1073221993
- 1173 0110 E25817B7 		.word	-1223206686
- 1174 0114 D1801AC0 		.word	-1072004911
- 1175 0118 76711B0D 		.word	219902326
- 1176 011c E04D2140 		.word	1075924448
- 1177 0120 3D2CD49A 		.word	-1697371075
- 1178 0124 E61DFD3F 		.word	1073552870
- 1179 0128 00000000 		.word	0
- 1180 012c 0000F03F 		.word	1072693248
- 1181 0130 F41ABB44 		.word	1153112820
- 1182 0134 F5D6DCBF 		.word	-1076046091
- 1183 0138 3480B740 		.word	1085767732
- 1184 013c 82E2F5BF 		.word	-1074404734
- 1185 0140 B9FC87F4 		.word	-192414535
- 1186 0144 DB571C40 		.word	1075599323
- 1187 0148 ECA35357 		.word	1465099244
- 1188 014c 3ECBD9BF 		.word	-1076245698
- 1189 0150 00000000 		.word	0
- 1190 0154 00000000 		.word	0
- 1191 0158 82E2C798 		.word	-1731730814
- 1192 015c BB960340 		.word	1073977019
- 1193 0160 85EB51B8 		.word	-1202590843
- 1194 0164 1E4519C0 		.word	-1072085730
- 1195 0168 5F07CE19 		.word	432932703
- 1196 016c 51DA1F40 		.word	1075829329
- 1197 0170 AD342905 		.word	86586541
- 1198 0174 DD5ECA3F 		.word	1070227165
- 1199 0178 00000000 		.word	0
- 1200 017c 00000000 		.word	0
- 1201 0180 9D8026C2 		.word	-1037664099
- 1202 0184 862708C0 		.word	-1073207418
- 1203 0188 713D0AD7 		.word	-687194767
- 1204 018c A370FC3F 		.word	1073508515
- 1205 0190 29ED0DBE 		.word	-1106383575
- 1206 0194 3099E73F 		.word	1072142640
- 1207 0198 84D38217 		.word	394449796
- 1208 019c 7D05DDBF 		.word	-1076034179
- 1209 01a0 00000000 		.word	0
- 1210 01a4 0000F03F 		.word	1072693248
- 1211 01a8 1C7C6132 		.word	845249564
- 1212 01ac 55B002C0 		.word	-1073565611
- 1213 01b0 24287E8C 		.word	-1937889244
- 1214 01b4 B9EB2740 		.word	1076358073
- 1215 01b8 5EBA490C 		.word	206158430
- 1216 01bc 02AB0840 		.word	1074309890
- 1217 01c0 A01A2FDD 		.word	-584115552
- 1218 01c4 24C615C0 		.word	-1072314844
- 1219 01c8 00000000 		.word	0
- 1220 01cc 00000000 		.word	0
- 1221 01d0 0A3CF71E 		.word	519519242
- 1222 01d4 2E39BE3F 		.word	1069431086
- 1223 01d8 D6A88768 		.word	1753721046
- 1224 01dc 7407D93F 		.word	1071187828
- 1225 01e0 75CDE49B 		.word	-1679504011
- 1226 01e4 6D6EEFBF 		.word	-1074827667
- 1227 01e8 9604A8A9 		.word	-1448606570
- 1228 01ec 656BDB3F 		.word	1071344485
- 1229 01f0 00000000 		.word	0
- 1230 01f4 0000F03F 		.word	1072693248
- 1231 01f8 E17A14AE 		.word	-1374389535
- 1232 01fc 47E1FB3F 		.word	1073471815
- 1233 0200 BADA8AFD 		.word	-41231686
- 1234 0204 65770D40 		.word	1074624357
- 1235 0208 3E7958A8 		.word	-1470596802
- 1236 020c 350D10C0 		.word	-1072689867
- 1237 0210 9CA223B9 		.word	-1188846948
- 1238 0214 FC87FBBF 		.word	-1074034692
- 1239 0218 00000000 		.word	0
- 1240 021c 0000F03F 		.word	1072693248
- 1241 0220 CDCCCCCC 		.word	-858993459
- 1242 0224 CCCCF4BF 		.word	-1074475828
- 1243 0228 D3BCE314 		.word	350469331
- 1244 022c 1D892440 		.word	1076136221
- 1245 0230 3AB4C876 		.word	1992864826
- 1246 0234 BE9F07C0 		.word	-1073242178
- 1247 0238 A323B9FC 		.word	-54975581
- 1248 023c 877417C0 		.word	-1072204665
- 1249 0240 00000000 		.word	0
- 1250 0244 00000000 		.word	0
- 1251 0248 53793BC2 		.word	-1036289709
- 1252 024c 69C1EB3F 		.word	1072415081
- 1253 0250 FD87F4DB 		.word	-604731395
- 1254 0254 D7411640 		.word	1075200471
- 1255 0258 6DE7FBA9 		.word	-1443109011
- 1256 025c F1D2FA3F 		.word	1073402609
- 1257 0260 F4E0EEAC 		.word	-1393630988
- 1258 0264 DD76C5BF 		.word	-1077578019
- 1259 0268 00000000 		.word	0
- 1260 026c 00000000 		.word	0
- 1261 0270 8A3C49BA 		.word	-1169605494
- 1262 0274 66F2ED3F 		.word	1072558694
- 1263 0278 4C378941 		.word	1099511628
- 1264 027c 60C52140 		.word	1075955040
- 1265 0280 925CFE43 		.word	1140743314
- 1266 0284 FAEDFABF 		.word	-1074074118
- 1267 0288 1E166A4D 		.word	1298798110
- 1268 028c F38EFABF 		.word	-1074098445
- 1269 0290 00000000 		.word	0
- 1270 0294 00000000 		.word	0
- 1271 0298 B6847CD0 		.word	-797145930
- 1272 029c B359FEBF 		.word	-1073849933
- 1273 02a0 63EE5A42 		.word	1113255523
- 1274 02a4 3E281BC0 		.word	-1071962050
- 1275 02a8 D0B359F5 		.word	-178670640
- 1276 02ac B91A1540 		.word	1075124921
- 1277 02b0 F9DA334B 		.word	1261689593
- 1278 02b4 02D4D4BF 		.word	-1076571134
- 1279 02b8 00000000 		.word	0
- 1280 02bc 0000F03F 		.word	1072693248
- 1281 02c0 C3D32B65 		.word	1697371075
- 1282 02c4 19E20440 		.word	1074061849
- 1283 02c8 F931E6AE 		.word	-1360645639
- 1284 02cc 25042040 		.word	1075840037
- 1285 02d0 FB743C66 		.word	1715238139
- 1286 02d4 A032CEBF 		.word	-1077005664
- 1287 02d8 B1BFEC9E 		.word	-1628651599
- 1288 02dc 3C2CFCBF 		.word	-1073992644
- 1289 02e0 00000000 		.word	0
- 1290 02e4 00000000 		.word	0
- 1291 02e8 5DDC4603 		.word	54975581
- 1292 02ec 788B0CC0 		.word	-1072919688
- 1293 02f0 93180456 		.word	1443109011
- 1294 02f4 0E6D20C0 		.word	-1071616754
- 1295 02f8 D122DBF9 		.word	-103079215
- 1296 02fc 7E2A2440 		.word	1076111998
- 1297 0300 492EFF21 		.word	570371657
- 1298 0304 FDF6EE3F 		.word	1072625405
- 1299 0308 00000000 		.word	0
- 1300 030c 0000F03F 		.word	1072693248
- 1301 0310 CEC29E76 		.word	1990116046
- 1302 0314 F86BEFBF 		.word	-1074828296
- 1303 0318 AF946588 		.word	-2006608721
- 1304 031c 635D0640 		.word	1074158947
- 1305 0320 C9E53FA4 		.word	-1539316279
- 1306 0324 DFBEF3BF 		.word	-1074544929
- 1307 0328 FDF675E0 		.word	-529139971
- 1308 032c 9C11F9BF 		.word	-1074196068
- 1309 0330 00000000 		.word	0
- 1310 0334 0000F03F 		.word	1072693248
- 1311 0338 B6847CD0 		.word	-797145930
- 1312 033c B3590C40 		.word	1074551219
- 1313 0340 A245B6F3 		.word	-206158430
- 1314 0344 FDD4F33F 		.word	1072944381
- 1315 0348 C1CAA145 		.word	1168231105
- 1316 034c B6F3FF3F 		.word	1073738678
- 1317 0350 9487855A 		.word	1518700436
- 1318 0354 D33C0140 		.word	1073822931
- 1319 0358 00000000 		.word	0
- 1320 035c 00000000 		.word	0
- 1321 0360 44FAEDEB 		.word	-336725436
- 1322 0364 C039F2BF 		.word	-1074644544
- 1323 0368 E25817B7 		.word	-1223206686
- 1324 036c D100FD3F 		.word	1073545425
- 1325 0370 7FD93D79 		.word	2034096511
- 1326 0374 58A81B40 		.word	1075554392
- 1327 0378 374F75C8 		.word	-931836105
- 1328 037c CD70E63F 		.word	1072066765
- 1329 0380 00000000 		.word	0
- 1330 0384 00000000 		.word	0
- 1331 0388 9B8F6B43 		.word	1131122587
- 1332 038c C538BFBF 		.word	-1077987131
- 1333 0390 5BD3BCE3 		.word	-474164389
- 1334 0394 149D2140 		.word	1075944724
- 1335 0398 DE54A4C2 		.word	-1029417762
- 1336 039c D842EE3F 		.word	1072579288
- 1337 03a0 4703780B 		.word	192414535
- 1338 03a4 24E810C0 		.word	-1072633820
- 1339 03a8 00000000 		.word	0
- 1340 03ac 00000000 		.word	0
- 1341 03b0 60E5D022 		.word	584115552
- 1342 03b4 DBF910C0 		.word	-1072629285
- 1343 03b8 FF21FDF6 		.word	-151182849
- 1344 03bc 75202AC0 		.word	-1070981003
- 1345 03c0 CD3B4ED1 		.word	-783402035
- 1346 03c4 911C3140 		.word	1076960401
- 1347 03c8 27A089B0 		.word	-1333157849
- 1348 03cc E16906C0 		.word	-1073321503
- 1349 03d0 00000000 		.word	0
- 1350 03d4 0000F03F 		.word	1072693248
- 1351 03d8 1F680586 		.word	-2046466017
- 1352 03dc AC6EEABF 		.word	-1075155284
- 1353 03e0 1C7C6132 		.word	845249564
- 1354 03e4 55B00740 		.word	1074245717
- 1355 03e8 BE30992A 		.word	714682558
- 1356 03ec 1895F4BF 		.word	-1074490088
- 1357 03f0 1D386744 		.word	1147615261
- 1358 03f4 696FF7BF 		.word	-1074303127
- 1359 03f8 00000000 		.word	0
- 1360 03fc 0000F03F 		.word	1072693248
- 1361 0400 95D40968 		.word	1745474709
- 1362 0404 226CFABF 		.word	-1074107358
- 1363 0408 AC1C5A64 		.word	1683627180
- 1364 040c 3BFF20C0 		.word	-1071579333
- 1365 0410 EF384547 		.word	1195718895
- 1366 0414 72392240 		.word	1075984754
- 1367 0418 917EFB3A 		.word	989560465
- 1368 041c 70CEF33F 		.word	1072942704
- 1369 0420 00000000 		.word	0
- 1370 0424 0000F03F 		.word	1072693248
- 1371 0428 F38E5374 		.word	1951633139
- 1372 042c 2497F3BF 		.word	-1074555100
- 1373 0430 60E5D022 		.word	584115552
- 1374 0434 DBF9FB3F 		.word	1073478107
- 1375 0438 1FF46C56 		.word	1449980959
- 1376 043c 7DAEF7BF 		.word	-1074286979
- 1377 0440 545227A0 		.word	-1608035756
- 1378 0444 89B0F6BF 		.word	-1074351991
- 1379 0448 00000000 		.word	0
- 1380 044c 0000F03F 		.word	1072693248
- 1381 0450 1E87C1FC 		.word	-54425826
- 1382 0454 1532A73F 		.word	1067921941
- 1383 0458 AC8BDB68 		.word	1759218604
- 1384 045c 00EF1A40 		.word	1075506944
- 1385 0460 A7E8482E 		.word	776530087
- 1386 0464 FF21F13F 		.word	1072767487
- 1387 0468 0612143F 		.word	1058279942
- 1388 046c C6DCEDBF 		.word	-1074930490
- 1389 0470 00000000 		.word	0
- 1390 0474 00000000 		.word	0
- 1391 0478 AD69DE71 		.word	1910401453
- 1392 047c 8A8E0540 		.word	1074105994
- 1393 0480 8D28ED0D 		.word	233646221
- 1394 0484 BE301B40 		.word	1075523774
- 1395 0488 5E807D74 		.word	1954381918
- 1396 048c EACAD9BF 		.word	-1076245782
- 1397 0490 75B0FECF 		.word	-805392267
- 1398 0494 61BEDC3F 		.word	1071431265
- 1399 0498 00000000 		.word	0
- 1400 049c 00000000 		.word	0
- 1401 04a0 8E06F016 		.word	384829070
- 1402 04a4 4850F6BF 		.word	-1074376632
- 1403 04a8 FD87F4DB 		.word	-604731395
- 1404 04ac D7810240 		.word	1073906135
- 1405 04b0 B4024356 		.word	1447232180
- 1406 04b4 B77ADCBF 		.word	-1076069705
- 1407 04b8 0C022B87 		.word	-2027224564
- 1408 04bc 16D9F7BF 		.word	-1074276074
- 1409 04c0 00000000 		.word	0
- 1410 04c4 0000F03F 		.word	1072693248
- 1411 04c8 AC8BDB68 		.word	1759218604
- 1412 04cc 006F1640 		.word	1075212032
- 1413 04d0 99BB9690 		.word	-1869169767
- 1414 04d4 0F9A2440 		.word	1076140559
- 1415 04d8 88F4DBD7 		.word	-673450872
- 1416 04dc 813313C0 		.word	-1072483455
- 1417 04e0 27A089B0 		.word	-1333157849
- 1418 04e4 E16911C0 		.word	-1072600607
- 1419 04e8 00000000 		.word	0
- 1420 04ec 00000000 		.word	0
- 1421 04f0 86C954C1 		.word	-1051407994
- 1422 04f4 A8A403C0 		.word	-1073503064
- 1423 04f8 F7E461A1 		.word	-1587419913
- 1424 04fc D61422C0 		.word	-1071508266
- 1425 0500 D34D6210 		.word	274877907
- 1426 0504 58B92140 		.word	1075951960
- 1427 0508 BC8C62B9 		.word	-1184723780
- 1428 050c A5D5EBBF 		.word	-1075063387
- 1429 0510 00000000 		.word	0
- 1430 0514 0000F03F 		.word	1072693248
- 1431 0518 728A8EE4 		.word	-460420494
- 1432 051c F29F1240 		.word	1074962418
- 1433 0520 57EC2FBB 		.word	-1154487209
- 1434 0524 278F1E40 		.word	1075744551
- 1435 0528 DB8AFD65 		.word	1711114971
- 1436 052c F76403C0 		.word	-1073519369
- 1437 0530 C6DCB584 		.word	-2068456250
- 1438 0534 7CD0F3BF 		.word	-1074540420
- 1439 0538 00000000 		.word	0
- 1440 053c 00000000 		.word	0
- 1441 0540 598638D6 		.word	-700938663
- 1442 0544 C56D01C0 		.word	-1073648187
- 1443 0548 7B832F4C 		.word	1278182267
- 1444 054c A6CA19C0 		.word	-1072051546
- 1445 0550 FAEDEBC0 		.word	-1058279942
- 1446 0554 39231840 		.word	1075323705
- 1447 0558 80828B15 		.word	361464448
- 1448 055c 3598CABF 		.word	-1077241803
- 1449 0560 00000000 		.word	0
- 1450 0564 0000F03F 		.word	1072693248
- 1451 0568 E10B93A9 		.word	-1449980959
- 1452 056c 82510540 		.word	1074090370
- 1453 0570 355EBA49 		.word	1236950581
- 1454 0574 0C822540 		.word	1076199948
- 1455 0578 E02D90A0 		.word	-1601163808
- 1456 057c F8310BC0 		.word	-1073008136
- 1457 0580 06819543 		.word	1133871366
- 1458 0584 8BAC10C0 		.word	-1072649077
- 1459 0588 00000000 		.word	0
- 1460 058c 00000000 		.word	0
- 1461 0590 91ED7C3F 		.word	1065151889
- 1462 0594 35DE0CC0 		.word	-1072898507
- 1463 0598 431CEBE2 		.word	-487908285
- 1464 059c 369A0A40 		.word	1074436662
- 1465 05a0 C7D79E59 		.word	1503582151
- 1466 05a4 12A0E0BF 		.word	-1075797998
- 1467 05a8 BBB88D06 		.word	109951163
- 1468 05ac F0960CC0 		.word	-1072916752
- 1469 05b0 00000000 		.word	0
- 1470 05b4 0000F03F 		.word	1072693248
- 1471 05b8 C6DCB584 		.word	-2068456250
- 1472 05bc 7CD0F73F 		.word	1073205372
- 1473 05c0 4D158C4A 		.word	1250694477
- 1474 05c4 EA040D40 		.word	1074595050
- 1475 05c8 115839B4 		.word	-1271310319
- 1476 05cc C8760A40 		.word	1074427592
- 1477 05d0 0113B875 		.word	1974997761
- 1478 05d4 374FDF3F 		.word	1071599415
- 1479 05d8 00000000 		.word	0
- 1480 05dc 00000000 		.word	0
- 1481 05e0 508D976E 		.word	1855425872
- 1482 05e4 12030140 		.word	1073808146
- 1483 05e8 A54E4013 		.word	322981541
- 1484 05ec 61831B40 		.word	1075544929
- 1485 05f0 0CCD751A 		.word	443927820
- 1486 05f4 69A9DC3F 		.word	1071425897
- 1487 05f8 0F0BB5A6 		.word	-1498084593
- 1488 05fc 79C701C0 		.word	-1073625223
- 1489 0600 00000000 		.word	0
- 1490 0604 00000000 		.word	0
- 1491 0608 88635DDC 		.word	-597859448
- 1492 060c 46831740 		.word	1075282758
- 1493 0610 C139234A 		.word	1243822529
- 1494 0614 7BC31740 		.word	1075299195
- 1495 0618 849ECDAA 		.word	-1429365116
- 1496 061c CFD506C0 		.word	-1073293873
- 1497 0620 D2A92B9F 		.word	-1624528430
- 1498 0624 E579E3BF 		.word	-1075611163
- 1499 0628 00000000 		.word	0
- 1500 062c 00000000 		.word	0
- 1501 0630 23DBF97E 		.word	2130303779
- 1502 0634 6ABCF43F 		.word	1073003626
- 1503 0638 3108AC1C 		.word	481036337
- 1504 063c 5A241140 		.word	1074865242
- 1505 0640 A7E8482E 		.word	776530087
- 1506 0644 FF6113C0 		.word	-1072471553
- 1507 0648 12143FC6 		.word	-968944622
- 1508 064c DC3507C0 		.word	-1073269284
- 1509 0650 00000000 		.word	0
- 1510 0654 0000F03F 		.word	1072693248
- 1511 0658 C74B3789 		.word	-1992864825
- 1512 065c 412019C0 		.word	-1072095167
- 1513 0660 454772F9 		.word	-109951163
- 1514 0664 0FA91A40 		.word	1075489039
- 1515 0668 C11C3D7E 		.word	2117934273
- 1516 066c 6FD3E03F 		.word	1071698799
- 1517 0670 D044D8F0 		.word	-254262064
- 1518 0674 F40A1CC0 		.word	-1071904012
- 1519 0678 00000000 		.word	0
- 1520 067c 0000F03F 		.word	1072693248
- 1521 0680 E02D90A0 		.word	-1601163808
- 1522 0684 F8310640 		.word	1074147832
- 1523 0688 CA32C4B1 		.word	-1312542006
- 1524 068c 2E6E1B40 		.word	1075539502
- 1525 0690 50FC1873 		.word	1931017296
- 1526 0694 D712F1BF 		.word	-1074720041
- 1527 0698 D55A9885 		.word	-2053612843
- 1528 069c 764EB33F 		.word	1068715638
- 1529 06a0 00000000 		.word	0
- 1530 06a4 00000000 		.word	0
- 1531 06a8 4087F9F2 		.word	-218527936
- 1532 06ac 02ECEB3F 		.word	1072425986
- 1533 06b0 4BEA0434 		.word	872737355
- 1534 06b4 11962240 		.word	1076008465
- 1535 06b8 F0164850 		.word	1346901744
- 1536 06bc FC18E9BF 		.word	-1075242756
- 1537 06c0 BE30992A 		.word	714682558
- 1538 06c4 189501C0 		.word	-1073638120
- 1539 06c8 00000000 		.word	0
- 1540 06cc 00000000 		.word	0
- 1541 06d0 B98D06F0 		.word	-268005959
- 1542 06d4 1648FFBF 		.word	-1073788906
- 1543 06d8 10E9B7AF 		.word	-1346901744
- 1544 06dc 03E71BC0 		.word	-1071913213
- 1545 06e0 48BF7D1D 		.word	494780232
- 1546 06e4 38271640 		.word	1075193656
- 1547 06e8 3A0664AF 		.word	-1352399302
- 1548 06ec 777FC0BF 		.word	-1077903497
- 1549 06f0 00000000 		.word	0
- 1550 06f4 0000F03F 		.word	1072693248
- 1551 06f8 55185B08 		.word	140187733
- 1552 06fc 7250EE3F 		.word	1072582770
- 1553 0700 9F76F86B 		.word	1811445407
- 1554 0704 B246E2BF 		.word	-1075689806
- 1555 0708 17B7D100 		.word	13743895
- 1556 070c DEC21C40 		.word	1075626718
- 1557 0710 E21E4B1F 		.word	525016802
- 1558 0714 BAA0E5BF 		.word	-1075470150
- 1559 0718 00000000 		.word	0
- 1560 071c 00000000 		.word	0
- 1561 0720 38F8C264 		.word	1690499128
- 1562 0724 AA60DEBF 		.word	-1075945302
- 1563 0728 F5B9DA8A 		.word	-1965377035
- 1564 072c FD6511C0 		.word	-1072601603
- 1565 0730 4850FC18 		.word	419188808
- 1566 0734 73D7FF3F 		.word	1073731443
- 1567 0738 04E78C28 		.word	680322820
- 1568 073c ED0DE83F 		.word	1072172525
- 1569 0740 00000000 		.word	0
- 1570 0744 0000F03F 		.word	1072693248
- 1571 0748 69006F81 		.word	-2123431831
- 1572 074c 04C500C0 		.word	-1073691388
- 1573 0750 EA95B20C 		.word	213030378
- 1574 0754 716C1CC0 		.word	-1071879055
- 1575 0758 280F0BB5 		.word	-1257566424
- 1576 075c A6791A40 		.word	1075476902
- 1577 0760 FBAE08FE 		.word	-32985349
- 1578 0764 B792D5BF 		.word	-1076522313
- 1579 0768 00000000 		.word	0
- 1580 076c 0000F03F 		.word	1072693248
- 1581 0770 508D976E 		.word	1855425872
- 1582 0774 128304C0 		.word	-1073446126
- 1583 0778 B98D06F0 		.word	-268005959
- 1584 077c 1648FBBF 		.word	-1074051050
- 1585 0780 7B832F4C 		.word	1278182267
- 1586 0784 A60AF83F 		.word	1073220262
- 1587 0788 65A54929 		.word	692692325
- 1588 078c E8F6D43F 		.word	1070921448
- 1589 0790 00000000 		.word	0
- 1590 0794 0000F03F 		.word	1072693248
- 1591 0798 BEC11726 		.word	639091134
- 1592 079c 53050240 		.word	1073874259
- 1593 07a0 E8D9ACFA 		.word	-89335320
- 1594 07a4 5CED2340 		.word	1076096348
- 1595 07a8 2E90A0F8 		.word	-123695058
- 1596 07ac 316609C0 		.word	-1073125839
- 1597 07b0 A323B9FC 		.word	-54975581
- 1598 07b4 87F407C0 		.word	-1073220473
- 1599 07b8 00000000 		.word	0
- 1600 07bc 00000000 		.word	0
- 1601 07c0 DCD78173 		.word	1937889244
- 1602 07c4 4694F13F 		.word	1072796742
- 1603 07c8 2EFF21FD 		.word	-48103634
- 1604 07cc F675E43F 		.word	1071937014
- 1605 07d0 DBF97E6A 		.word	1786706395
- 1606 07d4 BCF41740 		.word	1075311804
- 1607 07d8 A0E06245 		.word	1164107936
- 1608 07dc 0DA6E2BF 		.word	-1075665395
- 1609 07e0 00000000 		.word	0
- 1610 07e4 00000000 		.word	0
- 1611 07e8 F4FDD478 		.word	2027224564
- 1612 07ec E926EE3F 		.word	1072572137
- 1613 07f0 226C787A 		.word	2054712354
- 1614 07f4 A56C1740 		.word	1075276965
- 1615 07f8 4D158C4A 		.word	1250694477
- 1616 07fc EA04FE3F 		.word	1073612010
- 1617 0800 F9DA334B 		.word	1261689593
- 1618 0804 02D4D4BF 		.word	-1076571134
- 1619 0808 00000000 		.word	0
- 1620 080c 00000000 		.word	0
- 1621              	.LC15:
- 1622 0810 0AF4893C 		.word	1015673866
- 1623 0814 493AE73F 		.word	1072118345
- 1624 0818 0D6D0036 		.word	905997581
- 1625 081c 2042DC3F 		.word	1071399456
- 1626 0820 A779C729 		.word	700938663
- 1627 0824 3A92E9BF 		.word	-1075211718
- 1628 0828 EDD63219 		.word	422762221
- 1629 082c 8EE7833F 		.word	1065609102
- 1630 0830 B83EAC37 		.word	934035128
- 1631 0834 6A85DC3F 		.word	1071416682
- 1632 0838 8CF4A276 		.word	1990390924
- 1633 083c BF0AE3BF 		.word	-1075639617
- 1634 0840 CD57C9C7 		.word	-943106099
- 1635 0844 EE02D0BF 		.word	-1076886802
- 1636 0848 E3512AE1 		.word	-517320221
- 1637 084c 09BDCA3F 		.word	1070251273
- 1638 0850 8A5B0531 		.word	822434698
- 1639 0854 D0B5D13F 		.word	1070708176
- 1640 0858 88467710 		.word	276252296
- 1641 085c 3B53C83F 		.word	1070093115
- 1642 0860 1A14CD03 		.word	63771674
- 1643 0864 58E4A7BF 		.word	-1079516072
- 1644 0868 09F9A067 		.word	1738602761
- 1645 086c B36AE83F 		.word	1072196275
- 1646 0870 310A82C7 		.word	-947779023
- 1647 0874 B777CBBF 		.word	-1077184585
- 1648 0878 CC96AC8A 		.word	-1968400692
- 1649 087c 7093D9BF 		.word	-1076259984
- 1650 0880 B950F9D7 		.word	-671526727
- 1651 0884 F2CAE7BF 		.word	-1075328270
- 1652 0888 9544F641 		.word	1106658453
- 1653 088c 9685E73F 		.word	1072137622
- 1654 0890 8EACFC32 		.word	855420046
- 1655 0894 1823CA3F 		.word	1070211864
- 1656 0898 AAD72D02 		.word	36558762
- 1657 089c 637DE0BF 		.word	-1075806877
- 1658 08a0 8AE942AC 		.word	-1404900982
- 1659 08a4 FE88E43F 		.word	1071941886
- 1660 08a8 F8E28BF6 		.word	-158604552
- 1661 08ac 7821D1BF 		.word	-1076813448
- 1662 08b0 81CB63CD 		.word	-849097855
- 1663 08b4 C820873F 		.word	1065820360
- 1664 08b8 6F46CD57 		.word	1473070703
- 1665 08bc C9C7CE3F 		.word	1070516169
- 1666 08c0 FAB83654 		.word	1412872442
- 1667 08c4 8CF3DC3F 		.word	1071444876
- 1668 08c8 0F43AB93 		.word	-1817492721
- 1669 08cc 3314C33F 		.word	1069749299
- 1670 08d0 842C0B26 		.word	638266500
- 1671 08d4 FE28DEBF 		.word	-1075959554
- 1672 08d8 F8FC3042 		.word	1110506744
- 1673 08dc 78B4E23F 		.word	1071821944
- 1674 08e0 344C6DA9 		.word	-1452454860
- 1675 08e4 83BCCABF 		.word	-1077232509
- 1676 08e8 B3976DA7 		.word	-1485989965
- 1677 08ec AD11D6BF 		.word	-1076489811
- 1678 08f0 C05FCC96 		.word	-1764991040
- 1679 08f4 AC8AC43F 		.word	1069845164
- 1680 08f8 14048F6F 		.word	1871643668
- 1681 08fc EF1AA43F 		.word	1067719407
- 1682 0900 4791B586 		.word	-2034921145
- 1683 0904 52FBE53F 		.word	1072036690
- 1684 0908 08C89750 		.word	1352124424
- 1685 090c C1E1B13F 		.word	1068622273
- 1686 0910 62D8614C 		.word	1281480802
- 1687 0914 FA7BD5BF 		.word	-1076528134
- 1688 0918 B01EF7AD 		.word	-1376313680
- 1689 091c D689E63F 		.word	1072073174
- 1690 0920 B34291EE 		.word	-292470093
- 1691 0924 E794E7BF 		.word	-1075342105
- 1692 0928 E5D3635B 		.word	1533268965
- 1693 092c 069CE6BF 		.word	-1075405818
- 1694 0930 ECDCB419 		.word	431283436
- 1695 0934 A7A1E6BF 		.word	-1075404377
- 1696 0938 289EB305 		.word	95657512
- 1697 093c 84D6C5BF 		.word	-1077553532
- 1698 0940 478FDFDB 		.word	-606105785
- 1699 0944 F467D43F 		.word	1070884852
- 1700 0948 D1AFAD9F 		.word	-1616007215
- 1701 094c FEB3D83F 		.word	1071166462
- 1702 0950 F81C588E 		.word	-1906828040
- 1703 0954 9081E9BF 		.word	-1075215984
- 1704 0958 AE105663 		.word	1666584750
- 1705 095c 096BE1BF 		.word	-1075746039
- 1706 0960 C493DDCC 		.word	-857893948
- 1707 0964 E847D53F 		.word	1070942184
- 1708 0968 D061BEBC 		.word	-1128373808
- 1709 096c 00FBC8BF 		.word	-1077347584
- 1710 0970 11548D5E 		.word	1586320401
- 1711 0974 0D50C0BF 		.word	-1077915635
- 1712 0978 7100FDBE 		.word	-1090715535
- 1713 097c 7FF3D93F 		.word	1071248255
- 1714 0980 AFCDC64A 		.word	1254542767
- 1715 0984 CCB3D1BF 		.word	-1076775988
- 1716 0988 DA3C0E83 		.word	-2096218918
- 1717 098c F9ABE7BF 		.word	-1075336199
- 1718 0990 88BB7A15 		.word	360364936
- 1719 0994 199DE63F 		.word	1072078105
- 1720 0998 807D74EA 		.word	-361464448
- 1721 099c CA67DBBF 		.word	-1076140086
- 1722 09a0 4CC45BE7 		.word	-413416372
- 1723 09a4 DF2EC7BF 		.word	-1077465377
- 1724 09a8 BAD91F28 		.word	673175994
- 1725 09ac B7EDB7BF 		.word	-1078465097
- 1726 09b0 95D39E92 		.word	-1835084907
- 1727 09b4 7362E23F 		.word	1071800947
- 1728 09b8 A51309A6 		.word	-1509354587
- 1729 09bc 9AD9E0BF 		.word	-1075783270
- 1730 09c0 D7DEA7AA 		.word	-1431839017
- 1731 09c4 D040E7BF 		.word	-1075363632
- 1732 09c8 5D8B16A0 		.word	-1609135267
- 1733 09cc 6DB5E4BF 		.word	-1075530387
- 1734 09d0 48FC8A35 		.word	898301000
- 1735 09d4 5CE4E7BF 		.word	-1075321764
- 1736 09d8 CB82893F 		.word	1065976523
- 1737 09dc 8A3AC3BF 		.word	-1077724534
- 1738 09e0 F6984869 		.word	1766365430
- 1739 09e4 368FC9BF 		.word	-1077309642
- 1740 09e8 257497C4 		.word	-996707291
- 1741 09ec 5911C73F 		.word	1070010713
- 1742 09f0 79E92631 		.word	824633721
- 1743 09f4 082CE53F 		.word	1071983624
- 1744 09f8 C3F2E7DB 		.word	-605556029
- 1745 09fc 82A5D4BF 		.word	-1076583038
- 1746 0a00 56F5F23B 		.word	1005778262
- 1747 0a04 4DE6E0BF 		.word	-1075780019
- 1748 0a08 D33252EF 		.word	-279825709
- 1749 0a0c A99CDBBF 		.word	-1076126551
- 1750 0a10 E0641BB8 		.word	-1206164256
- 1751 0a14 0375DBBF 		.word	-1076136701
- 1752 0a18 8657923C 		.word	1016223622
- 1753 0a1c D7F7DCBF 		.word	-1076037673
- 1754 0a20 0CAF2479 		.word	2032447244
- 1755 0a24 AEEFD4BF 		.word	-1076564050
- 1756 0a28 C24CDBBF 		.word	-1076147006
- 1757 0a2c B2D2D4BF 		.word	-1076571470
- 1758 0a30 B37DC85B 		.word	1539866035
- 1759 0a34 AE7EC43F 		.word	1069842094
- 1760 0a38 A647533D 		.word	1028868006
- 1761 0a3c 99FFE73F 		.word	1072168857
- 1762 0a40 F8C61000 		.word	1099512
- 1763 0a44 1C7BE7BF 		.word	-1075348708
- 1764 0a48 D0B359F5 		.word	-178670640
- 1765 0a4c B9DAC63F 		.word	1069996729
- 1766 0a50 B000A60C 		.word	212205744
- 1767 0a54 1C50E1BF 		.word	-1075752932
- 1768 0a58 5AF0A2AF 		.word	-1348276134
- 1769 0a5c 20CDD63F 		.word	1071041824
- 1770 0a60 276728EE 		.word	-299342041
- 1771 0a64 7893E83F 		.word	1072206712
- 1772 0a68 0F62670A 		.word	174547471
- 1773 0a6c 9DD7BC3F 		.word	1069340573
- 1774 0a70 4ED02687 		.word	-2027499442
- 1775 0a74 4F3AA1BF 		.word	-1079952817
- 1776 0a78 9EEFA7C6 		.word	-962072674
- 1777 0a7c 4B37D1BF 		.word	-1076807861
- 1778 0a80 E2218C9F 		.word	-1618206238
- 1779 0a84 C6BDC73F 		.word	1070054854
- 1780 0a88 6B0BCF4B 		.word	1271860075
- 1781 0a8c C5C6C6BF 		.word	-1077492027
- 1782 0a90 8237A451 		.word	1369716610
- 1783 0a94 8193B93F 		.word	1069126529
- 1784 0a98 E0F3C308 		.word	147059680
- 1785 0a9c E1D1EFBF 		.word	-1074802207
- 1786 0aa0 CAC51858 		.word	1478018506
- 1787 0aa4 C771E63F 		.word	1072067015
- 1788 0aa8 782975C9 		.word	-915068552
- 1789 0aac 3846C4BF 		.word	-1077656008
- 1790 0ab0 FBAE08FE 		.word	-32985349
- 1791 0ab4 B792E5BF 		.word	-1075473737
- 1792              		.bss
- 1793              		.align	2
- 1794              		.set	.LANCHOR1,. + 0
- 1797              	param:
- 1798 0000 00000000 		.space	4
- 1801              	layer_sizes:
- 1802 0004 00000000 		.space	4
- 1803              		.text
- 1804              	.Letext0:
- 1805              		.file 2 "c:\\users\\joris\\chipwh~1\\cw\\home\\portable\\armgcc\\arm-none-eabi\\include\\machine\\
- 1806              		.file 3 "c:\\users\\joris\\chipwh~1\\cw\\home\\portable\\armgcc\\arm-none-eabi\\include\\sys\\_std
- 1807              		.file 4 "parameters.h"
- 1808              		.file 5 "hal.h"
- 1809              		.file 6 "../hardware/victims/firmware/hal/stm32f3/stm32f3_hal.h"
- 1810              		.file 7 "simpleserial.h"
- 1811              		.file 8 "c:\\users\\joris\\chipwh~1\\cw\\home\\portable\\armgcc\\arm-none-eabi\\include\\string.h"
- 1812              		.file 9 "c:\\users\\joris\\chipwh~1\\cw\\home\\portable\\armgcc\\arm-none-eabi\\include\\stdlib.h"
- 1813              		.file 10 "<built-in>"
- 1814              		.file 11 "mlp_classifier.h"
+ 327:main.c        ****     for (i = 0; i < n_layers-1; i++)
+ 328:main.c        ****         free(param->weight[i]);
+ 910              		.loc 1 328 9 is_stmt 1 discriminator 3 view .LVU293
+ 911 03b0 50F82500 		ldr	r0, [r0, r5, lsl #2]
+ 912 03b4 FFF7FEFF 		bl	free
+ 913              	.LVL93:
+ 327:main.c        ****         free(param->weight[i]);
+ 914              		.loc 1 327 33 discriminator 3 view .LVU294
+ 327:main.c        ****         free(param->weight[i]);
+ 915              		.loc 1 327 34 is_stmt 0 discriminator 3 view .LVU295
+ 916 03b8 0135     		adds	r5, r5, #1
+ 917              	.LVL94:
+ 918              	.L39:
+ 327:main.c        ****         free(param->weight[i]);
+ 919              		.loc 1 327 17 is_stmt 1 discriminator 1 view .LVU296
+ 920              		.loc 1 328 19 is_stmt 0 discriminator 1 view .LVU297
+ 921 03ba 2368     		ldr	r3, [r4]
+ 327:main.c        ****         free(param->weight[i]);
+ 922              		.loc 1 327 5 discriminator 1 view .LVU298
+ 923 03bc AF42     		cmp	r7, r5
+ 924              		.loc 1 328 19 discriminator 1 view .LVU299
+ 925 03be D86B     		ldr	r0, [r3, #60]
+ 327:main.c        ****         free(param->weight[i]);
+ 926              		.loc 1 327 5 discriminator 1 view .LVU300
+ 927 03c0 F6DA     		bge	.L41
+ 329:main.c        **** 
+ 330:main.c        ****     free(param->weight);
+ 928              		.loc 1 330 5 is_stmt 1 view .LVU301
+ 929 03c2 FFF7FEFF 		bl	free
+ 930              	.LVL95:
+ 331:main.c        **** 
+ 332:main.c        ****     free(layer_sizes);
+ 931              		.loc 1 332 5 view .LVU302
+ 932 03c6 6068     		ldr	r0, [r4, #4]
+ 933 03c8 FFF7FEFF 		bl	free
+ 934              	.LVL96:
+ 333:main.c        **** 
+ 334:main.c        ****     for (i = 0; i < param->train_sample_size; i++)
+ 935              		.loc 1 334 5 view .LVU303
+ 936              		.loc 1 334 12 is_stmt 0 view .LVU304
+ 937 03cc 0025     		movs	r5, #0
+ 938              	.LVL97:
+ 939              	.L42:
+ 940              		.loc 1 334 17 is_stmt 1 discriminator 1 view .LVU305
+ 941              		.loc 1 334 26 is_stmt 0 discriminator 1 view .LVU306
+ 942 03ce 2368     		ldr	r3, [r4]
+ 943              		.loc 1 334 5 discriminator 1 view .LVU307
+ 944 03d0 5A6B     		ldr	r2, [r3, #52]
+ 945 03d2 AA42     		cmp	r2, r5
+ 946 03d4 1DDC     		bgt	.L43
+ 335:main.c        ****         free(param->data_train[i]);
+ 336:main.c        **** 
+ 337:main.c        ****     for (i = 0; i < param->test_sample_size; i++)
+ 947              		.loc 1 337 12 view .LVU308
+ 948 03d6 0025     		movs	r5, #0
+ 949              	.LVL98:
+ 950              	.L44:
+ 951              		.loc 1 337 17 is_stmt 1 discriminator 1 view .LVU309
+ 952              		.loc 1 337 26 is_stmt 0 discriminator 1 view .LVU310
+ 953 03d8 2368     		ldr	r3, [r4]
+ 954              		.loc 1 337 5 discriminator 1 view .LVU311
+ 955 03da 9A6B     		ldr	r2, [r3, #56]
+ 956 03dc AA42     		cmp	r2, r5
+ 957 03de 1FDC     		bgt	.L45
+ 338:main.c        ****         free(param->data_test[i]);
+ 339:main.c        **** 
+ 340:main.c        ****     free(param->data_train);
+ 958              		.loc 1 340 5 is_stmt 1 view .LVU312
+ 959 03e0 986A     		ldr	r0, [r3, #40]
+ 960 03e2 FFF7FEFF 		bl	free
+ 961              	.LVL99:
+ 341:main.c        ****     free(param->data_test);
+ 962              		.loc 1 341 5 view .LVU313
+ 963              		.loc 1 341 15 is_stmt 0 view .LVU314
+ 964 03e6 2368     		ldr	r3, [r4]
+ 965              		.loc 1 341 5 view .LVU315
+ 966 03e8 D86A     		ldr	r0, [r3, #44]
+ 967 03ea FFF7FEFF 		bl	free
+ 968              	.LVL100:
+ 342:main.c        ****     free(param->hidden_activation_functions);
+ 969              		.loc 1 342 5 is_stmt 1 view .LVU316
+ 970              		.loc 1 342 15 is_stmt 0 view .LVU317
+ 971 03ee 2368     		ldr	r3, [r4]
+ 972              		.loc 1 342 5 view .LVU318
+ 973 03f0 9868     		ldr	r0, [r3, #8]
+ 974 03f2 FFF7FEFF 		bl	free
+ 975              	.LVL101:
+ 343:main.c        ****     free(param->hidden_layers_size);
+ 976              		.loc 1 343 5 is_stmt 1 view .LVU319
+ 977              		.loc 1 343 15 is_stmt 0 view .LVU320
+ 978 03f6 2368     		ldr	r3, [r4]
+ 979              		.loc 1 343 5 view .LVU321
+ 980 03f8 5868     		ldr	r0, [r3, #4]
+ 981 03fa FFF7FEFF 		bl	free
+ 982              	.LVL102:
+ 344:main.c        ****     free(param);
+ 983              		.loc 1 344 5 is_stmt 1 view .LVU322
+ 984 03fe 2068     		ldr	r0, [r4]
+ 985 0400 FFF7FEFF 		bl	free
+ 986              	.LVL103:
+ 345:main.c        **** 
+ 346:main.c        ****     return 0x00;
+ 987              		.loc 1 346 5 view .LVU323
+ 347:main.c        **** }
+ 988              		.loc 1 347 1 is_stmt 0 view .LVU324
+ 989 0404 0020     		movs	r0, #0
+ 990 0406 0DF5717D 		add	sp, sp, #964
+ 991              	.LCFI2:
+ 992              		.cfi_remember_state
+ 993              		.cfi_def_cfa_offset 36
+ 994              		@ sp needed
+ 995 040a BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 996              	.LVL104:
+ 997              	.L47:
+ 998              	.LCFI3:
+ 999              		.cfi_restore_state
+ 327:main.c        ****         free(param->weight[i]);
+ 1000              		.loc 1 327 12 view .LVU325
+ 1001 040e 0025     		movs	r5, #0
+ 1002 0410 D3E7     		b	.L39
+ 1003              	.LVL105:
+ 1004              	.L43:
+ 335:main.c        **** 
+ 1005              		.loc 1 335 9 is_stmt 1 discriminator 3 view .LVU326
+ 1006 0412 9B6A     		ldr	r3, [r3, #40]
+ 1007 0414 53F82500 		ldr	r0, [r3, r5, lsl #2]
+ 1008 0418 FFF7FEFF 		bl	free
+ 1009              	.LVL106:
+ 334:main.c        ****         free(param->data_train[i]);
+ 1010              		.loc 1 334 47 discriminator 3 view .LVU327
+ 334:main.c        ****         free(param->data_train[i]);
+ 1011              		.loc 1 334 48 is_stmt 0 discriminator 3 view .LVU328
+ 1012 041c 0135     		adds	r5, r5, #1
+ 1013              	.LVL107:
+ 334:main.c        ****         free(param->data_train[i]);
+ 1014              		.loc 1 334 48 discriminator 3 view .LVU329
+ 1015 041e D6E7     		b	.L42
+ 1016              	.L45:
+ 338:main.c        **** 
+ 1017              		.loc 1 338 9 is_stmt 1 discriminator 3 view .LVU330
+ 1018 0420 DB6A     		ldr	r3, [r3, #44]
+ 1019 0422 53F82500 		ldr	r0, [r3, r5, lsl #2]
+ 1020 0426 FFF7FEFF 		bl	free
+ 1021              	.LVL108:
+ 337:main.c        ****         free(param->data_test[i]);
+ 1022              		.loc 1 337 46 discriminator 3 view .LVU331
+ 337:main.c        ****         free(param->data_test[i]);
+ 1023              		.loc 1 337 47 is_stmt 0 discriminator 3 view .LVU332
+ 1024 042a 0135     		adds	r5, r5, #1
+ 1025              	.LVL109:
+ 337:main.c        ****         free(param->data_test[i]);
+ 1026              		.loc 1 337 47 discriminator 3 view .LVU333
+ 1027 042c D4E7     		b	.L44
+ 1028              		.cfi_endproc
+ 1029              	.LFE3:
+ 1031 042e 00BF     		.section	.text.startup.main,"ax",%progbits
+ 1032              		.align	1
+ 1033              		.global	main
+ 1034              		.syntax unified
+ 1035              		.thumb
+ 1036              		.thumb_func
+ 1037              		.fpu softvfp
+ 1039              	main:
+ 1040              	.LFB4:
+ 348:main.c        **** 
+ 349:main.c        **** int main(void) {
+ 1041              		.loc 1 349 16 is_stmt 1 view -0
+ 1042              		.cfi_startproc
+ 1043              		@ Volatile: function does not return.
+ 1044              		@ args = 0, pretend = 0, frame = 8
+ 1045              		@ frame_needed = 0, uses_anonymous_args = 0
+ 350:main.c        ****     // Initialize UART for serial communication
+ 351:main.c        ****     platform_init();
+ 1046              		.loc 1 351 5 view .LVU335
+ 349:main.c        ****     // Initialize UART for serial communication
+ 1047              		.loc 1 349 16 is_stmt 0 view .LVU336
+ 1048 0000 07B5     		push	{r0, r1, r2, lr}
+ 1049              	.LCFI4:
+ 1050              		.cfi_def_cfa_offset 16
+ 1051              		.cfi_offset 14, -4
+ 1052              		.loc 1 351 5 view .LVU337
+ 1053 0002 FFF7FEFF 		bl	platform_init
+ 1054              	.LVL110:
+ 352:main.c        ****     init_uart();
+ 1055              		.loc 1 352 5 is_stmt 1 view .LVU338
+ 1056 0006 FFF7FEFF 		bl	init_uart
+ 1057              	.LVL111:
+ 353:main.c        ****     trigger_setup();
+ 1058              		.loc 1 353 5 view .LVU339
+ 1059 000a FFF7FEFF 		bl	trigger_setup
+ 1060              	.LVL112:
+ 354:main.c        ****     simpleserial_init();
+ 1061              		.loc 1 354 5 view .LVU340
+ 1062 000e FFF7FEFF 		bl	simpleserial_init
+ 1063              	.LVL113:
+ 355:main.c        **** 
+ 356:main.c        ****     // Add a command to the SimpleSerial module
+ 357:main.c        ****     simpleserial_addcmd('a', 0, mlp);
+ 1064              		.loc 1 357 5 view .LVU341
+ 1065 0012 084A     		ldr	r2, .L57
+ 1066 0014 0021     		movs	r1, #0
+ 1067 0016 6120     		movs	r0, #97
+ 1068 0018 FFF7FEFF 		bl	simpleserial_addcmd
+ 1069              	.LVL114:
+ 358:main.c        ****     //put some value so we can verify if we cna read them.
+ 359:main.c        **** 
+ 360:main.c        ****     uint8_t test;
+ 1070              		.loc 1 360 5 view .LVU342
+ 361:main.c        ****     test = 42;
+ 1071              		.loc 1 361 5 view .LVU343
+ 1072              		.loc 1 361 10 is_stmt 0 view .LVU344
+ 1073 001c 2A23     		movs	r3, #42
+ 362:main.c        ****     simpleserial_put('r', 1, (uint8_t*)&test);
+ 1074              		.loc 1 362 5 view .LVU345
+ 1075 001e 0DF10702 		add	r2, sp, #7
+ 1076 0022 0121     		movs	r1, #1
+ 1077 0024 7220     		movs	r0, #114
+ 361:main.c        ****     test = 42;
+ 1078              		.loc 1 361 10 view .LVU346
+ 1079 0026 8DF80730 		strb	r3, [sp, #7]
+ 1080              		.loc 1 362 5 is_stmt 1 view .LVU347
+ 1081 002a FFF7FEFF 		bl	simpleserial_put
+ 1082              	.LVL115:
+ 1083              	.L56:
+ 363:main.c        ****     while (1){
+ 1084              		.loc 1 363 5 discriminator 1 view .LVU348
+ 364:main.c        ****         simpleserial_get();
+ 1085              		.loc 1 364 9 discriminator 1 view .LVU349
+ 1086 002e FFF7FEFF 		bl	simpleserial_get
+ 1087              	.LVL116:
+ 363:main.c        ****     while (1){
+ 1088              		.loc 1 363 11 discriminator 1 view .LVU350
+ 1089 0032 FCE7     		b	.L56
+ 1090              	.L58:
+ 1091              		.align	2
+ 1092              	.L57:
+ 1093 0034 00000000 		.word	mlp
+ 1094              		.cfi_endproc
+ 1095              	.LFE4:
+ 1097              		.global	layer_sizes
+ 1098              		.global	param
+ 1099              		.section	.rodata
+ 1100              		.align	3
+ 1101              		.set	.LANCHOR0,. + 0
+ 1102              	.LC16:
+ 1103 0000 00000000 		.word	.LC0
+ 1104 0004 10000000 		.word	.LC1
+ 1105 0008 12000000 		.word	.LC2
+ 1106 000c 18000000 		.word	.LC3
+ 1107 0010 2A000000 		.word	.LC4
+ 1108 0014 2C000000 		.word	.LC5
+ 1109 0018 34000000 		.word	.LC6
+ 1110 001c 39000000 		.word	.LC7
+ 1111 0020 40000000 		.word	.LC8
+ 1112 0024 54000000 		.word	.LC9
+ 1113 0028 59000000 		.word	.LC10
+ 1114 002c 5B000000 		.word	.LC11
+ 1115 0030 6E000000 		.word	.LC12
+ 1116 0034 59000000 		.word	.LC10
+ 1117 0038 00000000 		.word	0
+ 1118 003c 00000000 		.space	4
+ 1119              	.LC14:
+ 1120 0040 6F1283C0 		.word	-1065151889
+ 1121 0044 CAA1F93F 		.word	1073324490
+ 1122 0048 1CEBE236 		.word	920840988
+ 1123 004c 1A801840 		.word	1075347482
+ 1124 0050 728577B9 		.word	-1183349390
+ 1125 0054 88EFE03F 		.word	1071705992
+ 1126 0058 3134D769 		.word	1775711281
+ 1127 005c A4A5DE3F 		.word	1071556004
+ 1128 0060 00000000 		.word	0
+ 1129 0064 00000000 		.word	0
+ 1130 0068 4BC8073D 		.word	1023920203
+ 1131 006c 9B5502C0 		.word	-1073588837
+ 1132 0070 BC490C02 		.word	34359740
+ 1133 0074 2B071DC0 		.word	-1071839445
+ 1134 0078 82E2C798 		.word	-1731730814
+ 1135 007c BBD61F40 		.word	1075828411
+ 1136 0080 280F0BB5 		.word	-1257566424
+ 1137 0084 A679ED3F 		.word	1072527782
+ 1138 0088 00000000 		.word	0
+ 1139 008c 0000F03F 		.word	1072693248
+ 1140 0090 5F6397A8 		.word	-1466473633
+ 1141 0094 DE1AE6BF 		.word	-1075438882
+ 1142 0098 662C9ACE 		.word	-828756890
+ 1143 009c 4E06E0BF 		.word	-1075837362
+ 1144 00a0 425BCEA5 		.word	-1513202878
+ 1145 00a4 B8AAD6BF 		.word	-1076450632
+ 1146 00a8 D9429083 		.word	-2087697703
+ 1147 00ac 1266DE3F 		.word	1071539730
+ 1148 00b0 00000000 		.word	0
+ 1149 00b4 0000F03F 		.word	1072693248
+ 1150 00b8 C66D3480 		.word	-2144047674
+ 1151 00bc B740FA3F 		.word	1073365175
+ 1152 00c0 55C1A8A4 		.word	-1532444331
+ 1153 00c4 4E001140 		.word	1074856014
+ 1154 00c8 24B9FC87 		.word	-2013480668
+ 1155 00cc F49B13C0 		.word	-1072456716
+ 1156 00d0 EB73B515 		.word	364213227
+ 1157 00d4 FB4B05C0 		.word	-1073394693
+ 1158 00d8 00000000 		.word	0
+ 1159 00dc 0000F03F 		.word	1072693248
+ 1160 00e0 04560E2D 		.word	755914244
+ 1161 00e4 B29D0C40 		.word	1074568626
+ 1162 00e8 158C4AEA 		.word	-364213227
+ 1163 00ec 04340340 		.word	1073951748
+ 1164 00f0 C66D3480 		.word	-2144047674
+ 1165 00f4 B740FE3F 		.word	1073627319
+ 1166 00f8 90149161 		.word	1636897936
+ 1167 00fc 156FE73F 		.word	1072131861
+ 1168 0100 00000000 		.word	0
+ 1169 0104 00000000 		.word	0
+ 1170              	.LC15:
+ 1171 0108 0AF4893C 		.word	1015673866
+ 1172 010c 493AE73F 		.word	1072118345
+ 1173 0110 0D6D0036 		.word	905997581
+ 1174 0114 2042DC3F 		.word	1071399456
+ 1175 0118 A779C729 		.word	700938663
+ 1176 011c 3A92E9BF 		.word	-1075211718
+ 1177 0120 EDD63219 		.word	422762221
+ 1178 0124 8EE7833F 		.word	1065609102
+ 1179 0128 B83EAC37 		.word	934035128
+ 1180 012c 6A85DC3F 		.word	1071416682
+ 1181 0130 8CF4A276 		.word	1990390924
+ 1182 0134 BF0AE3BF 		.word	-1075639617
+ 1183 0138 CD57C9C7 		.word	-943106099
+ 1184 013c EE02D0BF 		.word	-1076886802
+ 1185 0140 E3512AE1 		.word	-517320221
+ 1186 0144 09BDCA3F 		.word	1070251273
+ 1187 0148 8A5B0531 		.word	822434698
+ 1188 014c D0B5D13F 		.word	1070708176
+ 1189 0150 88467710 		.word	276252296
+ 1190 0154 3B53C83F 		.word	1070093115
+ 1191 0158 1A14CD03 		.word	63771674
+ 1192 015c 58E4A7BF 		.word	-1079516072
+ 1193 0160 09F9A067 		.word	1738602761
+ 1194 0164 B36AE83F 		.word	1072196275
+ 1195 0168 310A82C7 		.word	-947779023
+ 1196 016c B777CBBF 		.word	-1077184585
+ 1197 0170 CC96AC8A 		.word	-1968400692
+ 1198 0174 7093D9BF 		.word	-1076259984
+ 1199 0178 B950F9D7 		.word	-671526727
+ 1200 017c F2CAE7BF 		.word	-1075328270
+ 1201 0180 9544F641 		.word	1106658453
+ 1202 0184 9685E73F 		.word	1072137622
+ 1203 0188 8EACFC32 		.word	855420046
+ 1204 018c 1823CA3F 		.word	1070211864
+ 1205 0190 AAD72D02 		.word	36558762
+ 1206 0194 637DE0BF 		.word	-1075806877
+ 1207 0198 8AE942AC 		.word	-1404900982
+ 1208 019c FE88E43F 		.word	1071941886
+ 1209 01a0 F8E28BF6 		.word	-158604552
+ 1210 01a4 7821D1BF 		.word	-1076813448
+ 1211 01a8 81CB63CD 		.word	-849097855
+ 1212 01ac C820873F 		.word	1065820360
+ 1213 01b0 6F46CD57 		.word	1473070703
+ 1214 01b4 C9C7CE3F 		.word	1070516169
+ 1215 01b8 FAB83654 		.word	1412872442
+ 1216 01bc 8CF3DC3F 		.word	1071444876
+ 1217 01c0 0F43AB93 		.word	-1817492721
+ 1218 01c4 3314C33F 		.word	1069749299
+ 1219 01c8 842C0B26 		.word	638266500
+ 1220 01cc FE28DEBF 		.word	-1075959554
+ 1221 01d0 F8FC3042 		.word	1110506744
+ 1222 01d4 78B4E23F 		.word	1071821944
+ 1223 01d8 344C6DA9 		.word	-1452454860
+ 1224 01dc 83BCCABF 		.word	-1077232509
+ 1225 01e0 B3976DA7 		.word	-1485989965
+ 1226 01e4 AD11D6BF 		.word	-1076489811
+ 1227 01e8 C05FCC96 		.word	-1764991040
+ 1228 01ec AC8AC43F 		.word	1069845164
+ 1229 01f0 14048F6F 		.word	1871643668
+ 1230 01f4 EF1AA43F 		.word	1067719407
+ 1231 01f8 4791B586 		.word	-2034921145
+ 1232 01fc 52FBE53F 		.word	1072036690
+ 1233 0200 08C89750 		.word	1352124424
+ 1234 0204 C1E1B13F 		.word	1068622273
+ 1235 0208 62D8614C 		.word	1281480802
+ 1236 020c FA7BD5BF 		.word	-1076528134
+ 1237 0210 B01EF7AD 		.word	-1376313680
+ 1238 0214 D689E63F 		.word	1072073174
+ 1239 0218 B34291EE 		.word	-292470093
+ 1240 021c E794E7BF 		.word	-1075342105
+ 1241 0220 E5D3635B 		.word	1533268965
+ 1242 0224 069CE6BF 		.word	-1075405818
+ 1243 0228 ECDCB419 		.word	431283436
+ 1244 022c A7A1E6BF 		.word	-1075404377
+ 1245 0230 289EB305 		.word	95657512
+ 1246 0234 84D6C5BF 		.word	-1077553532
+ 1247 0238 478FDFDB 		.word	-606105785
+ 1248 023c F467D43F 		.word	1070884852
+ 1249 0240 D1AFAD9F 		.word	-1616007215
+ 1250 0244 FEB3D83F 		.word	1071166462
+ 1251 0248 F81C588E 		.word	-1906828040
+ 1252 024c 9081E9BF 		.word	-1075215984
+ 1253 0250 AE105663 		.word	1666584750
+ 1254 0254 096BE1BF 		.word	-1075746039
+ 1255 0258 C493DDCC 		.word	-857893948
+ 1256 025c E847D53F 		.word	1070942184
+ 1257 0260 D061BEBC 		.word	-1128373808
+ 1258 0264 00FBC8BF 		.word	-1077347584
+ 1259 0268 11548D5E 		.word	1586320401
+ 1260 026c 0D50C0BF 		.word	-1077915635
+ 1261 0270 7100FDBE 		.word	-1090715535
+ 1262 0274 7FF3D93F 		.word	1071248255
+ 1263 0278 AFCDC64A 		.word	1254542767
+ 1264 027c CCB3D1BF 		.word	-1076775988
+ 1265 0280 DA3C0E83 		.word	-2096218918
+ 1266 0284 F9ABE7BF 		.word	-1075336199
+ 1267 0288 88BB7A15 		.word	360364936
+ 1268 028c 199DE63F 		.word	1072078105
+ 1269 0290 807D74EA 		.word	-361464448
+ 1270 0294 CA67DBBF 		.word	-1076140086
+ 1271 0298 4CC45BE7 		.word	-413416372
+ 1272 029c DF2EC7BF 		.word	-1077465377
+ 1273 02a0 BAD91F28 		.word	673175994
+ 1274 02a4 B7EDB7BF 		.word	-1078465097
+ 1275 02a8 95D39E92 		.word	-1835084907
+ 1276 02ac 7362E23F 		.word	1071800947
+ 1277 02b0 A51309A6 		.word	-1509354587
+ 1278 02b4 9AD9E0BF 		.word	-1075783270
+ 1279 02b8 D7DEA7AA 		.word	-1431839017
+ 1280 02bc D040E7BF 		.word	-1075363632
+ 1281 02c0 5D8B16A0 		.word	-1609135267
+ 1282 02c4 6DB5E4BF 		.word	-1075530387
+ 1283 02c8 48FC8A35 		.word	898301000
+ 1284 02cc 5CE4E7BF 		.word	-1075321764
+ 1285 02d0 CB82893F 		.word	1065976523
+ 1286 02d4 8A3AC3BF 		.word	-1077724534
+ 1287 02d8 F6984869 		.word	1766365430
+ 1288 02dc 368FC9BF 		.word	-1077309642
+ 1289 02e0 257497C4 		.word	-996707291
+ 1290 02e4 5911C73F 		.word	1070010713
+ 1291 02e8 79E92631 		.word	824633721
+ 1292 02ec 082CE53F 		.word	1071983624
+ 1293 02f0 C3F2E7DB 		.word	-605556029
+ 1294 02f4 82A5D4BF 		.word	-1076583038
+ 1295 02f8 56F5F23B 		.word	1005778262
+ 1296 02fc 4DE6E0BF 		.word	-1075780019
+ 1297 0300 D33252EF 		.word	-279825709
+ 1298 0304 A99CDBBF 		.word	-1076126551
+ 1299 0308 E0641BB8 		.word	-1206164256
+ 1300 030c 0375DBBF 		.word	-1076136701
+ 1301 0310 8657923C 		.word	1016223622
+ 1302 0314 D7F7DCBF 		.word	-1076037673
+ 1303 0318 0CAF2479 		.word	2032447244
+ 1304 031c AEEFD4BF 		.word	-1076564050
+ 1305 0320 C24CDBBF 		.word	-1076147006
+ 1306 0324 B2D2D4BF 		.word	-1076571470
+ 1307 0328 B37DC85B 		.word	1539866035
+ 1308 032c AE7EC43F 		.word	1069842094
+ 1309 0330 A647533D 		.word	1028868006
+ 1310 0334 99FFE73F 		.word	1072168857
+ 1311 0338 F8C61000 		.word	1099512
+ 1312 033c 1C7BE7BF 		.word	-1075348708
+ 1313 0340 D0B359F5 		.word	-178670640
+ 1314 0344 B9DAC63F 		.word	1069996729
+ 1315 0348 B000A60C 		.word	212205744
+ 1316 034c 1C50E1BF 		.word	-1075752932
+ 1317 0350 5AF0A2AF 		.word	-1348276134
+ 1318 0354 20CDD63F 		.word	1071041824
+ 1319 0358 276728EE 		.word	-299342041
+ 1320 035c 7893E83F 		.word	1072206712
+ 1321 0360 0F62670A 		.word	174547471
+ 1322 0364 9DD7BC3F 		.word	1069340573
+ 1323 0368 4ED02687 		.word	-2027499442
+ 1324 036c 4F3AA1BF 		.word	-1079952817
+ 1325 0370 9EEFA7C6 		.word	-962072674
+ 1326 0374 4B37D1BF 		.word	-1076807861
+ 1327 0378 E2218C9F 		.word	-1618206238
+ 1328 037c C6BDC73F 		.word	1070054854
+ 1329 0380 6B0BCF4B 		.word	1271860075
+ 1330 0384 C5C6C6BF 		.word	-1077492027
+ 1331 0388 8237A451 		.word	1369716610
+ 1332 038c 8193B93F 		.word	1069126529
+ 1333 0390 E0F3C308 		.word	147059680
+ 1334 0394 E1D1EFBF 		.word	-1074802207
+ 1335 0398 CAC51858 		.word	1478018506
+ 1336 039c C771E63F 		.word	1072067015
+ 1337 03a0 782975C9 		.word	-915068552
+ 1338 03a4 3846C4BF 		.word	-1077656008
+ 1339 03a8 FBAE08FE 		.word	-32985349
+ 1340 03ac B792E5BF 		.word	-1075473737
+ 1341              		.bss
+ 1342              		.align	2
+ 1343              		.set	.LANCHOR1,. + 0
+ 1346              	param:
+ 1347 0000 00000000 		.space	4
+ 1350              	layer_sizes:
+ 1351 0004 00000000 		.space	4
+ 1352              		.text
+ 1353              	.Letext0:
+ 1354              		.file 2 "c:\\users\\joris\\chipwh~1\\cw\\home\\portable\\armgcc\\arm-none-eabi\\include\\machine\\
+ 1355              		.file 3 "c:\\users\\joris\\chipwh~1\\cw\\home\\portable\\armgcc\\arm-none-eabi\\include\\sys\\_std
+ 1356              		.file 4 "parameters.h"
+ 1357              		.file 5 "hal.h"
+ 1358              		.file 6 "../hardware/victims/firmware/hal/stm32f3/stm32f3_hal.h"
+ 1359              		.file 7 "simpleserial.h"
+ 1360              		.file 8 "c:\\users\\joris\\chipwh~1\\cw\\home\\portable\\armgcc\\arm-none-eabi\\include\\string.h"
+ 1361              		.file 9 "c:\\users\\joris\\chipwh~1\\cw\\home\\portable\\armgcc\\arm-none-eabi\\include\\stdlib.h"
+ 1362              		.file 10 "<built-in>"
+ 1363              		.file 11 "mlp_classifier.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-C:\Users\joris\AppData\Local\Temp\ccDltEFy.s:75     .text.mlp:00000000 $t
-C:\Users\joris\AppData\Local\Temp\ccDltEFy.s:83     .text.mlp:00000000 mlp
-C:\Users\joris\AppData\Local\Temp\ccDltEFy.s:752    .text.mlp:000002c4 $d
-C:\Users\joris\AppData\Local\Temp\ccDltEFy.s:773    .text.mlp:0000030c $t
-C:\Users\joris\AppData\Local\Temp\ccDltEFy.s:1045   .text.startup.main:00000000 $t
-C:\Users\joris\AppData\Local\Temp\ccDltEFy.s:1052   .text.startup.main:00000000 main
-C:\Users\joris\AppData\Local\Temp\ccDltEFy.s:1094   .text.startup.main:00000024 $d
-C:\Users\joris\AppData\Local\Temp\ccDltEFy.s:1801   .bss:00000004 layer_sizes
-C:\Users\joris\AppData\Local\Temp\ccDltEFy.s:1797   .bss:00000000 param
-C:\Users\joris\AppData\Local\Temp\ccDltEFy.s:1101   .rodata:00000000 $d
-C:\Users\joris\AppData\Local\Temp\ccDltEFy.s:1793   .bss:00000000 $d
+C:\Users\joris\AppData\Local\Temp\ccPHDciC.s:75     .text.mlp:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccPHDciC.s:83     .text.mlp:00000000 mlp
+C:\Users\joris\AppData\Local\Temp\ccPHDciC.s:739    .text.mlp:000002b8 $d
+C:\Users\joris\AppData\Local\Temp\ccPHDciC.s:760    .text.mlp:00000300 $t
+C:\Users\joris\AppData\Local\Temp\ccPHDciC.s:1032   .text.startup.main:00000000 $t
+C:\Users\joris\AppData\Local\Temp\ccPHDciC.s:1039   .text.startup.main:00000000 main
+C:\Users\joris\AppData\Local\Temp\ccPHDciC.s:1093   .text.startup.main:00000034 $d
+C:\Users\joris\AppData\Local\Temp\ccPHDciC.s:1350   .bss:00000004 layer_sizes
+C:\Users\joris\AppData\Local\Temp\ccPHDciC.s:1346   .bss:00000000 param
+C:\Users\joris\AppData\Local\Temp\ccPHDciC.s:1100   .rodata:00000000 $d
+C:\Users\joris\AppData\Local\Temp\ccPHDciC.s:1342   .bss:00000000 $d
 
 UNDEFINED SYMBOLS
 __aeabi_i2d
-simpleserial_put
 malloc
 strlen
 strcpy
@@ -2498,4 +1996,5 @@ init_uart
 trigger_setup
 simpleserial_init
 simpleserial_addcmd
+simpleserial_put
 simpleserial_get

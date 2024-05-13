@@ -243,29 +243,29 @@
  245              	
  246              		.weak	SystemInit
 DEFINED SYMBOLS
-../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:111    .isr_vector:00000000 g_pfnVectors
-../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:96     .text.Default_Handler:00000000 Default_Handler
-../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:29     *ABS*:f1e0f85f BootRAM
-../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:42     .text.Reset_Handler:00000000 Reset_Handler
-../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:45     .text.Reset_Handler:00000000 $t
-../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:54     .text.Reset_Handler:0000000c LoopCopyDataInit
-../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:48     .text.Reset_Handler:00000004 CopyDataInit
-../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:68     .text.Reset_Handler:00000020 LoopFillZerobss
-../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:63     .text.Reset_Handler:0000001a FillZerobss
-../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:82     .text.Reset_Handler:00000032 LoopForever
-../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:97     .text.Default_Handler:00000000 Infinite_Loop
-../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:98     .text.Default_Handler:00000000 $t
-../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:96     .text.Default_Handler:00000000 NMI_Handler
-../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:96     .text.Default_Handler:00000000 HardFault_Handler
-../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:96     .text.Default_Handler:00000000 MemManage_Handler
-../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:96     .text.Default_Handler:00000000 BusFault_Handler
-../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:96     .text.Default_Handler:00000000 UsageFault_Handler
-../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:96     .text.Default_Handler:00000000 SVC_Handler
-../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:96     .text.Default_Handler:00000000 DebugMon_Handler
-../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:96     .text.Default_Handler:00000000 PendSV_Handler
-../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:96     .text.Default_Handler:00000000 SysTick_Handler
-../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:246    .text.Reset_Handler:00000034 $d
-                            .text:00000000 $d
+../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:111    .isr_vector:0000000000000000 g_pfnVectors
+../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:96     .text.Default_Handler:0000000000000000 Default_Handler
+../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:29     *ABS*:00000000f1e0f85f BootRAM
+../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:42     .text.Reset_Handler:0000000000000000 Reset_Handler
+../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:45     .text.Reset_Handler:0000000000000000 $t
+../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:54     .text.Reset_Handler:000000000000000c LoopCopyDataInit
+../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:48     .text.Reset_Handler:0000000000000004 CopyDataInit
+../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:68     .text.Reset_Handler:0000000000000020 LoopFillZerobss
+../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:63     .text.Reset_Handler:000000000000001a FillZerobss
+../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:82     .text.Reset_Handler:0000000000000032 LoopForever
+../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:97     .text.Default_Handler:0000000000000000 Infinite_Loop
+../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:98     .text.Default_Handler:0000000000000000 $t
+../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:96     .text.Default_Handler:0000000000000000 NMI_Handler
+../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:96     .text.Default_Handler:0000000000000000 HardFault_Handler
+../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:96     .text.Default_Handler:0000000000000000 MemManage_Handler
+../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:96     .text.Default_Handler:0000000000000000 BusFault_Handler
+../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:96     .text.Default_Handler:0000000000000000 UsageFault_Handler
+../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:96     .text.Default_Handler:0000000000000000 SVC_Handler
+../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:96     .text.Default_Handler:0000000000000000 DebugMon_Handler
+../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:96     .text.Default_Handler:0000000000000000 PendSV_Handler
+../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:96     .text.Default_Handler:0000000000000000 SysTick_Handler
+../hardware/victims/firmware/hal/stm32f3/stm32f3_startup.S:246    .text.Reset_Handler:0000000000000034 $d
+                            .text:0000000000000000 $d
 
 UNDEFINED SYMBOLS
 _sidata

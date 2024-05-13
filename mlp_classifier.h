@@ -8,6 +8,6 @@
 #include "write_csv.h"
 #include "parameters.h"
 
-void mlp_classifier(parameters*, int*);
+uint8_t mlp_classifier(parameters*, int*);
 
 #endif

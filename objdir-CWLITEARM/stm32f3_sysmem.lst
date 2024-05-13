@@ -101,43 +101,43 @@
   68:../hardware/victims/firmware/hal/stm32f3/stm32f3_sysmem.c **** 
   69:../hardware/victims/firmware/hal/stm32f3/stm32f3_sysmem.c **** 	if (heap_end == 0)
   35              		.loc 1 69 2 view .LVU4
-  36              		.loc 1 69 15 is_stmt 0 view .LVU5
-  37 0000 0A4A     		ldr	r2, .L5
-  38              		.loc 1 69 5 view .LVU6
-  39 0002 1168     		ldr	r1, [r2]
   64:../hardware/victims/firmware/hal/stm32f3/stm32f3_sysmem.c **** 	extern char end asm("end");
-  40              		.loc 1 64 1 view .LVU7
-  41 0004 08B5     		push	{r3, lr}
-  42              	.LCFI0:
-  43              		.cfi_def_cfa_offset 8
-  44              		.cfi_offset 3, -8
-  45              		.cfi_offset 14, -4
+  36              		.loc 1 64 1 is_stmt 0 view .LVU5
+  37 0000 08B5     		push	{r3, lr}
+  38              	.LCFI0:
+  39              		.cfi_def_cfa_offset 8
+  40              		.cfi_offset 3, -8
+  41              		.cfi_offset 14, -4
+  42              		.loc 1 69 15 view .LVU6
+  43 0002 0A4B     		ldr	r3, .L5
+  44              		.loc 1 69 5 view .LVU7
+  45 0004 1968     		ldr	r1, [r3]
   64:../hardware/victims/firmware/hal/stm32f3/stm32f3_sysmem.c **** 	extern char end asm("end");
   46              		.loc 1 64 1 view .LVU8
-  47 0006 0346     		mov	r3, r0
+  47 0006 0246     		mov	r2, r0
   48              		.loc 1 69 5 view .LVU9
   49 0008 09B9     		cbnz	r1, .L2
   70:../hardware/victims/firmware/hal/stm32f3/stm32f3_sysmem.c **** 		heap_end = &end;
   50              		.loc 1 70 3 is_stmt 1 view .LVU10
   51              		.loc 1 70 12 is_stmt 0 view .LVU11
   52 000a 0949     		ldr	r1, .L5+4
-  53 000c 1160     		str	r1, [r2]
+  53 000c 1960     		str	r1, [r3]
   54              	.L2:
   71:../hardware/victims/firmware/hal/stm32f3/stm32f3_sysmem.c **** 
   72:../hardware/victims/firmware/hal/stm32f3/stm32f3_sysmem.c **** 	prev_heap_end = heap_end;
   55              		.loc 1 72 2 is_stmt 1 view .LVU12
   56              		.loc 1 72 16 is_stmt 0 view .LVU13
-  57 000e 1068     		ldr	r0, [r2]
+  57 000e 1868     		ldr	r0, [r3]
   58              	.LVL1:
   73:../hardware/victims/firmware/hal/stm32f3/stm32f3_sysmem.c **** 	if (heap_end + incr > stack_ptr)
   59              		.loc 1 73 2 is_stmt 1 view .LVU14
   60              		.loc 1 73 5 is_stmt 0 view .LVU15
   61 0010 6946     		mov	r1, sp
   62              		.loc 1 73 15 view .LVU16
-  63 0012 0344     		add	r3, r3, r0
+  63 0012 0244     		add	r2, r2, r0
   64              	.LVL2:
   65              		.loc 1 73 5 view .LVU17
-  66 0014 8B42     		cmp	r3, r1
+  66 0014 8A42     		cmp	r2, r1
   67 0016 06D9     		bls	.L3
   74:../hardware/victims/firmware/hal/stm32f3/stm32f3_sysmem.c **** 	{
   75:../hardware/victims/firmware/hal/stm32f3/stm32f3_sysmem.c **** 		errno = ENOMEM;
@@ -166,7 +166,7 @@
   82              		.loc 1 79 2 is_stmt 1 view .LVU23
   79:../hardware/victims/firmware/hal/stm32f3/stm32f3_sysmem.c **** 
   83              		.loc 1 79 11 is_stmt 0 view .LVU24
-  84 0026 1360     		str	r3, [r2]
+  84 0026 1A60     		str	r2, [r3]
   81:../hardware/victims/firmware/hal/stm32f3/stm32f3_sysmem.c **** }
   85              		.loc 1 81 2 is_stmt 1 view .LVU25
   81:../hardware/victims/firmware/hal/stm32f3/stm32f3_sysmem.c **** }
@@ -182,19 +182,23 @@
   96              		.bss
   97              		.align	2
   98              		.set	.LANCHOR0,. + 0
- 101              	heap_end.0:
+ 101              	heap_end.5229:
  102 0000 00000000 		.space	4
  103              		.text
  104              	.Letext0:
- 105              		.file 2 "c:\\users\\joris\\chipwh~1\\cw\\home\\portable\\armgcc\\arm-none-eabi\\include\\sys\\type
- 106              		.file 3 "c:\\users\\joris\\chipwh~1\\cw\\home\\portable\\armgcc\\arm-none-eabi\\include\\sys\\errn
+ 105              		.file 2 "/usr/lib/gcc/arm-none-eabi/8.3.1/include/stddef.h"
+ 106              		.file 3 "/usr/include/newlib/sys/_types.h"
+ 107              		.file 4 "/usr/include/newlib/sys/reent.h"
+ 108              		.file 5 "/usr/include/newlib/sys/lock.h"
+ 109              		.file 6 "/usr/include/newlib/sys/errno.h"
+ 110              		.file 7 "/usr/include/newlib/sys/types.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 stm32f3_sysmem.c
-C:\Users\joris\AppData\Local\Temp\ccJNFMeX.s:16     .text._sbrk:00000000 $t
-C:\Users\joris\AppData\Local\Temp\ccJNFMeX.s:24     .text._sbrk:00000000 _sbrk
-C:\Users\joris\AppData\Local\Temp\ccJNFMeX.s:91     .text._sbrk:0000002c $d
-C:\Users\joris\AppData\Local\Temp\ccJNFMeX.s:97     .bss:00000000 $d
-C:\Users\joris\AppData\Local\Temp\ccJNFMeX.s:101    .bss:00000000 heap_end.0
+                            *ABS*:0000000000000000 stm32f3_sysmem.c
+     /tmp/cc9bXSRR.s:16     .text._sbrk:0000000000000000 $t
+     /tmp/cc9bXSRR.s:24     .text._sbrk:0000000000000000 _sbrk
+     /tmp/cc9bXSRR.s:91     .text._sbrk:000000000000002c $d
+     /tmp/cc9bXSRR.s:97     .bss:0000000000000000 $d
+     /tmp/cc9bXSRR.s:101    .bss:0000000000000000 heap_end.5229
 
 UNDEFINED SYMBOLS
 __errno

@@ -314,7 +314,7 @@ uint8_t mlp(uint8_t cmd, uint8_t scmd, uint8_t len, uint8_t *in) {
     // Classify the test data using the trained parameter weights
     //printf("Classifying:\n");
     //printf("------------\n");
-    mlp_classifier(param, layer_sizes);
+    uint8_t accuracy = mlp_classifier(param, layer_sizes);
     //while(1)
         //simpleserial_get();
     //printf("\nDone.\nOutput file generated\n");
@@ -342,7 +342,10 @@ uint8_t mlp(uint8_t cmd, uint8_t scmd, uint8_t len, uint8_t *in) {
     free(param->hidden_activation_functions);
     free(param->hidden_layers_size);
     free(param);
-
+    
+    
+    simpleserial_put('r', 1, (uint8_t*)&accuracy);
+    
     return 0x00;
 }
 
@@ -357,10 +360,8 @@ int main(void) {
     simpleserial_addcmd('a', 0, mlp);
     //put some value so we can verify if we cna read them.
 
-    uint8_t test;
-    test = 42;
-    simpleserial_put('r', 1, (uint8_t*)&test);
-    while (1){
+    for (;;)
+    {
         simpleserial_get();
     }
 

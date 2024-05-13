@@ -68,7 +68,7 @@ void softmax_classify(int n, double* input, double* output) {
         output[i+1] = exp(input[i]) / sum; // Softmax function
 }
 
-void mlp_classifier(parameters* param, int* layer_sizes) {
+uint8_t mlp_classifier(parameters* param, int* layer_sizes) {
     int n_layers = param->n_hidden + 2;
 
     // Create memory for arrays of inputs to the layers
@@ -187,6 +187,8 @@ void mlp_classifier(parameters* param, int* layer_sizes) {
             final_output[test_example][0] = max_class;
         }
     }
+    
+    double accuracy = 0.0;
 
     // Calculate the confusion matrix
     if (param->output_layer_size == 1) { // Binary classification
@@ -207,7 +209,7 @@ void mlp_classifier(parameters* param, int* layer_sizes) {
         }
 
         // Find the accuracy
-        double accuracy = (double)(true_positive + true_negative) / param->test_sample_size;
+        accuracy = (double)(true_positive + true_negative) / param->test_sample_size;
 
         // Print confusion matrix
         //printf("\n\nConfusion matrix\n");
@@ -220,11 +222,6 @@ void mlp_classifier(parameters* param, int* layer_sizes) {
 
         // Print the accuracy
         //printf("\nAccuracy: %.2lf\n\n", accuracy * 100);
-        // Scale the double and convert to integer
-        // cast to uint8_t
-        uint8_t acc;
-        acc = (accuracy * 100);
-        simpleserial_put('r', 1, (uint8_t*)&acc);
     }
     else { // Multi-class classification
         int** confusion_matrix = (int**)calloc(param->output_layer_size, sizeof(int*));
@@ -254,16 +251,12 @@ void mlp_classifier(parameters* param, int* layer_sizes) {
         }
 
         // Find the accuracy
-        double accuracy = 0.0;
         for (i = 0; i < param->output_layer_size; i++)
             accuracy += confusion_matrix[i][i];
         accuracy /= param->test_sample_size;
 
         // Print the accuracy
         //printf("\nAccuracy: %.2lf\n\n", accuracy * 100);
-        uint8_t acc;
-        acc = (accuracy * 100);
-        simpleserial_put('r', 1, (uint8_t*)&acc);
         // Free the memory allocated in heap
         for (i = 0; i < param->output_layer_size; i++)
             free(confusion_matrix[i]);
@@ -290,4 +283,7 @@ void mlp_classifier(parameters* param, int* layer_sizes) {
         free(layer_inputs[i]);
 
     free(layer_inputs);
+    
+    uint8_t accuracy_uint8 = (uint8_t)(accuracy * 100);
+    return accuracy_uint8;
 }
